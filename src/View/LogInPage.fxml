@@ -19,18 +19,18 @@
                   <Font name="Segoe UI Bold" size="14.0" />
                </font>
             </Label>
-            <Label layoutX="78.0" layoutY="147.0" text="Welcome! Please sign in.">
+            <Label fx:id="welcomeMessage" alignment="CENTER" layoutX="2.0" layoutY="145.0" prefHeight="15.0" prefWidth="284.0" text="Welcome! Please sign in.">
                <font>
                   <Font name="Segoe UI" size="12.0" />
                </font>
             </Label>
-            <Label layoutX="28.0" layoutY="182.0" text="Username" />
+            <Label fx:id="userNameLabel" alignment="CENTER" layoutX="2.0" layoutY="182.0" prefHeight="17.0" prefWidth="95.0" text="Username" />
             <TextField fx:id="userNameField" layoutX="95.0" layoutY="178.0" />
-            <Label layoutX="28.0" layoutY="215.0" text="Pasword" />
+            <Label fx:id="passwordLabel" alignment="CENTER" layoutX="1.0" layoutY="215.0" prefHeight="17.0" prefWidth="95.0" text="Pasword" />
             <PasswordField fx:id="passwordField" layoutX="95.0" layoutY="211.0" />
             <Button fx:id="signInButton" layoutX="56.0" layoutY="302.0" mnemonicParsing="false" onAction="#signInButtonPressed" prefHeight="25.0" prefWidth="175.0" text="Sign In" />
             <Button fx:id="cancelButton" layoutX="56.0" layoutY="337.0" mnemonicParsing="false" onAction="#cancelButtonPressed" prefHeight="25.0" prefWidth="175.0" text="Cancel" />
-            <Label fx:id="logInMessage" layoutX="94.0" layoutY="252.0" text="Incorrect credentials" textFill="RED">
+            <Label fx:id="logInMessage" layoutX="94.0" layoutY="252.0" style="-fx-text-fill: #ff0000;" text="Incorrect credentials" textFill="GREEN">
                <font>
                   <Font name="Segoe UI" size="11.0" />
                </font>

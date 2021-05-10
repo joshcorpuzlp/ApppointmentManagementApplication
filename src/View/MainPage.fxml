@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.RadioButton?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.ToolBar?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+
+<?import javafx.scene.text.Font?>
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="695.0" prefWidth="1000.0" style="-fx-background-color: #d8e3e7;" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.MainPageController">
+   <top>
+      <ToolBar prefHeight="40.0" prefWidth="200.0" style="-fx-background-color: #132c33;" BorderPane.alignment="CENTER">
+        <items>
+            <Label alignment="CENTER" prefHeight="18.0" prefWidth="97.0" text="Main Menu" textFill="WHITE">
+               <font>
+                  <Font name="Segoe UI Bold" size="15.0" />
+               </font>
+            </Label>
+            </items>
+          <Button fx:id="addCustomerButton" mnemonicParsing="false" onAction="#addCustomerButtonPressed" text="Add New Customer" />
+            <Button mnemonicParsing="false" text="Update Customer Info" />
+            <Button mnemonicParsing="false" text="Add Appointment" />
+            <Button mnemonicParsing="false" text="Modify Appointment" />
+            <Button mnemonicParsing="false" text="Reports" />
+            <AnchorPane prefHeight="40.0" prefWidth="316.0">
+               <children>
+                  <ImageView fitHeight="40.0" fitWidth="40.0" layoutX="276.0" layoutY="-1.0">
+                     <image>
+                        <Image url="@appointment.png" />
+                     </image>
+                  </ImageView>
+               </children></AnchorPane>
+        </ToolBar>
+      </top>
+   <left>
+      <AnchorPane prefHeight="960.0" prefWidth="1009.0" BorderPane.alignment="CENTER">
+         <children>
+            <TableView layoutX="12.0" layoutY="123.0" prefHeight="515.0" prefWidth="973.0">
+              <columns>
+                <TableColumn prefWidth="57.0" text="Appt ID" />
+                <TableColumn prefWidth="95.0" text="Date" />
+                  <TableColumn minWidth="2.0" prefWidth="87.0" text="Start Time" />
+                  <TableColumn prefWidth="89.0" text="End Time" />
+                  <TableColumn prefWidth="214.0" text="Location" />
+                  <TableColumn prefWidth="81.0" text="Customer ID" />
+                  <TableColumn prefWidth="176.0" text="Appointment Type" />
+                  <TableColumn prefWidth="176.0" text="Consultant" />
+              </columns>
+            </TableView>
+            <HBox alignment="CENTER_LEFT" layoutX="13.0" layoutY="80.0" prefHeight="34.0" prefWidth="830.0" spacing="10.0">
+               <children>
+                  <RadioButton mnemonicParsing="false" text="Monthly" />
+                  <RadioButton mnemonicParsing="false" text="Weekly" />
+                  <RadioButton mnemonicParsing="false" text="Custom" />
+                  <Label text="FROM:" />
+                  <DatePicker />
+                  <Label text="TO:" />
+                  <DatePicker />
+               </children>
+            </HBox>
+         </children>
+      </AnchorPane>
+   </left>
+</BorderPane>
