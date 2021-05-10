@@ -43,6 +43,7 @@ public class AddCustomerPageController implements Initializable {
     }
 
     public void saveNewCustomerButtonPressed(ActionEvent actionEvent) throws SQLException {
+        //1. pull data from textFields
         int customerCounter = AppointmentManager.getAllCustomers().size();
         String customerName = customerNameField.getText();
         String customerAddress = addressField.getText();
@@ -50,9 +51,11 @@ public class AddCustomerPageController implements Initializable {
         String customerPhone = phoneField.getText();
         int customerState = Integer.parseInt(stateField.getText());
 
+        //2. create Customer object using the data from textFields
         Customer customerToAdd = new Customer(customerCounter + 1, customerName, customerAddress, customerPostal, customerState, customerPhone);
+        //3. add the Customer object to the ObservableList of Customer objects from the AppointmentManager class.
         AppointmentManager.addCustomer(customerToAdd);
-
+        //4. Use the CustomerDao method to pass the same class into the addObject method.
         customerDao.addObject(customerToAdd);
 
 
@@ -60,6 +63,8 @@ public class AddCustomerPageController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+
+        //loads the ObservableList of Customer objects within AppointmentManager with contents of the DB.
         customerDao.loadDbObjects();
     }
 }

@@ -43,7 +43,10 @@ public class LogInController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
 
+        //configures the login message to say nothing.
         logInMessage.setText("");
+
+        //loads the ObservableList of User objects in AppointmentManager with the contents of the Database.
         UserDao userDao = new UserDao();
         userDao.loadDbObjects();
 

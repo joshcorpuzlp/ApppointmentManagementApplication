@@ -4,13 +4,12 @@ public class Customer {
     private int customerId;
     private String customerName;
     private String customerAddress;
+    private String customerPostalCode;
+    private int customerDivision;
     private String phoneNumber;
 
-    private String customerStreet;
-    private String customerCity;
-    private int customerState;
-    private String customerPostalCode;
 
+    //setters and getters for the Customer class
     public int getCustomerId() {
         return customerId;
     }
@@ -47,16 +46,24 @@ public class Customer {
         this.customerPostalCode = customerPostalCode;
     }
 
+    public int getCustomerDivision() {
+        return customerDivision;
+    }
+
+    public void setCustomerDivision(int customerDivision) {
+        this.customerDivision = customerDivision;
+    }
+
 
 
     //constructor
-    public Customer(int customerId, String customerName, String customerAddress, String customerPostalCode, int customerState,String phoneNumber) {
+    public Customer(int customerId, String customerName, String customerAddress, String customerPostalCode, int customerDivision, String phoneNumber) {
         this.customerId = customerId;
         this.customerName = customerName;
         this.phoneNumber = phoneNumber;
         this.customerAddress = customerAddress;
         this.customerPostalCode = customerPostalCode;
-        this.customerState = customerState;
+        this.customerDivision = customerDivision;
 
     }
 
@@ -64,33 +71,6 @@ public class Customer {
 
 
 
-
-
-    //Customer Address in multiple parts
-
-    public String getCustomerStreet() {
-        return customerStreet;
-    }
-
-    public void setCustomerStreet(String customerStreet) {
-        this.customerStreet = customerStreet;
-    }
-
-    public String getCustomerCity() {
-        return customerCity;
-    }
-
-    public void setCustomerCity(String customerCity) {
-        this.customerCity = customerCity;
-    }
-
-    public int getCustomerState() {
-        return customerState;
-    }
-
-    public void setCustomerState(int customerState) {
-        this.customerState = customerState;
-    }
 
 
 

@@ -3,12 +3,16 @@ package Dao;
 import Model.AppointmentManager;
 import Model.Customer;
 import Utility.dbConnection;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class CustomerDao implements Dao<Customer> {
+
+    private ObservableList<Customer> tempCustomerHolder = FXCollections.observableArrayList();
 
     @Override
     public void loadDbObjects() {
@@ -24,25 +28,39 @@ public class CustomerDao implements Dao<Customer> {
                 String customerPhone = rs.getString("Phone");
                 int customerState = rs.getInt("Division_ID");
 
-                AppointmentManager.addCustomer(new Customer(customerId, customerName, customerAddress, customerPostalCode, customerState,customerPhone));
+                //saved all customers from Database into a temporary ObservableList of Customer objects
+                tempCustomerHolder.add(new Customer(customerId, customerName, customerAddress, customerPostalCode, customerState,customerPhone));
             }
+
+            //used the temporary ObservableList of Customers as the argument for the setCustomers method.
+            AppointmentManager.setCustomers(tempCustomerHolder);
         }
         catch (SQLException ex) {
             ex.printStackTrace();
         }
 
 
+        //console viewer of the effects. can be removed later.
+        for (Customer c : AppointmentManager.getAllCustomers()) {
+            System.out.println(c.getCustomerName());
+        }
     }
 
     @Override
     public void addObject(Customer customer) throws SQLException {
-        String query = "INSERT INTO customers (Customer_Name, Address, Postal_Code, Phone, Division_ID) VALUES (?, ?, ?, ?, ?);";
+        //configures a String object to store the SQL statement that we would like to execute
+        String query = "INSERT INTO customers (Customer_Name, Address, Postal_Code, Division_ID, Phone) VALUES (?, ?, ?, ?, ?);";
+
+        //create a PreparedStatement object called the insertQuery that has the value of the above query.
         PreparedStatement insertQuery = dbConnection.getConnection().prepareStatement(query);
+
+        //configure the each value placeholder.
         insertQuery.setString(1, customer.getCustomerName());
         insertQuery.setString(2, customer.getCustomerAddress());
         insertQuery.setString(3, customer.getCustomerPostalCode());
-        insertQuery.setString(4, customer.getPhoneNumber());
-        insertQuery.setInt(5, customer.getCustomerState());
+        insertQuery.setInt(4, customer.getCustomerDivision());
+        insertQuery.setString(5, customer.getPhoneNumber());
+
 
         insertQuery.execute();
 
