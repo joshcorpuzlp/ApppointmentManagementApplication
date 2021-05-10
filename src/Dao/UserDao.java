@@ -27,8 +27,8 @@ public class UserDao implements Dao<User>{
 
 
             }
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
+        } catch (SQLException ex) {
+            ex.printStackTrace();
         }
     }
 

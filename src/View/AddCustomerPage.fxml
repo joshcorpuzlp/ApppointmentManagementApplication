@@ -19,8 +19,8 @@
                <font>
                   <Font name="Segoe UI" size="12.0" />
                </font></Label>
-            <Button mnemonicParsing="false" text="Cancel" />
-          <Button mnemonicParsing="false" text="Save" />
+          <Button fx:id="saveNewCustomer" mnemonicParsing="false" onAction="#saveNewCustomerButtonPressed" text="Save" />
+            <Button fx:id="cancelButton" mnemonicParsing="false" onAction="#cancelButtonPressed" text="Cancel" />
             <HBox alignment="TOP_RIGHT" prefHeight="30.0" prefWidth="287.0">
                <children>
                   <ImageView fitHeight="30.0" fitWidth="30.0">
@@ -37,12 +37,16 @@
       <AnchorPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
          <children>
             <Label layoutX="21.0" layoutY="23.0" text="Customer Name" />
-            <TextField layoutX="121.0" layoutY="19.0" />
+            <TextField fx:id="customerNameField" layoutX="121.0" layoutY="19.0" />
             <Label layoutX="21.0" layoutY="54.0" text="Address" />
-            <TextField layoutX="121.0" layoutY="50.0" />
-            <Label layoutX="21.0" layoutY="85.0" text="Phone Number" />
-            <TextField layoutX="121.0" layoutY="81.0" />
+            <TextField fx:id="addressField" layoutX="121.0" layoutY="50.0" />
+            <Label layoutX="21.0" layoutY="86.0" text="Postal Code" />
+            <TextField fx:id="postalField" layoutX="121.0" layoutY="82.0" />
             <Label layoutX="21.0" layoutY="118.0" />
+            <Label layoutX="21.0" layoutY="152.0" text="Phone Number" />
+            <TextField fx:id="phoneField" layoutX="121.0" layoutY="148.0" />
+            <Label layoutX="21.0" layoutY="118.0" text="State" />
+            <TextField fx:id="stateField" layoutX="121.0" layoutY="114.0" />
          </children>
       </AnchorPane>
    </center>

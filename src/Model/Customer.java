@@ -8,7 +8,7 @@ public class Customer {
 
     private String customerStreet;
     private String customerCity;
-    private String customerState;
+    private int customerState;
     private String customerPostalCode;
 
     public int getCustomerId() {
@@ -39,6 +39,32 @@ public class Customer {
         this.phoneNumber = phoneNumber;
     }
 
+    public String getCustomerPostalCode() {
+        return customerPostalCode;
+    }
+
+    public void setCustomerPostalCode(String customerPostalCode) {
+        this.customerPostalCode = customerPostalCode;
+    }
+
+
+
+    //constructor
+    public Customer(int customerId, String customerName, String customerAddress, String customerPostalCode, int customerState,String phoneNumber) {
+        this.customerId = customerId;
+        this.customerName = customerName;
+        this.phoneNumber = phoneNumber;
+        this.customerAddress = customerAddress;
+        this.customerPostalCode = customerPostalCode;
+        this.customerState = customerState;
+
+    }
+
+
+
+
+
+
 
     //Customer Address in multiple parts
 
@@ -58,31 +84,14 @@ public class Customer {
         this.customerCity = customerCity;
     }
 
-    public String getCustomerState() {
+    public int getCustomerState() {
         return customerState;
     }
 
-    public void setCustomerState(String customerState) {
+    public void setCustomerState(int customerState) {
         this.customerState = customerState;
     }
 
-    public String getCustomerPostalCode() {
-        return customerPostalCode;
-    }
-
-    public void setCustomerPostalCode(String customerPostalCode) {
-        this.customerPostalCode = customerPostalCode;
-    }
-
-
-
-    //constructor
-    public Customer(int customerId, String customerName, String phoneNumber, String customerAddress) {
-        this.customerId = customerId;
-        this.customerName = customerName;
-        this.phoneNumber = phoneNumber;
-        this.customerAddress = customerAddress;
-    }
 
 
 }
