@@ -102,6 +102,7 @@ public class AddCustomerPageController implements Initializable {
             divisionComboBox.getItems().add(AppointmentManager.getDivision(i));
         }
 
+        //initialize each column of the TableView
         customerNameColumn.setCellValueFactory(new PropertyValueFactory<Customer, String>("customerName"));
         customerAddressColumn.setCellValueFactory(new PropertyValueFactory<Customer, String>("customerAddress"));
         customerDivisionColumn.setCellValueFactory(new PropertyValueFactory<Customer, String>("customerDivision"));
