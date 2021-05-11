@@ -50,9 +50,8 @@ public class Customer {
         return customerDivision;
     }
 
-    public void setCustomerDivision(int customerDivision) {
-        this.customerDivision = customerDivision;
-    }
+
+
 
 
 
