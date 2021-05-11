@@ -11,11 +11,10 @@
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.text.*?>
 <?import javafx.scene.layout.HBox?>
-<?import javafx.scene.text.Font?>
 
-
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="695.0" prefWidth="1000.0" style="-fx-background-color: #d8e3e7;" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml" fx:controller="Controller.MainPageController">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="695.0" prefWidth="1000.0" style="-fx-background-color: #d8e3e7;" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.MainPageController">
    <top>
       <ToolBar prefHeight="40.0" prefWidth="200.0" style="-fx-background-color: #132c33;" BorderPane.alignment="CENTER">
         <items>
@@ -43,22 +42,22 @@
    <left>
       <AnchorPane prefHeight="960.0" prefWidth="1009.0" BorderPane.alignment="CENTER">
          <children>
-            <TableView layoutX="12.0" layoutY="123.0" prefHeight="515.0" prefWidth="973.0">
+            <TableView fx:id="appointmentCalendar" layoutX="12.0" layoutY="123.0" prefHeight="515.0" prefWidth="973.0">
               <columns>
-                <TableColumn prefWidth="57.0" text="Appt ID" />
-                <TableColumn prefWidth="95.0" text="Date" />
-                  <TableColumn minWidth="2.0" prefWidth="87.0" text="Start Time" />
-                  <TableColumn prefWidth="89.0" text="End Time" />
-                  <TableColumn prefWidth="214.0" text="Location" />
-                  <TableColumn prefWidth="81.0" text="Customer ID" />
-                  <TableColumn prefWidth="176.0" text="Appointment Type" />
-                  <TableColumn prefWidth="176.0" text="Consultant" />
+                <TableColumn fx:id="appointmentIdColumn" prefWidth="57.0" text="Appt ID" />
+                <TableColumn fx:id="dateColumn" prefWidth="95.0" text="Date" />
+                  <TableColumn fx:id="startTimeColumn" minWidth="2.0" prefWidth="87.0" text="Start Time" />
+                  <TableColumn fx:id="endTimeColumn" prefWidth="89.0" text="End Time" />
+                  <TableColumn fx:id="locationColumn" prefWidth="214.0" text="Location" />
+                  <TableColumn fx:id="customerIdColumn" prefWidth="81.0" text="Customer ID" />
+                  <TableColumn fx:id="appointmentTypeColumn" prefWidth="176.0" text="Appointment Type" />
+                  <TableColumn fx:id="consultantIdColumn" prefWidth="176.0" text="Consultant" />
               </columns>
             </TableView>
             <HBox alignment="CENTER_LEFT" layoutX="13.0" layoutY="80.0" prefHeight="34.0" prefWidth="830.0" spacing="10.0">
                <children>
-                  <RadioButton mnemonicParsing="false" text="Monthly" />
-                  <RadioButton mnemonicParsing="false" text="Weekly" />
+                  <RadioButton mnemonicParsing="false" text="Current Month" />
+                  <RadioButton mnemonicParsing="false" text="Current Week" />
                   <RadioButton mnemonicParsing="false" text="Custom" />
                   <Label text="FROM:" />
                   <DatePicker />

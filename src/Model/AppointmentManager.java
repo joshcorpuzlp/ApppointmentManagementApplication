@@ -14,6 +14,32 @@ public class AppointmentManager {
     private static ObservableList<Division> divisions = FXCollections.observableArrayList();
     private static HashMap<String, Integer> divisionHashMap = new HashMap<String, Integer>();
 
+    //configure an ObservableList of AppointmentObjects
+    private static ObservableList<Appointment> appointments = FXCollections.observableArrayList();
+
+
+    //method that sets the passed ObservableList of Users to be the private ObservableList of the AppointmentManager
+    public static void setAppointments(ObservableList<Appointment> appointmentListInput) {
+        appointments = appointmentListInput;
+    }
+    //method that returns the ObservableList of Appointment objects
+    public static ObservableList<Appointment> getAllAppointments() {
+        return appointments;
+    }
+    //method that adds a passed Appointment object to the private ObservableList of the AppointmentManager appointments
+    public static void addAppointment(Appointment appointmentToAdd) {
+        appointments.add(appointmentToAdd);
+    }
+    //method that removes a passed Appointment object from the private ObservableList of AppointmentManager's appointments
+    public static void removeAppointment(Appointment appointmentToRemove) {
+        appointments.remove(appointmentToRemove);
+    }
+
+    //method that passes the index and Appointment object to specify where in the ObservableList the Update should occur.
+    public static void updateAppointment(int index, Appointment appointmentToUpdate) {
+        appointments.set(index, appointmentToUpdate);
+    }
+
 
 
 

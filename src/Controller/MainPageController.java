@@ -1,5 +1,8 @@
 package Controller;
 
+import Dao.AppointmentDao;
+import Model.Appointment;
+import Model.AppointmentManager;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -7,10 +10,14 @@ import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.net.URL;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.util.Date;
 import java.util.ResourceBundle;
 
 public class MainPageController implements Initializable {
@@ -32,8 +39,11 @@ public class MainPageController implements Initializable {
     @FXML private TableColumn endTimeColumn;
     @FXML private TableColumn locationColumn;
     @FXML private TableColumn customerIdColumn;
-    @FXML private TableColumn appointmentColumn;
-    @FXML private TableColumn consultantColumn;
+    @FXML private TableColumn appointmentIdColumn;
+    @FXML private TableColumn consultantIdColumn;
+    @FXML private TableColumn appointmentTypeColumn;
+
+    private AppointmentDao appointmentDao = new AppointmentDao();
 
     public void addCustomerButtonPressed(ActionEvent actionEvent) throws IOException {
         Parent root = FXMLLoader.load(getClass().getResource("../View/AddCustomerPage.fxml"));
@@ -56,6 +66,18 @@ public class MainPageController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        appointmentDao.loadDbObjects();
+
+        appointmentIdColumn.setCellValueFactory(new PropertyValueFactory<Appointment, Integer>("appointmentId"));
+        locationColumn.setCellValueFactory(new PropertyValueFactory<Appointment, String>("location"));
+        appointmentTypeColumn.setCellValueFactory(new PropertyValueFactory<Appointment, String>("type"));
+        consultantIdColumn.setCellValueFactory(new PropertyValueFactory<Appointment, Integer>("consultantId"));
+        customerIdColumn.setCellValueFactory(new PropertyValueFactory<Appointment, Integer>("customerId"));
+        dateColumn.setCellValueFactory(new PropertyValueFactory<Appointment, Date>("date"));
+        startTimeColumn.setCellValueFactory(new PropertyValueFactory<Appointment, LocalTime>("startTimeOnly"));
+        endTimeColumn.setCellValueFactory(new PropertyValueFactory<Appointment, LocalTime>("endTimeOnly"));
+
+        appointmentCalendar.setItems(AppointmentManager.getAllAppointments());
 
     }
 
