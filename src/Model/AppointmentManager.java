@@ -49,6 +49,10 @@ public class AppointmentManager {
         customers.add(customerToAdd);
     }
 
+    public static void updateCustomer(int index, Customer customerToUpdate) {
+        customers.set(index, customerToUpdate);
+    }
+
     //method removes the passed customer argument to the ObservableList of Customer objects.
     public static void removeCustomer(Customer customerToRemove) {
         customers.remove(customerToRemove);

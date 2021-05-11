@@ -4,6 +4,7 @@ import Model.AppointmentManager;
 import Model.User;
 import Utility.dbConnection;
 
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ResourceBundle;
@@ -39,6 +40,7 @@ public class UserDao implements Dao<User>{
 
     @Override
     public void modifyObject(User user) {
+
 
     }
 

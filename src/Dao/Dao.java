@@ -6,7 +6,7 @@ public interface Dao<T> {
 
     void loadDbObjects();
     void addObject(T t) throws SQLException;
-    void modifyObject(T t);
-    void removeObject(T t);
+    void modifyObject(T t) throws SQLException;
+    void removeObject(T t) throws SQLException;
 
 }

@@ -44,6 +44,15 @@ public class MainPageController implements Initializable {
         stage.show();
     }
 
+    public void updateCustomerButtonPressed(ActionEvent actionEvent) throws IOException {
+        Parent root = FXMLLoader.load(getClass().getResource("../View/UpdateCustomerPage.fxml"));
+        Scene MainPageScene = new Scene(root);
+
+        Stage stage = (Stage) updateCustomerButton.getScene().getWindow();
+        stage.setScene(MainPageScene);
+        stage.show();
+    }
+
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {

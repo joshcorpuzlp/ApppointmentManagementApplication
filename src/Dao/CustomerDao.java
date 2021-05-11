@@ -71,12 +71,31 @@ public class CustomerDao implements Dao<Customer> {
     }
 
     @Override
-    public void modifyObject(Customer customer) {
+    public void modifyObject(Customer customer) throws SQLException {
+        String query = "UPDATE customers\n" +
+                "SET Customer_Name = ?, Address = ?, Postal_Code = ?, Division_ID = ?, Phone = ?\n" +
+                "WHERE Customer_ID = ?;";
+        PreparedStatement insertQuery = dbConnection.getConnection().prepareStatement(query);
+
+        insertQuery.setString(1, customer.getCustomerName());
+        insertQuery.setString(2, customer.getCustomerAddress());
+        insertQuery.setString(3, customer.getCustomerPostalCode());
+        insertQuery.setInt(4, customer.getCustomerDivisionId());
+        insertQuery.setString(5, customer.getPhoneNumber());
+        insertQuery.setInt(6, customer.getCustomerId());
+
+        insertQuery.execute();
 
     }
 
     @Override
-    public void removeObject(Customer customer) {
+    public void removeObject(Customer customer) throws SQLException {
+        String query = "DELETE FROM customers WHERE Customer_ID = ?;";
+
+        PreparedStatement insertQuery = dbConnection.getConnection().prepareStatement(query);
+        insertQuery.setInt(1, customer.getCustomerId());
+
+        insertQuery.execute();
 
     }
 }
