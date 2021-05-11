@@ -71,7 +71,7 @@ public class AddCustomerPageController implements Initializable {
         int customerDivision = AppointmentManager.getAllHashMaps().get(selectedDivision);
 
         //2. create Customer object using the data from textFields
-        Customer customerToAdd = new Customer(customerCounter + 1, customerName, customerAddress, customerPostal, customerDivision, customerPhone);
+        Customer customerToAdd = new Customer(customerCounter + 1, customerName, customerAddress, customerPostal, customerDivision, selectedDivision, customerPhone);
         //3. add the Customer object to the ObservableList of Customer objects from the AppointmentManager class.
         AppointmentManager.addCustomer(customerToAdd);
         //4. Use the CustomerDao method to pass the same class into the addObject method.
@@ -92,8 +92,9 @@ public class AddCustomerPageController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
 
         //loads the ObservableList of Customer objects within AppointmentManager with contents of the DB.
-        customerDao.loadDbObjects();
         divisionDao.loadDbObjects();
+        customerDao.loadDbObjects();
+
 
 
         //loads the ObservableList of Division objects within the AppointmentManager to the ComboxOptions

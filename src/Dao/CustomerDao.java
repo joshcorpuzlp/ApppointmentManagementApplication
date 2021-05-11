@@ -16,7 +16,10 @@ public class CustomerDao implements Dao<Customer> {
 
     @Override
     public void loadDbObjects() {
-        String query = "SELECT * FROM customers;";
+        String query = "SELECT c.Customer_ID, c.Customer_Name, c.Address, c.Postal_Code, c.Phone, c.Division_ID, d.Division \n" +
+                "FROM customers c\n" +
+                "LEFT OUTER JOIN first_level_divisions d\n" +
+                "on c.Division_ID = d.Division_ID;";
 
         try {
             ResultSet rs = dbConnection.getStatement().executeQuery(query);
@@ -26,10 +29,11 @@ public class CustomerDao implements Dao<Customer> {
                 String customerAddress = rs.getString("Address");
                 String customerPostalCode = rs.getString("Postal_Code");
                 String customerPhone = rs.getString("Phone");
-                int customerState = rs.getInt("Division_ID");
+                int divisionId = rs.getInt("Division_ID");
+                String customerDivision = rs.getString("Division");
 
                 //saved all customers from Database into a temporary ObservableList of Customer objects
-                tempCustomerHolder.add(new Customer(customerId, customerName, customerAddress, customerPostalCode, customerState,customerPhone));
+                tempCustomerHolder.add(new Customer(customerId, customerName, customerAddress, customerPostalCode, divisionId, customerDivision, customerPhone));
             }
 
             //used the temporary ObservableList of Customers as the argument for the setCustomers method.
@@ -58,7 +62,7 @@ public class CustomerDao implements Dao<Customer> {
         insertQuery.setString(1, customer.getCustomerName());
         insertQuery.setString(2, customer.getCustomerAddress());
         insertQuery.setString(3, customer.getCustomerPostalCode());
-        insertQuery.setInt(4, customer.getCustomerDivision());
+        insertQuery.setInt(4, customer.getCustomerDivisionId());
         insertQuery.setString(5, customer.getPhoneNumber());
 
 
