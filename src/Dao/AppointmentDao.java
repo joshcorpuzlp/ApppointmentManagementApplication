@@ -18,7 +18,12 @@ public class AppointmentDao implements Dao<Appointment> {
 
     @Override
     public void loadDbObjects() {
-        String query = "SELECT * FROM appointments;";
+        String query = "SELECT a.Appointment_ID,  a.Location, a.Type, a.User_ID, c.Customer_Name, co.Contact_Name, a.Start, a.End\n" +
+                "from appointments a\n" +
+                "LEFT JOIN customers c \n" +
+                "ON a.Customer_ID = c.Customer_ID\n" +
+                "LEFT JOIN contacts co\n" +
+                "on a.Contact_ID = co.Contact_ID;\n";
 
         try {
             ResultSet rs = dbConnection.getStatement().executeQuery(query);
@@ -27,12 +32,12 @@ public class AppointmentDao implements Dao<Appointment> {
                 String location = rs.getString("Location");
                 String type = rs.getString("Type");
                 int userId = rs.getInt("User_ID");
-                int customerId = rs.getInt("Customer_ID");
-                int consultantId = rs.getInt("Contact_ID");
+                String customerName = rs.getString("Customer_Name");
+                String consultantName = rs.getString("Contact_Name");
                 Timestamp startTime = rs.getTimestamp("Start");
                 Timestamp endTime = rs.getTimestamp("End");
 
-                tempAppointmentHolder.add(new Appointment(appointmentId, location, type, userId, customerId, consultantId,startTime.toLocalDateTime(), endTime.toLocalDateTime()));
+                tempAppointmentHolder.add(new Appointment(appointmentId, location, type, userId, customerName, consultantName, startTime.toLocalDateTime(), endTime.toLocalDateTime()));
             }
 
             AppointmentManager.setAppointments(tempAppointmentHolder);

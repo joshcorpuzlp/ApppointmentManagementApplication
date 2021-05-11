@@ -71,11 +71,11 @@ public class MainPageController implements Initializable {
         appointmentIdColumn.setCellValueFactory(new PropertyValueFactory<Appointment, Integer>("appointmentId"));
         locationColumn.setCellValueFactory(new PropertyValueFactory<Appointment, String>("location"));
         appointmentTypeColumn.setCellValueFactory(new PropertyValueFactory<Appointment, String>("type"));
-        consultantIdColumn.setCellValueFactory(new PropertyValueFactory<Appointment, Integer>("consultantId"));
-        customerIdColumn.setCellValueFactory(new PropertyValueFactory<Appointment, Integer>("customerId"));
+        consultantIdColumn.setCellValueFactory(new PropertyValueFactory<Appointment, String>("consultantName"));
+        customerIdColumn.setCellValueFactory(new PropertyValueFactory<Appointment, String>("customerName"));
         dateColumn.setCellValueFactory(new PropertyValueFactory<Appointment, Date>("date"));
-        startTimeColumn.setCellValueFactory(new PropertyValueFactory<Appointment, LocalTime>("startTimeOnly"));
-        endTimeColumn.setCellValueFactory(new PropertyValueFactory<Appointment, LocalTime>("endTimeOnly"));
+        startTimeColumn.setCellValueFactory(new PropertyValueFactory<Appointment, String>("formattedStartTime"));
+        endTimeColumn.setCellValueFactory(new PropertyValueFactory<Appointment, String>("formattedEndTime"));
 
         appointmentCalendar.setItems(AppointmentManager.getAllAppointments());
 

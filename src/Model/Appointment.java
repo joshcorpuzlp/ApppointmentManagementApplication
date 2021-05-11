@@ -1,8 +1,7 @@
 package Model;
 
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.LocalTime;
+import java.time.*;
+import java.time.format.DateTimeFormatter;
 
 public class Appointment {
     private int appointmentId;
@@ -11,15 +10,34 @@ public class Appointment {
 
     //you might be able to replace this later with inner join tables combining appointments with users and customers
     private int userId;
-    private int customerId;
-    private int consultantId;
+    private String customerName;
+    private String consultantName;
 
     private LocalDateTime startTime;
     private LocalDateTime endTime;
 
     private LocalDate date;
-    private LocalTime startTimeOnly;
-    private LocalTime endTimeOnly;
+    private ZonedDateTime startTimeOnly;
+    private ZonedDateTime endTimeOnly;
+    private String formattedStartTime;
+    private String formattedEndTime;
+
+    public void setFormattedStartTime(LocalDateTime startTime) {
+        DateTimeFormatter myFormat = DateTimeFormatter.ofPattern("hh:mm");
+        formattedStartTime = startTime.atZone(ZoneId.systemDefault()).format(myFormat);
+    }
+    public String getFormattedStartTime() {
+        return formattedStartTime;
+    }
+
+    public void setFormattedEndTime(LocalDateTime endTime) {
+        DateTimeFormatter myFormat = DateTimeFormatter.ofPattern("hh:mm");
+        formattedEndTime = endTime.atZone(ZoneId.systemDefault()).format(myFormat);
+    }
+    public String getFormattedEndTime() {
+        return formattedEndTime;
+    }
+
 
 
     public int getAppointmentId() {
@@ -54,12 +72,12 @@ public class Appointment {
         this.userId = userId;
     }
 
-    public int getCustomerId() {
-        return customerId;
+    public String getCustomerName() {
+        return customerName;
     }
 
-    public void setCustomerId(int customerId) {
-        this.customerId = customerId;
+    public void setCustomerName(String customerName) {
+        this.customerName = customerName;
     }
 
     public LocalDateTime getStartTime() {
@@ -78,12 +96,12 @@ public class Appointment {
         this.endTime = endTime;
     }
 
-    public int getConsultantId() {
-        return consultantId;
+    public String getConsultantName() {
+        return consultantName;
     }
 
-    public void setConsultantId(int consultantId) {
-        this.consultantId = consultantId;
+    public void setConsultantName(String consultantName) {
+        this.consultantName = consultantName;
     }
 
     public LocalDate getDate() {
@@ -94,34 +112,36 @@ public class Appointment {
         date = localDateTime.toLocalDate();
     }
 
-    public LocalTime getStartTimeOnly() {
+    public ZonedDateTime getStartTimeOnly() {
         return startTimeOnly;
     }
 
     public void setStartTimeOnly(LocalDateTime localDateTime) {
-        startTimeOnly = localDateTime.toLocalTime();
+        startTimeOnly = localDateTime.atZone(ZoneId.systemDefault());
     }
 
-    public LocalTime getEndTimeOnly() {
+    public ZonedDateTime getEndTimeOnly() {
         return endTimeOnly;
     }
 
     public void setEndTimeOnly(LocalDateTime localDateTime) {
-        this.endTimeOnly = localDateTime.toLocalTime();
+        this.endTimeOnly = localDateTime.atZone(ZoneId.systemDefault());
     }
 
     //constructor for the Appointment class.
-    public Appointment(int appointmentId, String location, String type, int userId, int customerId, int consultantId,LocalDateTime startTime, LocalDateTime endTime) {
+    public Appointment(int appointmentId, String location, String type, int userId, String customerName, String consultantName,LocalDateTime startTime, LocalDateTime endTime) {
         this.appointmentId = appointmentId;
         this.location = location;
         this.type = type;
         this.userId = userId;
-        this.customerId = customerId;
+        this.customerName = customerName;
         this.startTime = startTime;
         this.endTime = endTime;
-        this.consultantId = consultantId;
+        this.consultantName = consultantName;
         setDate(startTime);
         setStartTimeOnly(startTime);
         setEndTimeOnly(endTime);
+        setFormattedStartTime(startTime);
+        setFormattedEndTime(endTime);
     }
 }
