@@ -51,7 +51,7 @@ public class AppointmentDao implements Dao<Appointment> {
 
     @Override
     public void addObject(Appointment appointment) throws SQLException {
-
+        String query = "INSERT INTO appointments (";
     }
 
     @Override
