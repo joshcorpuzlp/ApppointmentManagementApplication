@@ -37,7 +37,7 @@ public class AppointmentDao implements Dao<Appointment> {
                 Timestamp startTime = rs.getTimestamp("Start");
                 Timestamp endTime = rs.getTimestamp("End");
 
-                tempAppointmentHolder.add(new Appointment(appointmentId, location, type, userId, customerName, consultantName, startTime.toLocalDateTime(), endTime.toLocalDateTime()));
+                tempAppointmentHolder.add(new Appointment(appointmentId, location, type, userId, customerName, consultantName, startTime, endTime));
             }
 
             AppointmentManager.setAppointments(tempAppointmentHolder);

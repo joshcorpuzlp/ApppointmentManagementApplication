@@ -1,5 +1,6 @@
 package Model;
 
+import java.sql.Timestamp;
 import java.time.*;
 import java.time.format.DateTimeFormatter;
 
@@ -13,30 +14,31 @@ public class Appointment {
     private String customerName;
     private String consultantName;
 
-    private LocalDateTime startTime;
-    private LocalDateTime endTime;
-
+    private ZonedDateTime startTime;
+    private ZonedDateTime endTime;
     private LocalDate date;
-    private ZonedDateTime startTimeOnly;
-    private ZonedDateTime endTimeOnly;
+
     private String formattedStartTime;
     private String formattedEndTime;
 
-    public void setFormattedStartTime(LocalDateTime startTime) {
-        DateTimeFormatter myFormat = DateTimeFormatter.ofPattern("hh:mm");
-        formattedStartTime = startTime.atZone(ZoneId.systemDefault()).format(myFormat);
-    }
-    public String getFormattedStartTime() {
-        return formattedStartTime;
+
+
+    public ZonedDateTime getStartTime() {
+        return startTime;
     }
 
-    public void setFormattedEndTime(LocalDateTime endTime) {
-        DateTimeFormatter myFormat = DateTimeFormatter.ofPattern("hh:mm");
-        formattedEndTime = endTime.atZone(ZoneId.systemDefault()).format(myFormat);
+    public void setStartTime(Timestamp startTime) {
+        this.startTime = startTime.toLocalDateTime().atZone(ZoneId.systemDefault());
     }
-    public String getFormattedEndTime() {
-        return formattedEndTime;
+
+    public ZonedDateTime getEndTime() {
+        return endTime;
     }
+
+    public void setEndTime(Timestamp endTime) {
+        this.endTime = endTime.toLocalDateTime().atZone(ZoneId.systemDefault());
+    }
+
 
 
 
@@ -80,21 +82,7 @@ public class Appointment {
         this.customerName = customerName;
     }
 
-    public LocalDateTime getStartTime() {
-        return startTime;
-    }
 
-    public void setStartTime(LocalDateTime startTime) {
-        this.startTime = startTime;
-    }
-
-    public LocalDateTime getEndTime() {
-        return endTime;
-    }
-
-    public void setEndTime(LocalDateTime endTime) {
-        this.endTime = endTime;
-    }
 
     public String getConsultantName() {
         return consultantName;
@@ -108,39 +96,41 @@ public class Appointment {
         return date;
     }
 
-    public void setDate(LocalDateTime localDateTime) {
-        date = localDateTime.toLocalDate();
+    public void setDate(Timestamp timestamp) {
+        date = timestamp.toLocalDateTime().toLocalDate();
     }
 
-    public ZonedDateTime getStartTimeOnly() {
-        return startTimeOnly;
+
+
+    public void setFormattedStartTime(Timestamp startTime) {
+        DateTimeFormatter myFormat = DateTimeFormatter.ofPattern("hh:mm a");
+        formattedStartTime = startTime.toLocalDateTime().atZone(ZoneId.systemDefault()).format(myFormat);
+    }
+    public String getFormattedStartTime() {
+        return formattedStartTime;
     }
 
-    public void setStartTimeOnly(LocalDateTime localDateTime) {
-        startTimeOnly = localDateTime.atZone(ZoneId.systemDefault());
+    public void setFormattedEndTime(Timestamp endTime) {
+        DateTimeFormatter myFormat = DateTimeFormatter.ofPattern("hh:mm a");
+        formattedEndTime = endTime.toLocalDateTime().atZone(ZoneId.systemDefault()).format(myFormat);
+    }
+    public String getFormattedEndTime() {
+        return formattedEndTime;
     }
 
-    public ZonedDateTime getEndTimeOnly() {
-        return endTimeOnly;
-    }
 
-    public void setEndTimeOnly(LocalDateTime localDateTime) {
-        this.endTimeOnly = localDateTime.atZone(ZoneId.systemDefault());
-    }
 
     //constructor for the Appointment class.
-    public Appointment(int appointmentId, String location, String type, int userId, String customerName, String consultantName,LocalDateTime startTime, LocalDateTime endTime) {
+    public Appointment(int appointmentId, String location, String type, int userId, String customerName, String consultantName,Timestamp startTime, Timestamp endTime) {
         this.appointmentId = appointmentId;
         this.location = location;
         this.type = type;
         this.userId = userId;
         this.customerName = customerName;
-        this.startTime = startTime;
-        this.endTime = endTime;
+        setStartTime(startTime);
+        setEndTime(endTime);
         this.consultantName = consultantName;
         setDate(startTime);
-        setStartTimeOnly(startTime);
-        setEndTimeOnly(endTime);
         setFormattedStartTime(startTime);
         setFormattedEndTime(endTime);
     }
