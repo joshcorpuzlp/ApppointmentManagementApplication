@@ -63,6 +63,15 @@ public class MainPageController implements Initializable {
         stage.show();
     }
 
+    public void addAppointmentButtonPressed(ActionEvent actionEvent) throws IOException {
+        Parent root = FXMLLoader.load(getClass().getResource("../View/AddAppointmentPage.fxml"));
+        Scene MainPageScene = new Scene(root);
+
+        Stage stage = (Stage) addAppointmentButton.getScene().getWindow();
+        stage.setScene(MainPageScene);
+        stage.show();
+    }
+
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {

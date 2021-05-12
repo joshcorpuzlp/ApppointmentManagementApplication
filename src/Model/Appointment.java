@@ -3,6 +3,7 @@ package Model;
 import java.sql.Timestamp;
 import java.time.*;
 import java.time.format.DateTimeFormatter;
+import java.util.Date;
 
 public class Appointment {
     private int appointmentId;
@@ -131,6 +132,20 @@ public class Appointment {
         setEndTime(endTime);
         this.consultantName = consultantName;
         setDate(startTime);
+        setFormattedStartTime(startTime);
+        setFormattedEndTime(endTime);
+    }
+
+    public Appointment(int appointmentId, String location, String type, int userId, String customerName, String consultantName,Timestamp startTime, Timestamp endTime, LocalDate date) {
+        this.appointmentId = appointmentId;
+        this.location = location;
+        this.type = type;
+        this.userId = userId;
+        this.customerName = customerName;
+        setStartTime(startTime);
+        setEndTime(endTime);
+        this.consultantName = consultantName;
+        this.date = date;
         setFormattedStartTime(startTime);
         setFormattedEndTime(endTime);
     }
