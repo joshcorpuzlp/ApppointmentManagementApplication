@@ -1,5 +1,8 @@
 package Model;
 
+import com.sun.scenario.effect.Offset;
+
+import java.sql.Time;
 import java.sql.Timestamp;
 import java.time.*;
 import java.time.format.DateTimeFormatter;
@@ -15,32 +18,91 @@ public class Appointment {
     private String customerName;
     private String consultantName;
 
-    private ZonedDateTime startTime;
-    private ZonedDateTime endTime;
+    private LocalDateTime startTime;
+    private LocalDateTime endTime;
     private LocalDate date;
+
+    private Timestamp startDateTimeSQL;
+    private Timestamp endDateTimeSQL;
 
     private String formattedStartTime;
     private String formattedEndTime;
 
 
 
-    public ZonedDateTime getStartTime() {
+    public LocalDateTime getStartTime() {
         return startTime;
     }
 
+    //method that uses Timestamp Objects from the MySQL database as parameters. it will first assign it a UTC zone and then convert it to SystemZone.
     public void setStartTime(Timestamp startTime) {
-        this.startTime = startTime.toLocalDateTime().atZone(ZoneId.systemDefault());
+        ZonedDateTime tempTime = startTime.toLocalDateTime().atZone(ZoneId.of("UTC"));
+        ZoneId localZone = ZoneId.systemDefault();
+        ZonedDateTime defaultZoned = tempTime.withZoneSameInstant(localZone);
+        this.startTime = defaultZoned.toLocalDateTime();
+
+        System.out.println(tempTime);
+        System.out.println(defaultZoned);
     }
 
-    public ZonedDateTime getEndTime() {
+    public LocalDateTime getEndTime() {
         return endTime;
     }
-
+    //method that uses Timestamp Objects from the MySQL database as parameters. it will first assign it a UTC zone and then convert it to SystemZone.
     public void setEndTime(Timestamp endTime) {
-        this.endTime = endTime.toLocalDateTime().atZone(ZoneId.systemDefault());
+        ZonedDateTime tempTime = endTime.toLocalDateTime().atZone(ZoneId.of("UTC"));
+        ZoneId localZone = ZoneId.systemDefault();
+        ZonedDateTime defaultZoned = tempTime.withZoneSameInstant(localZone);
+        this.endTime = defaultZoned.toLocalDateTime();
+
+    }
+
+    //method does a similar function as the setStart/EndTime but creates a formatted string instead.
+    public void setFormattedStartTime(Timestamp startTime) {
+        DateTimeFormatter myFormat = DateTimeFormatter.ofPattern("hh:mm a");
+
+        ZonedDateTime tempTime = startTime.toLocalDateTime().atZone(ZoneId.of("UTC"));
+        ZoneId localZone = ZoneId.systemDefault();
+        ZonedDateTime defaultZoned = tempTime.withZoneSameInstant(localZone);
+
+        formattedStartTime = defaultZoned.format(myFormat);
+    }
+    public String getFormattedStartTime() {
+        return formattedStartTime;
+    }
+
+    //method does a similar function as the setStart/EndTime but creates a formatted string instead.
+    public void setFormattedEndTime(Timestamp endTime) {
+        DateTimeFormatter myFormat = DateTimeFormatter.ofPattern("hh:mm a");
+
+        ZonedDateTime tempTime = endTime.toLocalDateTime().atZone(ZoneId.of("UTC"));
+        ZoneId localZone = ZoneId.systemDefault();
+        ZonedDateTime defaultZoned = tempTime.withZoneSameInstant(localZone);
+
+        formattedEndTime = defaultZoned.format(myFormat);
+
+    }
+    public String getFormattedEndTime() {
+        return formattedEndTime;
     }
 
 
+    //setters and getters for converting LocalDateTime to TimeStamp, used with User created appointments
+    public void setStartDateTimeSQL(LocalDateTime startTime) {
+        Timestamp timestamp = Timestamp.valueOf(startTime);
+        this.startDateTimeSQL = timestamp;
+    }
+    public Timestamp getStartDateTimeSQL() {
+        return startDateTimeSQL;
+    }
+
+    public void setEndDateTimeSQL(LocalDateTime endTime) {
+        Timestamp timestamp = Timestamp.valueOf(endTime);
+        this.endDateTimeSQL = timestamp;
+    }
+    public Timestamp getEndDateTimeSQL() {
+        return endDateTimeSQL;
+    }
 
 
     public int getAppointmentId() {
@@ -83,8 +145,6 @@ public class Appointment {
         this.customerName = customerName;
     }
 
-
-
     public String getConsultantName() {
         return consultantName;
     }
@@ -103,25 +163,7 @@ public class Appointment {
 
 
 
-    public void setFormattedStartTime(Timestamp startTime) {
-        DateTimeFormatter myFormat = DateTimeFormatter.ofPattern("hh:mm a");
-        formattedStartTime = startTime.toLocalDateTime().atZone(ZoneId.systemDefault()).format(myFormat);
-    }
-    public String getFormattedStartTime() {
-        return formattedStartTime;
-    }
-
-    public void setFormattedEndTime(Timestamp endTime) {
-        DateTimeFormatter myFormat = DateTimeFormatter.ofPattern("hh:mm a");
-        formattedEndTime = endTime.toLocalDateTime().atZone(ZoneId.systemDefault()).format(myFormat);
-    }
-    public String getFormattedEndTime() {
-        return formattedEndTime;
-    }
-
-
-
-    //constructor for the Appointment class.
+    //constructor for the Appointment class. Used when creating from Database data.
     public Appointment(int appointmentId, String location, String type, int userId, String customerName, String consultantName,Timestamp startTime, Timestamp endTime) {
         this.appointmentId = appointmentId;
         this.location = location;
@@ -136,17 +178,23 @@ public class Appointment {
         setFormattedEndTime(endTime);
     }
 
-    public Appointment(int appointmentId, String location, String type, int userId, String customerName, String consultantName,Timestamp startTime, Timestamp endTime, LocalDate date) {
+    //overloaded constructor for the Appointment class. Used when creating from User Input
+    public Appointment(int appointmentId, String location, String type, int userId, String customerName, String consultantName,LocalTime startTime, LocalTime endTime, LocalDate date) {
         this.appointmentId = appointmentId;
         this.location = location;
         this.type = type;
         this.userId = userId;
         this.customerName = customerName;
-        setStartTime(startTime);
-        setEndTime(endTime);
-        this.consultantName = consultantName;
+
+        //converts startTime, endTime and date inputs to create LocalDateTime objects.
         this.date = date;
-        setFormattedStartTime(startTime);
-        setFormattedEndTime(endTime);
+        this.startTime = LocalDateTime.of(date, startTime);
+        this.endTime = LocalDateTime.of(date, endTime);
+
+        //converts the startTime and endTime, and date inputs to create a localDateTime to be converted into TimeStamp
+        setStartDateTimeSQL(LocalDateTime.of(date, startTime));
+        setEndDateTimeSQL(LocalDateTime.of(date, endTime));
+        this.consultantName = consultantName;
+
     }
 }
