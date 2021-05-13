@@ -14,6 +14,12 @@ public class Appointment {
     private String customerName;
     private String contactName;
 
+    //need to fix Appointment class to instead take in Customer and Contact objects instead of just their names.
+    private Customer customer;
+    private Contact contact;
+
+
+
     private LocalDateTime startTime;
     private LocalDateTime endTime;
     private LocalDate date;

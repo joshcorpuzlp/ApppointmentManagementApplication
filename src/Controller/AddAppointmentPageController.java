@@ -4,6 +4,7 @@ import Dao.AppointmentDao;
 import Dao.ContactDao;
 import Dao.CustomerDao;
 import Dao.DivisionDao;
+import Model.Appointment;
 import Model.AppointmentManager;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -19,6 +20,8 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.net.URL;
+import java.sql.SQLException;
+import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ResourceBundle;
@@ -51,7 +54,7 @@ public class AddAppointmentPageController implements Initializable {
     }
 
     //need to fix to actually work with Appointment Constructor method.
-    public void saveButtonPressed(ActionEvent actionEvent) throws IOException {
+    public void saveButtonPressed(ActionEvent actionEvent) throws IOException, SQLException {
 //        System.out.println(locationField.getText().getClass());
 //        System.out.println(typeField.getText().getClass());
 //        System.out.println(customerComboBox.getSelectionModel().getSelectedItem().getClass());
@@ -66,14 +69,27 @@ public class AddAppointmentPageController implements Initializable {
         System.out.println(endTimeComboBox.getSelectionModel().getSelectedItem());
         System.out.println(datePicker.getEditor().getText());
 
-//        int appointmentId = AppointmentManager.getAllAppointments().size() + 1;
-//        String location = locationField.getText();
-//        String type = typeField.getText();
-//        String customerName = (String) customerComboBox.getSelectionModel().getSelectedItem();
-//        String consultantName =
-//
-//
-//        Appointment appointmentToAdd = new Appointment();
+        int appointmentId = AppointmentManager.getAllAppointments().size() + 1;
+        String location = locationField.getText();
+        String type = typeField.getText();
+        String customerName = (String) customerComboBox.getSelectionModel().getSelectedItem();
+        String contactName = (String) contactComboBox.getSelectionModel().getSelectedItem();
+        LocalTime startTime = (LocalTime) startTimeComboBox.getSelectionModel().getSelectedItem();
+        LocalTime endTime = (LocalTime) endTimeComboBox.getSelectionModel().getSelectedItem();
+        LocalDate date = datePicker.getValue();
+
+
+        Appointment appointmentToAdd = new Appointment(appointmentId, location, type, customerName, contactName, startTime, endTime, date);
+        AppointmentManager.addAppointment(appointmentToAdd);
+        appointmentDao.addObject(appointmentToAdd);
+
+        //Return to the MainPage.fxml
+        Parent root = FXMLLoader.load(getClass().getResource("../View/MainPage.fxml"));
+        Scene MainPageScene = new Scene(root);
+
+        Stage stage = (Stage) cancelButton.getScene().getWindow();
+        stage.setScene(MainPageScene);
+        stage.show();
 
     }
 
@@ -96,10 +112,11 @@ public class AddAppointmentPageController implements Initializable {
         //loads the ComboBox with the LocalTimes
         for (int hour = 8; hour <= 17; ++hour ) {
             for (int minutes = 00; minutes <= 30; minutes += 30) {
-                DateTimeFormatter myFormat = DateTimeFormatter.ofPattern("hh:mm a");
+//                DateTimeFormatter myFormat = DateTimeFormatter.ofPattern("hh:mm a");
 
                 LocalTime startTime = LocalTime.of(hour, minutes);
-                startTimeComboBox.getItems().add(startTime.format(myFormat));
+//                startTimeComboBox.getItems().add(startTime.format(myFormat));
+                startTimeComboBox.getItems().add(startTime);
             }
 
         }
@@ -107,10 +124,11 @@ public class AddAppointmentPageController implements Initializable {
         //loads the ComboBox with the LocalTimes
         for (int hour = 8; hour <= 17; ++hour ) {
             for (int minutes = 00; minutes <= 30; minutes += 30) {
-                DateTimeFormatter myFormat = DateTimeFormatter.ofPattern("hh:mm a");
+//                DateTimeFormatter myFormat = DateTimeFormatter.ofPattern("hh:mm a");
 
-                LocalTime startTime = LocalTime.of(hour, minutes);
-                endTimeComboBox.getItems().add(startTime.format(myFormat));
+                LocalTime endTime = LocalTime.of(hour, minutes);
+//                endTimeComboBox.getItems().add(startTime.format(myFormat));
+                endTimeComboBox.getItems().add(endTime);
             }
 
         }

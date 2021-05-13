@@ -63,7 +63,6 @@ public class Customer {
 
 
 
-
     //constructor
     public Customer(int customerId, String customerName,
                     String customerAddress, String customerPostalCode, int customerDivisionId,

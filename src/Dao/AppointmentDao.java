@@ -6,10 +6,7 @@ import Utility.dbConnection;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Time;
-import java.sql.Timestamp;
+import java.sql.*;
 import java.time.LocalDateTime;
 
 public class AppointmentDao implements Dao<Appointment> {
@@ -51,7 +48,15 @@ public class AppointmentDao implements Dao<Appointment> {
 
     @Override
     public void addObject(Appointment appointment) throws SQLException {
-        String query = "INSERT INTO appointments (";
+        String query = "INSERT INTO appointments (Appointment_ID, Location, Type, Start, End, Customer_ID, Contact_ID)\n" +
+                "VALUES (?, ?, ?, ?, ?, ?, ?);";
+        PreparedStatement insertQuery = dbConnection.getConnection().prepareStatement(query);
+        insertQuery.setInt(1, appointment.getAppointmentId());
+        insertQuery.setString(2, appointment.getLocation());
+        insertQuery.setString(3, appointment.getType());
+        insertQuery.setTimestamp(4, appointment.getStartDateTimeSQL());
+        insertQuery.setTimestamp(5, appointment.getEndDateTimeSQL());
+        //ISSUE WITH CUSTOMER ID, NAME and CONTACT
     }
 
     @Override
