@@ -10,6 +10,7 @@ public class AppointmentManager {
     private static ObservableList<User> users = FXCollections.observableArrayList();
     //configure an Observable list of CustomerObjects
     private static  ObservableList<Customer> customers = FXCollections.observableArrayList();
+    private static Customer foundCustomer;
     //configure an ObservableList of Division objects
     private static ObservableList<Division> divisions = FXCollections.observableArrayList();
     private static HashMap<String, Integer> divisionHashMap = new HashMap<String, Integer>();
@@ -19,6 +20,7 @@ public class AppointmentManager {
 
     //configure an ObservableList of Contact objects
     private static ObservableList<Contact> contacts = FXCollections.observableArrayList();
+    private static Contact foundContact;
 
 
     //method that sets the passed ObservableList of Contact objects to be the private ObservableList of the AppointmentManager
@@ -31,6 +33,17 @@ public class AppointmentManager {
     }
     public static Contact getContact(int index) {
         return contacts.get(index);
+    }
+    //method that returns a Contact object that matches the passed contactName
+    public static Contact getContactFromName(String contactName) {
+        for (int i = 0; i < contacts.size(); i++) {
+            if (contacts.get(i).getContactName() == contactName) {
+                foundContact = contacts.get(i);
+            }
+
+        }
+        return foundContact;
+
     }
 
 
@@ -108,6 +121,17 @@ public class AppointmentManager {
     //method that returns a specific Customer using an index number as the parameter.
     public static Customer getCustomer(int index) {
         return customers.get(index);
+    }
+
+    //method that returns a customer based on the passed string for a name
+    public static Customer getCustomerFromName(String customerName) {
+        for (int i = 0; i < customers.size(); i++) {
+            if (customers.get(i).getCustomerName() == customerName) {
+                foundCustomer = customers.get(i);
+            }
+
+        }
+        return foundCustomer;
     }
 
 

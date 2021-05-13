@@ -18,8 +18,6 @@ public class Appointment {
     private Customer customer;
     private Contact contact;
 
-
-
     private LocalDateTime startTime;
     private LocalDateTime endTime;
     private LocalDate date;
@@ -164,6 +162,22 @@ public class Appointment {
     }
 
 
+    public void setCustomer(String customerName) {
+        customer = AppointmentManager.getCustomerFromName(customerName);
+    }
+
+    public Customer getCustomer() {
+        return customer;
+    }
+
+    public void setContact(String contactName) {
+        contact = AppointmentManager.getContactFromName(contactName);
+    }
+    public Contact getContact() {
+        return contact;
+    }
+
+
 
     //constructor for the Appointment class. Used when creating from Database data.
     public Appointment(int appointmentId, String location, String type, int userId, String customerName, String contactName, Timestamp startTime, Timestamp endTime) {
@@ -178,6 +192,11 @@ public class Appointment {
         setDate(startTime);
         setFormattedStartTime(startTime);
         setFormattedEndTime(endTime);
+
+        //method that relates the Customer objects and Contact objects to an appointment via String input of names
+        setCustomer(customerName);
+        setContact(contactName);
+
     }
 
     //overloaded constructor for the Appointment class. Used when creating from User Input
@@ -196,6 +215,10 @@ public class Appointment {
         setStartDateTimeSQL(LocalDateTime.of(date, startTime));
         setEndDateTimeSQL(LocalDateTime.of(date, endTime));
         this.contactName = contactName;
+
+        //method that relates the Customer objects and Contact objects to an appointment via String input of names
+        setCustomer(customerName);
+        setContact(contactName);
 
     }
 }
