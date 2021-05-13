@@ -6,6 +6,8 @@ import Dao.CustomerDao;
 import Dao.DivisionDao;
 import Model.Appointment;
 import Model.AppointmentManager;
+import Model.Contact;
+import Model.Customer;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -41,11 +43,11 @@ public class ModifyAppointmentPageController implements Initializable {
 
     @FXML private TextField locationField;
     @FXML private TextField typeField;
-    @FXML private ComboBox customerComboBox;
-    @FXML private ComboBox startTimeComboBox;
-    @FXML private ComboBox endTimeComboBox;
+    @FXML private ComboBox<String> customerComboBox;
+    @FXML private ComboBox<LocalTime> startTimeComboBox;
+    @FXML private ComboBox<LocalTime> endTimeComboBox;
     @FXML private DatePicker datePicker;
-    @FXML private ComboBox contactComboBox;
+    @FXML private ComboBox<String> contactComboBox;
 
     @FXML private Button saveButton;
     @FXML private Button cancelButton;
@@ -60,10 +62,10 @@ public class ModifyAppointmentPageController implements Initializable {
         int appointmentId = selectedAppointment.getAppointmentId();
         String location = locationField.getText();
         String type = typeField.getText();
-        String customerName = (String) customerComboBox.getSelectionModel().getSelectedItem();
-        String contactName = (String) contactComboBox.getSelectionModel().getSelectedItem();
-        LocalTime startTime = (LocalTime) startTimeComboBox.getSelectionModel().getSelectedItem();
-        LocalTime endTime = (LocalTime) endTimeComboBox.getSelectionModel().getSelectedItem();
+        String customerName = customerComboBox.getSelectionModel().getSelectedItem();
+        String contactName = contactComboBox.getSelectionModel().getSelectedItem();
+        LocalTime startTime = startTimeComboBox.getSelectionModel().getSelectedItem();
+        LocalTime endTime = endTimeComboBox.getSelectionModel().getSelectedItem();
         LocalDate date = datePicker.getValue();
 
         Appointment appointmentModifications = new Appointment(appointmentId, location, type, customerName, contactName, startTime, endTime, date);
@@ -102,7 +104,7 @@ public class ModifyAppointmentPageController implements Initializable {
         Parent root = FXMLLoader.load(getClass().getResource("../View/MainPage.fxml"));
         Scene MainPageScene = new Scene(root);
 
-        Stage stage = (Stage) saveButton.getScene().getWindow();
+        Stage stage = (Stage) cancelButton.getScene().getWindow();
         stage.setScene(MainPageScene);
         stage.show();
     }
@@ -156,10 +158,9 @@ public class ModifyAppointmentPageController implements Initializable {
         locationField.setText(selectedAppointment.getLocation());
         typeField.setText(selectedAppointment.getType());
         customerComboBox.getSelectionModel().select(selectedAppointment.getCustomerName());
-        startTimeComboBox.setValue(selectedAppointment.getStartTime().format(DateTimeFormatter.ofPattern("hh:mm")));
-        endTimeComboBox.setValue(selectedAppointment.getEndTime().format(DateTimeFormatter.ofPattern("hh:mm")));
+        startTimeComboBox.setValue(selectedAppointment.getStartTime().toLocalTime());
+        endTimeComboBox.setValue(selectedAppointment.getEndTime().toLocalTime());
         datePicker.setValue(selectedAppointment.getDate());
-//        datePicker.getEditor().setText(selectedAppointment.getDate().format(DateTimeFormatter.ofPattern("M/dd/yyyy")));
         contactComboBox.getSelectionModel().select(selectedAppointment.getContactName());
 
 
