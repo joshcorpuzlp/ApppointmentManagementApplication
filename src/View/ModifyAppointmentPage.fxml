@@ -13,17 +13,18 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="521.5" prefWidth="750.0" style="-fx-background-color: #d8e3e7;" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.AddAppointmentPageController">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="521.5" prefWidth="750.0" style="-fx-background-color: #d8e3e7;" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.ModifyAppointmentPageController">
    <top>
       <ToolBar prefHeight="40.0" prefWidth="750.0" style="-fx-background-color: #132c33;" BorderPane.alignment="CENTER">
         <items>
-            <Label alignment="CENTER" prefHeight="17.0" prefWidth="118.0" text="Add Appointment" textFill="WHITE">
+            <Label alignment="CENTER" prefHeight="17.0" prefWidth="136.0" text="Modify Appointment" textFill="WHITE">
                <font>
                   <Font name="Segoe UI" size="12.0" />
                </font>
             </Label>
-          <Button fx:id="saveButton" mnemonicParsing="false" onAction="#saveButtonPressed" text="Save Appointment" />
-            <Button fx:id="cancelButton" layoutX="153.0" layoutY="13.0" mnemonicParsing="false" onAction="#cancelButtonPressed" text="Cancel" />
+          <Button fx:id="saveButton" mnemonicParsing="false" onAction="#saveButtonPressed" text="Save Changes" />
+            <Button fx:id="deleteButton" mnemonicParsing="false" onAction="#deleteButtonPressed" text="Delete Appointment" />
+            <Button fx:id="cancelButton" layoutX="150.0" layoutY="13.0" mnemonicParsing="false" onAction="#cancelButtonPressed" text="Cancel" />
             <HBox alignment="CENTER_RIGHT" prefHeight="30.0" prefWidth="439.0">
                <children>
                   <ImageView fitHeight="30.0" fitWidth="30.0">

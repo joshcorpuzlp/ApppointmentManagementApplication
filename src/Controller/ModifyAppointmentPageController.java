@@ -18,15 +18,21 @@ import javafx.scene.control.DatePicker;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
+import javax.swing.text.DateFormatter;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
+import java.text.DateFormat;
+import java.text.Format;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
+import java.time.format.FormatStyle;
 import java.util.ResourceBundle;
 
-public class AddAppointmentPageController implements Initializable {
+public class ModifyAppointmentPageController implements Initializable {
+    //Dao objects used to call the Dao methods
     DivisionDao divisionDao = new DivisionDao();
     CustomerDao customerDao = new CustomerDao();
     AppointmentDao appointmentDao = new AppointmentDao();
@@ -43,33 +49,15 @@ public class AddAppointmentPageController implements Initializable {
 
     @FXML private Button saveButton;
     @FXML private Button cancelButton;
+    @FXML private Button deleteButton;
 
-    public void cancelButtonPressed(ActionEvent actionEvent) throws IOException {
-        Parent root = FXMLLoader.load(getClass().getResource("../View/MainPage.fxml"));
-        Scene MainPageScene = new Scene(root);
+    private int selectedAppointmentIndex = MainPageController.selectedAppointmentIndex;
+    private Appointment selectedAppointment = AppointmentManager.getAllAppointments().get(selectedAppointmentIndex);
 
-        Stage stage = (Stage) cancelButton.getScene().getWindow();
-        stage.setScene(MainPageScene);
-        stage.show();
-    }
 
-    //need to fix to actually work with Appointment Constructor method.
-    public void saveButtonPressed(ActionEvent actionEvent) throws IOException, SQLException {
-//        System.out.println(locationField.getText().getClass());
-//        System.out.println(typeField.getText().getClass());
-//        System.out.println(customerComboBox.getSelectionModel().getSelectedItem().getClass());
-//        System.out.println(startTimeComboBox.getSelectionModel().getSelectedItem().getClass());
-//        System.out.println(endTimeComboBox.getSelectionModel().getSelectedItem().getClass());
-//        System.out.println(datePicker.getEditor().getClass());
-
-        System.out.println(locationField.getText());
-        System.out.println(typeField.getText());
-        System.out.println(customerComboBox.getSelectionModel().getSelectedItem());
-        System.out.println(startTimeComboBox.getSelectionModel().getSelectedItem());
-        System.out.println(endTimeComboBox.getSelectionModel().getSelectedItem());
-        System.out.println(datePicker.getEditor().getText());
-
-        int appointmentId = AppointmentManager.getAllAppointments().size() + 1;
+    //Method that saves the current values and selections within the TextFields, ComboBoxes and DatePicker
+    public void saveButtonPressed(ActionEvent actionEvent) throws SQLException, IOException {
+        int appointmentId = selectedAppointment.getAppointmentId();
         String location = locationField.getText();
         String type = typeField.getText();
         String customerName = (String) customerComboBox.getSelectionModel().getSelectedItem();
@@ -78,10 +66,9 @@ public class AddAppointmentPageController implements Initializable {
         LocalTime endTime = (LocalTime) endTimeComboBox.getSelectionModel().getSelectedItem();
         LocalDate date = datePicker.getValue();
 
-
-        Appointment appointmentToAdd = new Appointment(appointmentId, location, type, customerName, contactName, startTime, endTime, date);
-        AppointmentManager.addAppointment(appointmentToAdd);
-        appointmentDao.addObject(appointmentToAdd);
+        Appointment appointmentModifications = new Appointment(appointmentId, location, type, customerName, contactName, startTime, endTime, date);
+        AppointmentManager.updateAppointment(selectedAppointmentIndex, appointmentModifications);
+        appointmentDao.modifyObject(appointmentModifications);
 
         //Return to the MainPage.fxml
         Parent root = FXMLLoader.load(getClass().getResource("../View/MainPage.fxml"));
@@ -91,7 +78,35 @@ public class AddAppointmentPageController implements Initializable {
         stage.setScene(MainPageScene);
         stage.show();
 
+
     }
+
+    //Method that deletes the currently selected Appointment
+    public void deleteButtonPressed(ActionEvent actionEvent) throws  SQLException, IOException {
+        AppointmentManager.removeAppointment(selectedAppointment);
+        appointmentDao.removeObject(selectedAppointment);
+
+        //Return to the MainPage.fxml
+        Parent root = FXMLLoader.load(getClass().getResource("../View/MainPage.fxml"));
+        Scene MainPageScene = new Scene(root);
+
+        Stage stage = (Stage) deleteButton.getScene().getWindow();
+        stage.setScene(MainPageScene);
+        stage.show();
+
+
+    }
+
+    //Method exits out of the ModifyAppointmentPage and back to the MainMenu
+    public void cancelButtonPressed(ActionEvent actionEvent) throws IOException {
+        Parent root = FXMLLoader.load(getClass().getResource("../View/MainPage.fxml"));
+        Scene MainPageScene = new Scene(root);
+
+        Stage stage = (Stage) saveButton.getScene().getWindow();
+        stage.setScene(MainPageScene);
+        stage.show();
+    }
+
 
 
     @Override
@@ -101,8 +116,6 @@ public class AddAppointmentPageController implements Initializable {
         customerDao.loadDbObjects();
         appointmentDao.loadDbObjects();
         contactDao.loadDbObjects();
-
-
 
         //loads the ObservableList of Customer objects within the AppointmentManager to the customerComboBox
         for (int i = 0; i < AppointmentManager.getAllCustomers().size(); ++i) {
@@ -138,5 +151,19 @@ public class AddAppointmentPageController implements Initializable {
             contactComboBox.getItems().add(AppointmentManager.getContact(i).getContactName());
         }
 
+
+        //Load the TextFields, ComboBoxes and DatePicker with the selectedAppointment's data members.
+        locationField.setText(selectedAppointment.getLocation());
+        typeField.setText(selectedAppointment.getType());
+        customerComboBox.getSelectionModel().select(selectedAppointment.getCustomerName());
+        startTimeComboBox.setValue(selectedAppointment.getStartTime().format(DateTimeFormatter.ofPattern("hh:mm")));
+        endTimeComboBox.setValue(selectedAppointment.getEndTime().format(DateTimeFormatter.ofPattern("hh:mm")));
+        datePicker.setValue(selectedAppointment.getDate());
+//        datePicker.getEditor().setText(selectedAppointment.getDate().format(DateTimeFormatter.ofPattern("M/dd/yyyy")));
+        contactComboBox.getSelectionModel().select(selectedAppointment.getContactName());
+
+
+
     }
+
 }

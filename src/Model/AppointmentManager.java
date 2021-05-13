@@ -73,6 +73,7 @@ public class AppointmentManager {
 
 
 
+
     //method that sets the ObservableList of Users to what was passed as an argument.
     public static void setUsers(ObservableList<User> userListInput) {
         users = userListInput;

@@ -41,6 +41,9 @@ public class MainPageController implements Initializable {
     @FXML private TableColumn contactIdColumn;
     @FXML private TableColumn appointmentTypeColumn;
 
+    public static int selectedAppointmentIndex;
+
+
     private AppointmentDao appointmentDao = new AppointmentDao();
 
     public void addCustomerButtonPressed(ActionEvent actionEvent) throws IOException {
@@ -66,6 +69,19 @@ public class MainPageController implements Initializable {
         Scene MainPageScene = new Scene(root);
 
         Stage stage = (Stage) addAppointmentButton.getScene().getWindow();
+        stage.setScene(MainPageScene);
+        stage.show();
+    }
+
+    public void modifyAppointmentButtonPressed(ActionEvent actionEvent) throws IOException {
+        //A reference to the selected appointment.
+        selectedAppointmentIndex = appointmentCalendar.getSelectionModel().getSelectedIndex();
+
+
+        Parent root = FXMLLoader.load(getClass().getResource("../View/ModifyAppointmentPage.fxml"));
+        Scene MainPageScene = new Scene(root);
+
+        Stage stage = (Stage) modifyAppointmentButton.getScene().getWindow();
         stage.setScene(MainPageScene);
         stage.show();
     }

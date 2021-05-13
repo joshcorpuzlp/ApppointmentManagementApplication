@@ -65,11 +65,30 @@ public class AppointmentDao implements Dao<Appointment> {
 
     @Override
     public void modifyObject(Appointment appointment) throws SQLException {
+        String query = "UPDATE appointments\n" +
+                "SET Location = ?, Type = ?, Start = ?, End = ?, Customer_ID = ?, Contact_ID = ?\n" +
+                "WHERE Appointment_ID = ?;";
+        PreparedStatement updateQuery = dbConnection.getConnection().prepareStatement(query);
+        updateQuery.setString(1, appointment.getLocation());
+        updateQuery.setString(2, appointment.getType());
+        updateQuery.setTimestamp(3, appointment.getStartDateTimeSQL());
+        updateQuery.setTimestamp(4, appointment.getEndDateTimeSQL());
+        updateQuery.setInt(5, appointment.getCustomer().getCustomerId());
+        updateQuery.setInt(6, appointment.getContact().getContactId());
+        updateQuery.setInt(7, appointment.getAppointmentId());
+
+        updateQuery.execute();
 
     }
 
     @Override
     public void removeObject(Appointment appointment) throws SQLException {
+        String query = "DELETE FROM appointments WHERE Appointment_ID = ?;";
+
+        PreparedStatement removeQuery = dbConnection.getConnection().prepareStatement(query);
+        removeQuery.setInt(1, appointment.getAppointmentId());
+
+        removeQuery.execute();
 
     }
 }

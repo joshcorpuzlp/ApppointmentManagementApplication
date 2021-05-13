@@ -12,8 +12,8 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
-<?import javafx.scene.text.Font?>
 
+<?import javafx.scene.text.Font?>
 <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="695.0" prefWidth="1000.0" style="-fx-background-color: #d8e3e7;" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.MainPageController">
    <top>
       <ToolBar prefHeight="40.0" prefWidth="200.0" style="-fx-background-color: #132c33;" BorderPane.alignment="CENTER">
@@ -27,7 +27,7 @@
           <Button fx:id="addCustomerButton" mnemonicParsing="false" onAction="#addCustomerButtonPressed" text="Add New Customer" />
             <Button fx:id="updateCustomerButton" mnemonicParsing="false" onAction="#updateCustomerButtonPressed" text="Update Customer Info" />
             <Button fx:id="addAppointmentButton" mnemonicParsing="false" onAction="#addAppointmentButtonPressed" text="Add Appointment" />
-            <Button mnemonicParsing="false" text="Modify Appointment" />
+            <Button fx:id="modifyAppointmentButton" mnemonicParsing="false" onAction="#modifyAppointmentButtonPressed" text="Modify Appointment" />
             <Button mnemonicParsing="false" text="Reports" />
             <AnchorPane prefHeight="40.0" prefWidth="316.0">
                <children>
