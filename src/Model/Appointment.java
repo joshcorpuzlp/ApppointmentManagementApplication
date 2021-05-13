@@ -1,12 +1,8 @@
 package Model;
 
-import com.sun.scenario.effect.Offset;
-
-import java.sql.Time;
 import java.sql.Timestamp;
 import java.time.*;
 import java.time.format.DateTimeFormatter;
-import java.util.Date;
 
 public class Appointment {
     private int appointmentId;
@@ -16,7 +12,7 @@ public class Appointment {
     //you might be able to replace this later with inner join tables combining appointments with users and customers
     private int userId;
     private String customerName;
-    private String consultantName;
+    private String contactName;
 
     private LocalDateTime startTime;
     private LocalDateTime endTime;
@@ -145,12 +141,12 @@ public class Appointment {
         this.customerName = customerName;
     }
 
-    public String getConsultantName() {
-        return consultantName;
+    public String getContactName() {
+        return contactName;
     }
 
-    public void setConsultantName(String consultantName) {
-        this.consultantName = consultantName;
+    public void setContactName(String contactName) {
+        this.contactName = contactName;
     }
 
     public LocalDate getDate() {
@@ -164,7 +160,7 @@ public class Appointment {
 
 
     //constructor for the Appointment class. Used when creating from Database data.
-    public Appointment(int appointmentId, String location, String type, int userId, String customerName, String consultantName,Timestamp startTime, Timestamp endTime) {
+    public Appointment(int appointmentId, String location, String type, int userId, String customerName, String contactName, Timestamp startTime, Timestamp endTime) {
         this.appointmentId = appointmentId;
         this.location = location;
         this.type = type;
@@ -172,18 +168,17 @@ public class Appointment {
         this.customerName = customerName;
         setStartTime(startTime);
         setEndTime(endTime);
-        this.consultantName = consultantName;
+        this.contactName = contactName;
         setDate(startTime);
         setFormattedStartTime(startTime);
         setFormattedEndTime(endTime);
     }
 
     //overloaded constructor for the Appointment class. Used when creating from User Input
-    public Appointment(int appointmentId, String location, String type, int userId, String customerName, String consultantName,LocalTime startTime, LocalTime endTime, LocalDate date) {
+    public Appointment(int appointmentId, String location, String type, String customerName, String contactName, LocalTime startTime, LocalTime endTime, LocalDate date) {
         this.appointmentId = appointmentId;
         this.location = location;
         this.type = type;
-        this.userId = userId;
         this.customerName = customerName;
 
         //converts startTime, endTime and date inputs to create LocalDateTime objects.
@@ -194,7 +189,7 @@ public class Appointment {
         //converts the startTime and endTime, and date inputs to create a localDateTime to be converted into TimeStamp
         setStartDateTimeSQL(LocalDateTime.of(date, startTime));
         setEndDateTimeSQL(LocalDateTime.of(date, endTime));
-        this.consultantName = consultantName;
+        this.contactName = contactName;
 
     }
 }

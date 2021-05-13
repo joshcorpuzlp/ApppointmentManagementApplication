@@ -17,8 +17,24 @@ public class AppointmentManager {
     //configure an ObservableList of AppointmentObjects
     private static ObservableList<Appointment> appointments = FXCollections.observableArrayList();
 
+    //configure an ObservableList of Contact objects
+    private static ObservableList<Contact> contacts = FXCollections.observableArrayList();
 
-    //method that sets the passed ObservableList of Users to be the private ObservableList of the AppointmentManager
+
+    //method that sets the passed ObservableList of Contact objects to be the private ObservableList of the AppointmentManager
+    public static void setContacts(ObservableList<Contact> contactListInput) {
+        contacts = contactListInput;
+    }
+    //method that returns the ObservableList of Contact objects
+    public static ObservableList<Contact> getAllContacts() {
+        return contacts;
+    }
+    public static Contact getContact(int index) {
+        return contacts.get(index);
+    }
+
+
+    //method that sets the passed ObservableList of Appointment objects to be the private ObservableList of the AppointmentManager
     public static void setAppointments(ObservableList<Appointment> appointmentListInput) {
         appointments = appointmentListInput;
     }
@@ -87,6 +103,11 @@ public class AppointmentManager {
     //method that returns AppointmentManager's static attribute of ObservableList of Customer objects.
     public static ObservableList<Customer> getAllCustomers() {
         return customers;
+    }
+
+    //method that returns a specific Customer using an index number as the parameter.
+    public static Customer getCustomer(int index) {
+        return customers.get(index);
     }
 
 

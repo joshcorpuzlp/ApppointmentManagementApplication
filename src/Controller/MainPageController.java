@@ -15,8 +15,6 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.net.URL;
-import java.time.LocalDateTime;
-import java.time.LocalTime;
 import java.util.Date;
 import java.util.ResourceBundle;
 
@@ -40,7 +38,7 @@ public class MainPageController implements Initializable {
     @FXML private TableColumn locationColumn;
     @FXML private TableColumn customerIdColumn;
     @FXML private TableColumn appointmentIdColumn;
-    @FXML private TableColumn consultantIdColumn;
+    @FXML private TableColumn contactIdColumn;
     @FXML private TableColumn appointmentTypeColumn;
 
     private AppointmentDao appointmentDao = new AppointmentDao();
@@ -80,7 +78,7 @@ public class MainPageController implements Initializable {
         appointmentIdColumn.setCellValueFactory(new PropertyValueFactory<Appointment, Integer>("appointmentId"));
         locationColumn.setCellValueFactory(new PropertyValueFactory<Appointment, String>("location"));
         appointmentTypeColumn.setCellValueFactory(new PropertyValueFactory<Appointment, String>("type"));
-        consultantIdColumn.setCellValueFactory(new PropertyValueFactory<Appointment, String>("consultantName"));
+        contactIdColumn.setCellValueFactory(new PropertyValueFactory<Appointment, String>("contactName"));
         customerIdColumn.setCellValueFactory(new PropertyValueFactory<Appointment, String>("customerName"));
         dateColumn.setCellValueFactory(new PropertyValueFactory<Appointment, Date>("date"));
         startTimeColumn.setCellValueFactory(new PropertyValueFactory<Appointment, String>("formattedStartTime"));

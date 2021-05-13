@@ -54,6 +54,7 @@ public class Customer {
     public String getCustomerDivision() {
         return customerDivision;
     }
+
     public void setCustomerDivision(String customerDivision) {
         this.customerDivision = customerDivision;
     }

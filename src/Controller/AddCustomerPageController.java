@@ -91,9 +91,7 @@ public class AddCustomerPageController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
 
-        //loads the ObservableList of Customer objects within AppointmentManager with contents of the DB.
-        divisionDao.loadDbObjects();
-        customerDao.loadDbObjects();
+
 
 
 
