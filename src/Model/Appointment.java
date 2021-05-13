@@ -87,19 +87,34 @@ public class Appointment {
     }
 
 
-    //setters and getters for converting LocalDateTime to TimeStamp, used with User created appointments
+    /*
+    *setters and getters for converting LocalDateTime to TimeStamp, used with User created appointments
+     */
+
+    //Method used to convert the user inputs of LocalDateTime class to TimeStamp objects. Called in the constructor.
     public void setStartDateTimeSQL(LocalDateTime startTime) {
-        Timestamp timestamp = Timestamp.valueOf(startTime);
+        ZoneId utcZone = ZoneId.of("UTC");
+        ZonedDateTime timeConvToUTC = startTime.atZone(ZoneId.systemDefault()).withZoneSameInstant(utcZone);
+
+        Timestamp timestamp = Timestamp.valueOf(timeConvToUTC.toLocalDateTime());
         this.startDateTimeSQL = timestamp;
+
     }
+    //method returns the TimeStamp objects of an Appointment Object.
     public Timestamp getStartDateTimeSQL() {
         return startDateTimeSQL;
     }
 
+    //Method used to convert the user inputs of LocalDateTime class to TimeStamp objects. Called in the constructor.
     public void setEndDateTimeSQL(LocalDateTime endTime) {
-        Timestamp timestamp = Timestamp.valueOf(endTime);
+        ZoneId utcZone = ZoneId.of("UTC");
+        ZonedDateTime timeConvToUTC = endTime.atZone(ZoneId.systemDefault()).withZoneSameInstant(utcZone);
+
+        Timestamp timestamp = Timestamp.valueOf(timeConvToUTC.toLocalDateTime());
         this.endDateTimeSQL = timestamp;
     }
+
+    //method returns the TimeStamp objects of an Appointment Object.
     public Timestamp getEndDateTimeSQL() {
         return endDateTimeSQL;
     }

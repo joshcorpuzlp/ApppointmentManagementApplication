@@ -31,6 +31,7 @@ public class AppointmentManager {
     public static ObservableList<Contact> getAllContacts() {
         return contacts;
     }
+    //method returns a Contact object from the ObservableList customers at a specific index.
     public static Contact getContact(int index) {
         return contacts.get(index);
     }
