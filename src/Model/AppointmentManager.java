@@ -17,6 +17,8 @@ public class AppointmentManager {
 
     //configure an ObservableList of AppointmentObjects
     private static ObservableList<Appointment> appointments = FXCollections.observableArrayList();
+    //configure an ObservableList of Appointments of a specific timeframe ie. month, week, or dates
+    private static ObservableList<Appointment> filteredAppointments = FXCollections.observableArrayList();
 
     //configure an ObservableList of Contact objects
     private static ObservableList<Contact> contacts = FXCollections.observableArrayList();
