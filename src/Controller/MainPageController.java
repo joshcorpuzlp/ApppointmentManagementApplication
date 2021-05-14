@@ -6,6 +6,7 @@ import Model.AppointmentManager;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -13,6 +14,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -57,6 +59,8 @@ public class MainPageController implements Initializable {
     private ObservableList<Appointment> filteredAppointments = FXCollections.observableArrayList();
 
     private AppointmentDao appointmentDao = new AppointmentDao();
+
+
 
     public void addCustomerButtonPressed(ActionEvent actionEvent) throws IOException {
         Parent root = FXMLLoader.load(getClass().getResource("../View/AddCustomerPage.fxml"));
@@ -124,7 +128,10 @@ public class MainPageController implements Initializable {
                     filteredAppointments.add(appointments.get(i));
                 }
             }
+
             appointmentCalendar.setItems(filteredAppointments);
+
+
 
         }
 
@@ -140,7 +147,6 @@ public class MainPageController implements Initializable {
                 }
             }
             appointmentCalendar.setItems(filteredAppointments);
-
 
 
         }
@@ -174,7 +180,26 @@ public class MainPageController implements Initializable {
 
     }
 
-
+//    public void datePickerChanged() {
+//        fromDatePicker.setOnAction(new EventHandler<ActionEvent>() {
+//            @Override
+//            public void handle(ActionEvent actionEvent) {
+//                LocalDate fromDate = fromDatePicker.getValue();
+//                LocalDate toDate = toDatePicker.getValue();
+//
+//                for (int i = 0; i < appointments.size(); ++i) {
+//                    if ((appointments.get(i).getDate().equals(fromDate) || appointments.get(i).getDate().isAfter(fromDate)) &&
+//                            (appointments.get(i).getDate().equals(toDate) || appointments.get(i).getDate().isBefore(toDate)) ) {
+//                        System.out.println(true);
+//                        filteredAppointments.add(appointments.get(i));
+//                    }
+//                }
+//
+//
+//            }
+//        });
+//        appointmentCalendar.setItems(filteredAppointments);
+//    }
 
 
 
