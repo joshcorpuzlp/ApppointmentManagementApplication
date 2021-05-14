@@ -32,13 +32,13 @@
             </TableView>
             <HBox alignment="CENTER_LEFT" layoutX="13.0" layoutY="80.0" prefHeight="34.0" prefWidth="830.0" spacing="10.0">
                <children>
-                  <RadioButton fx:id="monthlyButton" mnemonicParsing="false" text="Current Month" />
+                  <RadioButton fx:id="monthlyButton" mnemonicParsing="false" onAction="#dateFilterButtonSelected" text="Current Month" />
                   <RadioButton fx:id="weeklyButton" mnemonicParsing="false" onAction="#dateFilterButtonSelected" text="Current Week" />
                   <RadioButton fx:id="customButton" mnemonicParsing="false" onAction="#dateFilterButtonSelected" text="Custom" />
                   <Label text="FROM:" />
-                  <DatePicker fx:id="fromDatePicker" onAction="#datePickerChanged" />
+                  <DatePicker fx:id="fromDatePicker" onAction="#handle" />
                   <Label text="TO:" />
-                  <DatePicker fx:id="toDatePicker" />
+                  <DatePicker fx:id="toDatePicker" onAction="#handle" />
                </children>
             </HBox>
          </children>

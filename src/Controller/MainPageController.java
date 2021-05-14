@@ -124,7 +124,7 @@ public class MainPageController implements Initializable {
             for (int i = 0; i < appointments.size(); ++i) {
                 if ((appointments.get(i).getDate().equals(fromDate) || appointments.get(i).getDate().isAfter(fromDate)) &&
                         (appointments.get(i).getDate().equals(toDate) || appointments.get(i).getDate().isBefore(toDate)) ) {
-                    System.out.println(true);
+                    //System.out.println(true);
                     filteredAppointments.add(appointments.get(i));
                 }
             }
@@ -141,9 +141,12 @@ public class MainPageController implements Initializable {
             toDatePicker.setDisable(true);
 
             for (int i = 0; i < appointments.size(); ++i) {
-                if (appointments.get(i).getDate().getMonth() == LocalDate.now().getMonth()) {
-                        System.out.println(true);
+                if (appointments.get(i).getDate().getMonth() == LocalDate.now().getMonth() &&
+                        appointments.get(i).getDate().getYear() == LocalDate.now().getYear() ) {
+
+                        //System.out.println(true);
                     filteredAppointments.add(appointments.get(i));
+
                 }
             }
             appointmentCalendar.setItems(filteredAppointments);
@@ -169,7 +172,7 @@ public class MainPageController implements Initializable {
             for (int i = 0; i < appointments.size(); ++i) {
                 if ((appointments.get(i).getDate().equals(firstDay) || appointments.get(i).getDate().isAfter(firstDay)) &&
                         (appointments.get(i).getDate().equals(lastDay) || appointments.get(i).getDate().isBefore(lastDay)) ) {
-                    System.out.println(true);
+                    //System.out.println(true);
                     filteredAppointments.add(appointments.get(i));
                 }
             }
@@ -180,27 +183,22 @@ public class MainPageController implements Initializable {
 
     }
 
-//    public void datePickerChanged() {
-//        fromDatePicker.setOnAction(new EventHandler<ActionEvent>() {
-//            @Override
-//            public void handle(ActionEvent actionEvent) {
-//                LocalDate fromDate = fromDatePicker.getValue();
-//                LocalDate toDate = toDatePicker.getValue();
-//
-//                for (int i = 0; i < appointments.size(); ++i) {
-//                    if ((appointments.get(i).getDate().equals(fromDate) || appointments.get(i).getDate().isAfter(fromDate)) &&
-//                            (appointments.get(i).getDate().equals(toDate) || appointments.get(i).getDate().isBefore(toDate)) ) {
-//                        System.out.println(true);
-//                        filteredAppointments.add(appointments.get(i));
-//                    }
-//                }
-//
-//
-//            }
-//        });
-//        appointmentCalendar.setItems(filteredAppointments);
-//    }
+    //method that handles changes to the DatePickers
+    public void handle(ActionEvent actionEvent) {
+        filteredAppointments.clear();
+        LocalDate fromDate = fromDatePicker.getValue();
+        LocalDate toDate = toDatePicker.getValue();
 
+        for (int i = 0; i < appointments.size(); ++i) {
+            if ((appointments.get(i).getDate().equals(fromDate) || appointments.get(i).getDate().isAfter(fromDate)) &&
+                    (appointments.get(i).getDate().equals(toDate) || appointments.get(i).getDate().isBefore(toDate)) ) {
+                System.out.println(true);
+                filteredAppointments.add(appointments.get(i));
+            }
+        }
+
+        appointmentCalendar.setItems(filteredAppointments);
+    }
 
 
     @Override
@@ -208,14 +206,14 @@ public class MainPageController implements Initializable {
         appointmentDao.loadDbObjects();
         appointments = AppointmentManager.getAllAppointments();
 
-        appointmentIdColumn.setCellValueFactory(new PropertyValueFactory<Appointment, Integer>("appointmentId"));
-        locationColumn.setCellValueFactory(new PropertyValueFactory<Appointment, String>("location"));
-        appointmentTypeColumn.setCellValueFactory(new PropertyValueFactory<Appointment, String>("type"));
-        contactIdColumn.setCellValueFactory(new PropertyValueFactory<Appointment, String>("contactName"));
-        customerIdColumn.setCellValueFactory(new PropertyValueFactory<Appointment, String>("customerName"));
-        dateColumn.setCellValueFactory(new PropertyValueFactory<Appointment, Date>("date"));
-        startTimeColumn.setCellValueFactory(new PropertyValueFactory<Appointment, String>("formattedStartTime"));
-        endTimeColumn.setCellValueFactory(new PropertyValueFactory<Appointment, String>("formattedEndTime"));
+        appointmentIdColumn.setCellValueFactory(new PropertyValueFactory<>("appointmentId"));
+        locationColumn.setCellValueFactory(new PropertyValueFactory<>("location"));
+        appointmentTypeColumn.setCellValueFactory(new PropertyValueFactory<>("type"));
+        contactIdColumn.setCellValueFactory(new PropertyValueFactory<>("contactName"));
+        customerIdColumn.setCellValueFactory(new PropertyValueFactory<>("customerName"));
+        dateColumn.setCellValueFactory(new PropertyValueFactory<>("date"));
+        startTimeColumn.setCellValueFactory(new PropertyValueFactory<>("formattedStartTime"));
+        endTimeColumn.setCellValueFactory(new PropertyValueFactory<>("formattedEndTime"));
 
         appointmentCalendar.setItems(appointments);
 
@@ -235,5 +233,9 @@ public class MainPageController implements Initializable {
 
 
     }
+
+
+
+
 
 }
