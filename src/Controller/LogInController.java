@@ -68,10 +68,6 @@ public class LogInController implements Initializable {
             passwordLabel.setText("Mot de passe");
         }
 
-        //tester code, can be removed later.
-//        System.out.println(locale);
-//        System.out.println(lang);
-
     }
 
     public void cancelButtonPressed(ActionEvent actionEvent) throws SQLException {
@@ -86,7 +82,14 @@ public class LogInController implements Initializable {
 
         for (User user : AppointmentManager.getAllUsers()) {
             if (user.getUserName().matches(userNameInput) && user.getPassword().matches(passwordInput)) {
-                logInMessage.setText("Login Successful!");
+
+                //logInMessage message changes depending the System language.
+                if (lang.matches("English")) {
+                    logInMessage.setText("Login Successful!");
+                } else {
+                    logInMessage.setText("Connexion réussie!");
+                }
+
                 logInMessage.setTextFill(Color.web("#008000"));
 
 
@@ -102,7 +105,13 @@ public class LogInController implements Initializable {
                 return;
             }
             else {
-                logInMessage.setText("Login Failed!");
+                //logInMessage message changes depending the System language.
+                if (lang.matches("English")) {
+                    logInMessage.setText("Login Failed!");
+                } else {
+                    logInMessage.setText("Échec de la connexion");
+                }
+
                 logInMessage.setTextFill(Color.web("#ff0000"));
             }
         }

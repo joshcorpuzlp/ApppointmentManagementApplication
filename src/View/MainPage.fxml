@@ -18,7 +18,7 @@
    <left>
       <AnchorPane prefHeight="960.0" prefWidth="1009.0" BorderPane.alignment="CENTER">
          <children>
-            <TableView fx:id="appointmentCalendar" layoutX="12.0" layoutY="123.0" onSort="#handleCalendarChange" prefHeight="515.0" prefWidth="973.0">
+            <TableView fx:id="appointmentCalendar" layoutX="12.0" layoutY="123.0" prefHeight="515.0" prefWidth="973.0">
               <columns>
                 <TableColumn fx:id="appointmentIdColumn" prefWidth="57.0" text="Appt ID" />
                 <TableColumn fx:id="dateColumn" prefWidth="95.0" text="Date" />

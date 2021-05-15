@@ -215,11 +215,14 @@ public class MainPageController implements Initializable {
         weeklyButton.setToggleGroup(dateFilterGroup);
         customButton.setToggleGroup(dateFilterGroup);
 
+        //Initialize the dateFilterGroup to have no selection
         dateFilterGroup.selectToggle(null);
 
+        //Initializes the fromDatePicker and toDatePicker to show the current date.
         fromDatePicker.setValue(LocalDate.now());
         toDatePicker.setValue(LocalDate.now());
 
+        //Disables the fromDatePicker and toDatePicker. Enabled by actionEvent.
         fromDatePicker.setDisable(true);
         toDatePicker.setDisable(true);
 

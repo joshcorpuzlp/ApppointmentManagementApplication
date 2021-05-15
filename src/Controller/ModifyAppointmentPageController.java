@@ -117,7 +117,7 @@ public class ModifyAppointmentPageController implements Initializable {
             customerComboBox.getItems().add(AppointmentManager.getCustomer(i).getCustomerName());
         }
 
-        //loads the ComboBox with the LocalTimes
+        //loads the ComboBox with the LocalTimes, options limited to business hours
         for (int hour = 8; hour <= 17; ++hour ) {
             for (int minutes = 00; minutes <= 30; minutes += 30) {
 //                DateTimeFormatter myFormat = DateTimeFormatter.ofPattern("hh:mm a");
@@ -129,7 +129,7 @@ public class ModifyAppointmentPageController implements Initializable {
 
         }
 
-        //loads the ComboBox with the LocalTimes
+        //loads the ComboBox with the LocalTimes, option limited to business hours
         for (int hour = 8; hour <= 17; ++hour ) {
             for (int minutes = 00; minutes <= 30; minutes += 30) {
 //                DateTimeFormatter myFormat = DateTimeFormatter.ofPattern("hh:mm a");
