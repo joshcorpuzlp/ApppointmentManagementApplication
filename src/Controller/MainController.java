@@ -26,12 +26,13 @@ import java.util.Locale;
 import java.util.ResourceBundle;
 import java.util.stream.Collectors;
 
-public class MainPageController implements Initializable {
+public class MainController implements Initializable {
 
     @FXML private Button addCustomerButton;
     @FXML private Button updateCustomerButton;
     @FXML private Button addAppointmentButton;
     @FXML private Button modifyAppointmentButton;
+    @FXML private Button reportsButton;
 
     @FXML private ToggleGroup dateFilterGroup;
     @FXML private RadioButton monthlyButton;
@@ -185,6 +186,15 @@ public class MainPageController implements Initializable {
 
     public void handleCalendarChange(ActionEvent actionEvent) {
         modifyAppointmentButton.setDisable(false);
+    }
+
+    public void reportsButtonPressed(ActionEvent actionEvent) throws IOException {
+        Parent root = FXMLLoader.load(getClass().getResource("../View/ReportsPage.fxml"));
+        Scene MainPageScene = new Scene(root);
+
+        Stage stage = (Stage) reportsButton.getScene().getWindow();
+        stage.setScene(MainPageScene);
+        stage.show();
     }
 
 

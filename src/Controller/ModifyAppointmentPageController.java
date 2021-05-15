@@ -46,8 +46,8 @@ public class ModifyAppointmentPageController implements Initializable {
     @FXML private Button deleteButton;
 
 
-    private Appointment selectedAppointment = MainPageController.selectedAppointment;
-    int selectedAppointmentIndex = MainPageController.selectedAppointmentIndex;
+    private Appointment selectedAppointment = MainController.selectedAppointment;
+    int selectedAppointmentIndex = MainController.selectedAppointmentIndex;
 
 
     //Method that saves the current values and selections within the TextFields, ComboBoxes and DatePicker
