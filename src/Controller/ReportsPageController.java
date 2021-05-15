@@ -22,9 +22,6 @@ import java.util.ResourceBundle;
 
 public class ReportsPageController implements Initializable {
 
-    @FXML private Button report1;
-    @FXML private Button report2;
-    @FXML private Button report3;
     @FXML private Button cancelButton;
     @FXML private TextArea reportTextArea;
 
@@ -32,20 +29,15 @@ public class ReportsPageController implements Initializable {
 
     private ReportsDao reportsDao = new ReportsDao();
 
-    //method that runs when the cancelButton is pressed. It returns the program to the MainPage.
-    public void cancelButtonPressed(ActionEvent actionEvent) throws IOException {
-        Parent root = FXMLLoader.load(getClass().getResource("../View/MainPage.fxml"));
-        Scene MainPageScene = new Scene(root);
 
-        Stage stage = (Stage) cancelButton.getScene().getWindow();
-        stage.setScene(MainPageScene);
-        stage.show();
-    }
 
+    //method that runs the reportsDao.report1 method and then displays the results on the reportTextArea
     public void report1Pressed(ActionEvent actionEvent) {
         reportTextArea.setText(reportsDao.report1());
     }
 
+    //method that runs the reportsDao.report2 method passing the selected value within the userNamesComboBox as an argument
+    //for the reportsDao.report2 method, then displays the String returned on reportTextArea
     public void report2Pressed(ActionEvent actionEvent) throws SQLException {
         User selectedUser;
 
@@ -55,12 +47,17 @@ public class ReportsPageController implements Initializable {
                 selectedUser = AppointmentManager.getAllUsers().get(i);
                 reportTextArea.setText(reportsDao.report2(selectedUser));
             }
-
-
-
         }
+    }
 
+    //method that runs when the cancelButton is pressed. It returns the program to the MainPage.
+    public void cancelButtonPressed(ActionEvent actionEvent) throws IOException {
+        Parent root = FXMLLoader.load(getClass().getResource("../View/MainPage.fxml"));
+        Scene MainPageScene = new Scene(root);
 
+        Stage stage = (Stage) cancelButton.getScene().getWindow();
+        stage.setScene(MainPageScene);
+        stage.show();
     }
 
     @Override
