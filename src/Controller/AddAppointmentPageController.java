@@ -77,9 +77,10 @@ public class AddAppointmentPageController implements Initializable {
         LocalTime startTime = (LocalTime) startTimeComboBox.getSelectionModel().getSelectedItem();
         LocalTime endTime = (LocalTime) endTimeComboBox.getSelectionModel().getSelectedItem();
         LocalDate date = datePicker.getValue();
+        int userId = AppointmentManager.getLoggedInUserId();
 
 
-        Appointment appointmentToAdd = new Appointment(appointmentId, location, type, customerName, contactName, startTime, endTime, date);
+        Appointment appointmentToAdd = new Appointment(appointmentId, location, type, customerName, contactName, startTime, endTime, date, userId);
         AppointmentManager.addAppointment(appointmentToAdd);
         appointmentDao.addObject(appointmentToAdd);
 

@@ -60,8 +60,9 @@ public class ModifyAppointmentPageController implements Initializable {
         LocalTime startTime = startTimeComboBox.getSelectionModel().getSelectedItem();
         LocalTime endTime = endTimeComboBox.getSelectionModel().getSelectedItem();
         LocalDate date = datePicker.getValue();
+        int userId = AppointmentManager.getLoggedInUserId();
 
-        Appointment appointmentModifications = new Appointment(appointmentId, location, type, customerName, contactName, startTime, endTime, date);
+        Appointment appointmentModifications = new Appointment(appointmentId, location, type, customerName, contactName, startTime, endTime, date, userId);
         AppointmentManager.updateAppointment(selectedAppointmentIndex, appointmentModifications);
         appointmentDao.modifyObject(appointmentModifications);
 

@@ -215,7 +215,7 @@ public class Appointment {
     }
 
     //overloaded constructor for the Appointment class. Used when creating from User Input
-    public Appointment(int appointmentId, String location, String type, String customerName, String contactName, LocalTime startTime, LocalTime endTime, LocalDate date) {
+    public Appointment(int appointmentId, String location, String type, String customerName, String contactName, LocalTime startTime, LocalTime endTime, LocalDate date, int userId) {
         this.appointmentId = appointmentId;
         this.location = location;
         this.type = type;
@@ -234,6 +234,8 @@ public class Appointment {
         //method that relates the Customer objects and Contact objects to an appointment via String input of names
         setCustomer(customerName);
         setContact(contactName);
+
+        this.userId = userId;
 
     }
 }

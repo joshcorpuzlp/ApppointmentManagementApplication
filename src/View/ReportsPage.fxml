@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.ToolBar?>
@@ -18,7 +19,7 @@
                </font>
             </Label>
           <Button fx:id="report1" mnemonicParsing="false" onAction="#report1Pressed" text="Number of Appointments / Type" />
-            <Button mnemonicParsing="false" text="Number of Appointments / User" />
+            <Button mnemonicParsing="false" onAction="#report2Pressed" text="Number of Appointments / User" />
             <Button mnemonicParsing="false" text="Average # of Appointments per User" />
             <Button fx:id="cancelButton" mnemonicParsing="false" onAction="#cancelButtonPressed" text="Cancel" />
         </items>
@@ -28,6 +29,7 @@
       <AnchorPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
          <children>
             <TextArea fx:id="reportTextArea" layoutX="14.0" layoutY="68.0" prefHeight="404.0" prefWidth="722.0" />
+            <ComboBox fx:id="userNamesComboBox" layoutX="14.0" layoutY="29.0" prefWidth="150.0" />
          </children>
       </AnchorPane>
    </center>

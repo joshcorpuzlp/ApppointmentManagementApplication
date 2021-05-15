@@ -8,6 +8,10 @@ import java.util.HashMap;
 public class AppointmentManager {
     //configures an ObservableList of User objects.
     private static ObservableList<User> users = FXCollections.observableArrayList();
+
+    //variable that holds the UserId of the login credentials used.
+    private static int loggedInUserId;
+
     //configure an Observable list of CustomerObjects
     private static  ObservableList<Customer> customers = FXCollections.observableArrayList();
     private static Customer foundCustomer;
@@ -95,6 +99,16 @@ public class AppointmentManager {
     public static ObservableList<User> getAllUsers() {
         return users;
     }
+
+    //method that sets the userId using the user that logged in.
+    public static void setLoggedInUserId(User user) {
+        loggedInUserId = user.getUserId();
+    }
+    //method that returns the userId
+    public static int getLoggedInUserId() {
+        return loggedInUserId;
+    }
+
 
 
 

@@ -83,6 +83,9 @@ public class LogInController implements Initializable {
         for (User user : AppointmentManager.getAllUsers()) {
             if (user.getUserName().matches(userNameInput) && user.getPassword().matches(passwordInput)) {
 
+                //holds the userId of the user credentials used at log in.
+                AppointmentManager.setLoggedInUserId(user);
+
                 //logInMessage message changes depending the System language.
                 if (lang.matches("English")) {
                     logInMessage.setText("Login Successful!");

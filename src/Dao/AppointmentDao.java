@@ -48,8 +48,8 @@ public class AppointmentDao implements Dao<Appointment> {
 
     @Override
     public void addObject(Appointment appointment) throws SQLException {
-        String query = "INSERT INTO appointments (Title, Location, Type, Start, End, Customer_ID, Contact_ID)\n" +
-                "VALUES (?, ?, ?, ?, ?, ?, ?);";
+        String query = "INSERT INTO appointments (Title, Location, Type, Start, End, Customer_ID, Contact_ID, User_ID)\n" +
+                "VALUES (?, ?, ?, ?, ?, ?, ?, ?);";
         PreparedStatement insertQuery = dbConnection.getConnection().prepareStatement(query);
         insertQuery.setString(1, "title");
         insertQuery.setString(2, appointment.getLocation());
@@ -59,6 +59,7 @@ public class AppointmentDao implements Dao<Appointment> {
         //ISSUE WITH CUSTOMER ID, NAME and CONTACT
         insertQuery.setInt(6, appointment.getCustomer().getCustomerId());
         insertQuery.setInt(7, appointment.getContact().getContactId());
+        insertQuery.setInt(8, AppointmentManager.getLoggedInUserId());
 
         insertQuery.execute();
     }
@@ -66,7 +67,7 @@ public class AppointmentDao implements Dao<Appointment> {
     @Override
     public void modifyObject(Appointment appointment) throws SQLException {
         String query = "UPDATE appointments\n" +
-                "SET Location = ?, Type = ?, Start = ?, End = ?, Customer_ID = ?, Contact_ID = ?\n" +
+                "SET Location = ?, Type = ?, Start = ?, End = ?, Customer_ID = ?, Contact_ID = ?, User_ID = ?\n" +
                 "WHERE Appointment_ID = ?;";
         PreparedStatement updateQuery = dbConnection.getConnection().prepareStatement(query);
         updateQuery.setString(1, appointment.getLocation());
@@ -75,7 +76,8 @@ public class AppointmentDao implements Dao<Appointment> {
         updateQuery.setTimestamp(4, appointment.getEndDateTimeSQL());
         updateQuery.setInt(5, appointment.getCustomer().getCustomerId());
         updateQuery.setInt(6, appointment.getContact().getContactId());
-        updateQuery.setInt(7, appointment.getAppointmentId());
+        updateQuery.setInt(7, AppointmentManager.getLoggedInUserId());
+        updateQuery.setInt(8, appointment.getAppointmentId());
 
         updateQuery.execute();
 
