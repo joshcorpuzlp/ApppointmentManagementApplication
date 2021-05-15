@@ -88,7 +88,9 @@ public class AddCustomerPageController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        //loads the ObservableList of Customer objects within AppointmentManager with contents of the DB.
         divisionDao.loadDbObjects();
+        customerDao.loadDbObjects();
 
         //loads the ObservableList of Division objects within the AppointmentManager to the ComboxOptions
         for (int i = 0; i < AppointmentManager.getAllDivisions().size(); ++i) {
