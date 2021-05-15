@@ -1,5 +1,6 @@
 package Controller;
 
+import Dao.ReportsDao;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -7,6 +8,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.TextArea;
 import javafx.stage.Stage;
 
 
@@ -20,6 +22,9 @@ public class ReportsPageController implements Initializable {
     @FXML private Button report2;
     @FXML private Button report3;
     @FXML private Button cancelButton;
+    @FXML private TextArea reportTextArea;
+
+    private ReportsDao reportsDao = new ReportsDao();
 
     //method that runs when the cancelButton is pressed. It returns the program to the MainPage.
     public void cancelButtonPressed(ActionEvent actionEvent) throws IOException {
@@ -29,6 +34,10 @@ public class ReportsPageController implements Initializable {
         Stage stage = (Stage) cancelButton.getScene().getWindow();
         stage.setScene(MainPageScene);
         stage.show();
+    }
+
+    public void report1Pressed(ActionEvent actionEvent) {
+        reportTextArea.setText(reportsDao.report1());
     }
 
     @Override

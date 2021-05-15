@@ -8,7 +8,6 @@
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.text.Font?>
 
-
 <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="521.25" prefWidth="750.0" style="-fx-background-color: #d8e3e7;" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.ReportsPageController">
    <top>
       <ToolBar prefHeight="40.0" prefWidth="750.0" style="-fx-background-color: #132c33;" BorderPane.alignment="CENTER">
@@ -18,7 +17,7 @@
                   <Font name="System Bold" size="14.0" />
                </font>
             </Label>
-          <Button mnemonicParsing="false" text="Number of Appointments / Type" />
+          <Button fx:id="report1" mnemonicParsing="false" onAction="#report1Pressed" text="Number of Appointments / Type" />
             <Button mnemonicParsing="false" text="Number of Appointments / User" />
             <Button mnemonicParsing="false" text="Average # of Appointments per User" />
             <Button fx:id="cancelButton" mnemonicParsing="false" onAction="#cancelButtonPressed" text="Cancel" />
@@ -28,7 +27,7 @@
    <center>
       <AnchorPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
          <children>
-            <TextArea layoutX="14.0" layoutY="68.0" prefHeight="404.0" prefWidth="722.0" />
+            <TextArea fx:id="reportTextArea" layoutX="14.0" layoutY="68.0" prefHeight="404.0" prefWidth="722.0" />
          </children>
       </AnchorPane>
    </center>
