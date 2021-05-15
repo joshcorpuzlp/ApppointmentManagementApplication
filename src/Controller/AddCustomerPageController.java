@@ -4,7 +4,6 @@ import Dao.CustomerDao;
 import Dao.DivisionDao;
 import Model.AppointmentManager;
 import Model.Customer;
-import Model.Division;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -18,7 +17,6 @@ import javafx.stage.Stage;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 public class AddCustomerPageController implements Initializable {

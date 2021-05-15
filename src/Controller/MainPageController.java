@@ -6,7 +6,6 @@ import Model.AppointmentManager;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -14,7 +13,6 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -26,6 +24,7 @@ import java.time.temporal.WeekFields;
 import java.util.Date;
 import java.util.Locale;
 import java.util.ResourceBundle;
+import java.util.stream.Collectors;
 
 public class MainPageController implements Initializable {
 
@@ -121,17 +120,11 @@ public class MainPageController implements Initializable {
             LocalDate fromDate = fromDatePicker.getValue();
             LocalDate toDate = toDatePicker.getValue();
 
-            for (int i = 0; i < appointments.size(); ++i) {
-                if ((appointments.get(i).getDate().equals(fromDate) || appointments.get(i).getDate().isAfter(fromDate)) &&
-                        (appointments.get(i).getDate().equals(toDate) || appointments.get(i).getDate().isBefore(toDate)) ) {
-                    //System.out.println(true);
-                    filteredAppointments.add(appointments.get(i));
-                }
-            }
-
-            appointmentCalendar.setItems(filteredAppointments);
-
-
+            //Utilized stream instead of for loop to create filters by date.
+            appointmentCalendar.setItems(appointments.stream()
+                    .filter(appointment -> appointment.getDate().equals(fromDate) || appointment.getDate().isAfter(fromDate))
+                    .filter(appointment -> appointment.getDate().equals(toDate) || appointment.getDate().isBefore(toDate))
+                    .collect(Collectors.toCollection(FXCollections::observableArrayList)));
 
         }
 
@@ -140,16 +133,12 @@ public class MainPageController implements Initializable {
             fromDatePicker.setDisable(true);
             toDatePicker.setDisable(true);
 
-            for (int i = 0; i < appointments.size(); ++i) {
-                if (appointments.get(i).getDate().getMonth() == LocalDate.now().getMonth() &&
-                        appointments.get(i).getDate().getYear() == LocalDate.now().getYear() ) {
+            //used streams instead of a for loop. Utilized a lambda to convert appointment to appointment.getDate()
+            appointmentCalendar.setItems(appointments.stream()
+                    .filter(appointment -> appointment.getDate().getMonth() == LocalDate.now().getMonth())
+                    .filter(appointment -> appointment.getDate().getYear() == LocalDate.now().getYear())
+                    .collect(Collectors.toCollection(FXCollections::observableArrayList)));
 
-                        //System.out.println(true);
-                    filteredAppointments.add(appointments.get(i));
-
-                }
-            }
-            appointmentCalendar.setItems(filteredAppointments);
 
 
         }
@@ -169,14 +158,12 @@ public class MainPageController implements Initializable {
             LocalDate firstDay = LocalDate.now().with(TemporalAdjusters.previousOrSame(firstDayOfWeek)); // first day
             LocalDate lastDay = LocalDate.now().with(TemporalAdjusters.nextOrSame(lastDayOfWeek));
 
-            for (int i = 0; i < appointments.size(); ++i) {
-                if ((appointments.get(i).getDate().equals(firstDay) || appointments.get(i).getDate().isAfter(firstDay)) &&
-                        (appointments.get(i).getDate().equals(lastDay) || appointments.get(i).getDate().isBefore(lastDay)) ) {
-                    //System.out.println(true);
-                    filteredAppointments.add(appointments.get(i));
-                }
-            }
-            appointmentCalendar.setItems(filteredAppointments);
+
+            appointmentCalendar.setItems(
+                    appointments.stream()
+                            .filter(appointment -> appointment.getDate().equals(firstDay) || appointment.getDate().isAfter(firstDay))
+                            .filter(appointment -> appointment.getDate().equals(lastDay) || appointment.getDate().isBefore(lastDay))
+                            .collect(Collectors.toCollection(FXCollections::observableArrayList)));
 
 
         }
@@ -189,16 +176,18 @@ public class MainPageController implements Initializable {
         LocalDate fromDate = fromDatePicker.getValue();
         LocalDate toDate = toDatePicker.getValue();
 
-        for (int i = 0; i < appointments.size(); ++i) {
-            if ((appointments.get(i).getDate().equals(fromDate) || appointments.get(i).getDate().isAfter(fromDate)) &&
-                    (appointments.get(i).getDate().equals(toDate) || appointments.get(i).getDate().isBefore(toDate)) ) {
-                System.out.println(true);
-                filteredAppointments.add(appointments.get(i));
-            }
-        }
-
-        appointmentCalendar.setItems(filteredAppointments);
+        //Utilized stream instead of for loop to create filters by date.
+        appointmentCalendar.setItems(appointments.stream()
+                .filter(appointment -> appointment.getDate().equals(fromDate) || appointment.getDate().isAfter(fromDate))
+                .filter(appointment -> appointment.getDate().equals(toDate) || appointment.getDate().isBefore(toDate))
+                .collect(Collectors.toCollection(FXCollections::observableArrayList)));
     }
+
+    public void handleCalendarChange(ActionEvent actionEvent) {
+        modifyAppointmentButton.setDisable(false);
+    }
+
+
 
 
     @Override
@@ -215,6 +204,9 @@ public class MainPageController implements Initializable {
         startTimeColumn.setCellValueFactory(new PropertyValueFactory<>("formattedStartTime"));
         endTimeColumn.setCellValueFactory(new PropertyValueFactory<>("formattedEndTime"));
 
+        //initialize the appointmentCalendar to only allow one selection at a time.
+        appointmentCalendar.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
+        //initialize the contents of the appointmentCalendar
         appointmentCalendar.setItems(appointments);
 
         //configure the RadioButtons to be part of a toggleGroup
@@ -230,6 +222,22 @@ public class MainPageController implements Initializable {
 
         fromDatePicker.setDisable(true);
         toDatePicker.setDisable(true);
+
+        //ModifyAppointmentButton should be disabled until an appointment is selected
+        modifyAppointmentButton.setDisable(true);
+
+
+        /*create a listener that checks for a selection within the appointmentCalendar. If newSelection is not null, then we can enable the modifyAppointmentButton using a lambda
+            else we set it to disable it again.
+         */
+        appointmentCalendar.getSelectionModel().selectedItemProperty().addListener((abs, oldSelection, newSelection) -> {
+            if (newSelection != null) {
+                modifyAppointmentButton.setDisable(false);
+            }
+            else {
+                modifyAppointmentButton.setDisable(true);
+            }
+        });
 
 
     }
