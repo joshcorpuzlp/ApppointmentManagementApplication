@@ -31,13 +31,24 @@ public class ReportsPageController implements Initializable {
 
 
 
-    //method that runs the reportsDao.report1 method and then displays the results on the reportTextArea
+
+
+    /*
+     * method that runs the reportsDao.report1 method and then displays the results on the reportTextArea
+     *
+     ***************************************************/
     public void report1Pressed(ActionEvent actionEvent) {
         reportTextArea.setText(reportsDao.report1());
     }
 
-    //method that runs the reportsDao.report2 method passing the selected value within the userNamesComboBox as an argument
-    //for the reportsDao.report2 method, then displays the String returned on reportTextArea
+
+
+
+    /*
+     * method that runs the reportsDao.report2 method passing the selected value within the userNamesComboBox as an argument
+     * for the reportsDao.report2 method, then displays the String returned on reportTextArea
+     *
+     ***************************************************/
     public void report2Pressed(ActionEvent actionEvent) throws SQLException {
         User selectedUser;
 
@@ -50,6 +61,13 @@ public class ReportsPageController implements Initializable {
         }
     }
 
+    /*
+     * method that runs the reportsDao.report3 method, passing the selected value of the userNamesComboBox
+     * as its argument
+     *
+     * reportsDao.report3 returns a String which is the report displayed on the reportTextArea
+     *
+     ***************************************************/
     public void report3Pressed(ActionEvent actionEvent) throws SQLException {
         User selectedUser;
         for (int i =0; i < AppointmentManager.getAllUsers().size(); ++i) {
