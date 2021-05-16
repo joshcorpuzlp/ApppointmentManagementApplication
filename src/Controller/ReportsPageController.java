@@ -22,11 +22,16 @@ import java.util.ResourceBundle;
 
 public class ReportsPageController implements Initializable {
 
+    //configures the cancel button
     @FXML private Button cancelButton;
+
+    //configures the TextArea used to display the results.
     @FXML private TextArea reportTextArea;
 
+    //The GUI element used to select the Users for reports 2 and 3
     @FXML private ComboBox<String> userNamesComboBox;
 
+    //Needed to call the reportsDao methods.
     private ReportsDao reportsDao = new ReportsDao();
 
 
