@@ -50,6 +50,18 @@ public class ReportsPageController implements Initializable {
         }
     }
 
+    public void report3Pressed(ActionEvent actionEvent) throws SQLException {
+        User selectedUser;
+        for (int i =0; i < AppointmentManager.getAllUsers().size(); ++i) {
+            if (userNamesComboBox.getSelectionModel().getSelectedItem()
+                    .matches(AppointmentManager.getAllUsers().get(i).getUserName())) {
+                selectedUser = AppointmentManager.getAllUsers().get(i);
+                reportTextArea.setText(reportsDao.report3(selectedUser));
+            }
+        }
+
+    }
+
     //method that runs when the cancelButton is pressed. It returns the program to the MainPage.
     public void cancelButtonPressed(ActionEvent actionEvent) throws IOException {
         Parent root = FXMLLoader.load(getClass().getResource("../View/MainPage.fxml"));

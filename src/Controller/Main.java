@@ -27,7 +27,10 @@ public class Main extends Application {
 //        Locale forcedLocale = new Locale("fr");
 //        Locale.setDefault(forcedLocale);
 
+        //establish the connection with the database.
         dbConnection.makeConnection();
+
+        //sets the statement as the connection.
         dbConnection.setStatement(dbConnection.getConnection());
 
 

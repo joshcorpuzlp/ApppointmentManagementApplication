@@ -76,6 +76,7 @@ public class LogInController implements Initializable {
         stage.close();
     }
 
+    //log in button pressed when
     public void signInButtonPressed(ActionEvent actionEvent) throws IOException {
         String userNameInput = userNameField.getText();
         String passwordInput = passwordField.getText();
