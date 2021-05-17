@@ -23,7 +23,7 @@ public class Main extends Application {
 
 
     public static void main(String[] args) throws SQLException, ClassNotFoundException {
-        //tester code that forces the default locale to be of French language.
+//        tester code that forces the default locale to be of French language.
 //        Locale forcedLocale = new Locale("fr");
 //        Locale.setDefault(forcedLocale);
 
@@ -32,8 +32,6 @@ public class Main extends Application {
 
         //sets the statement as the connection.
         dbConnection.setStatement(dbConnection.getConnection());
-
-
 
         launch(args);
 

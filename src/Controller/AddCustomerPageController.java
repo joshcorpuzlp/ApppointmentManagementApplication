@@ -45,6 +45,7 @@ public class AddCustomerPageController implements Initializable {
     private CustomerDao customerDao = new CustomerDao();
     private DivisionDao divisionDao = new DivisionDao();
 
+    //FIXME convert to reusable code for cancel buttons.
     //method that runs when the cancelButton is pressed. It returns the program to the MainPage.
     public void cancelButtonPressed(ActionEvent actionEvent) throws IOException {
         Parent root = FXMLLoader.load(getClass().getResource("../View/MainPage.fxml"));
@@ -54,6 +55,9 @@ public class AddCustomerPageController implements Initializable {
         stage.setScene(MainPageScene);
         stage.show();
     }
+
+    //TODO add input validation for SaveCustomerButtonPressed
+    //FIXME fix the unresolved method in the corresponding AddCustomerPage.FXML
 
     public void saveNewCustomerButtonPressed(ActionEvent actionEvent) throws SQLException, IOException {
         //1.a pull data from textFields
