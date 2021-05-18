@@ -3,6 +3,7 @@ package Controller;
 import Dao.UserDao;
 import Model.AppointmentManager;
 import Model.User;
+import Utility.FileLogger;
 import Utility.dbConnection;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -96,6 +97,8 @@ public class LogInController implements Initializable {
 
                 logInMessage.setTextFill(Color.web("#008000"));
 
+                //call the FileLogger class's method to log the user that logged in and the current time
+                FileLogger.fileLog(user);
 
                 //if login is successful, open the MainPage.fxml
                 Parent root = FXMLLoader.load(getClass().getResource("../View/MainPage.fxml"));

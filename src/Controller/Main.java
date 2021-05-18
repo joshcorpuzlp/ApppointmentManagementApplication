@@ -7,9 +7,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
-import java.lang.module.Configuration;
 import java.sql.SQLException;
-import java.util.Locale;
 
 public class Main extends Application {
 
