@@ -6,6 +6,8 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
+
 
 public class FileLogger {
 
@@ -21,7 +23,8 @@ public class FileLogger {
         FileWriter outputFile = new FileWriter(fileName, true);
         PrintWriter printWriter = new PrintWriter(outputFile);
 
-        printWriter.println("The user: " + user.getUserName() + " has logged in at " + currTime.toString());
+        DateTimeFormatter myFormat = DateTimeFormatter.ofPattern("hh:mm a");
+        printWriter.println("The user: " + user.getUserName() + " has logged in at " + currTime.format(myFormat));
         outputFile.close();
     }
 }
