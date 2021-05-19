@@ -36,3 +36,13 @@ public class Main extends Application {
         dbConnection.closeConnection();
     }
 }
+
+class myExceptions extends Exception {
+    public myExceptions() {
+        super();
+    }
+
+    public myExceptions(String s) {
+        super(s);
+    }
+}

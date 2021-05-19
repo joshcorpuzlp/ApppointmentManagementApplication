@@ -4,6 +4,7 @@ import Dao.AppointmentDao;
 import Model.Appointment;
 import Model.AppointmentManager;
 import Model.User;
+import Utility.ProgramAlerts;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -21,7 +22,6 @@ import java.net.URL;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.LocalTime;
 import java.time.temporal.ChronoUnit;
 import java.time.temporal.TemporalAdjusters;
 import java.time.temporal.WeekFields;
@@ -65,8 +65,9 @@ public class MainController implements Initializable {
     private AppointmentDao appointmentDao = new AppointmentDao();
 
 
-    //temporary, might delete later
-    private User tempUser;
+    //create a variable reference to the current user
+    private User currentUser;
+    //create an ObservableList of Appointment objects of the currentUser
     private ObservableList<Appointment> userAppointments = FXCollections.observableArrayList();
 
 
@@ -265,28 +266,27 @@ public class MainController implements Initializable {
 
 
         //TODO clean up code! Need to create a currentUser and get an ObservableList of Appointments of CurrentUser
+        //Created a for loop that will load the selected User based on AppointmentManager's loggedInUserId
         for (int i = 0; i < AppointmentManager.getAllUsers().size(); ++i) {
             if (AppointmentManager.getLoggedInUserId() == AppointmentManager.getAllUsers().get(i).getUserId()) {
-                tempUser = AppointmentManager.getAllUsers().get(i);
+                currentUser = AppointmentManager.getAllUsers().get(i);
             }
         }
-
+        //Created a for loop that will load the ObservableList userAppointments with Appointments that have the same userId as the currentUser
         for (int i = 0; i < AppointmentManager.getAllAppointments().size(); ++i) {
-            if (tempUser.getUserId() == AppointmentManager.getAllAppointments().get(i).getUserId()) {
+            if (currentUser.getUserId() == AppointmentManager.getAllAppointments().get(i).getUserId()) {
                 userAppointments.add(AppointmentManager.getAllAppointments().get(i));
             }
         }
+        //created a for loop that checks userAppointments startTimes to check if it is within 15 minutes of the currentTime, if there is, it calls ProgramAlerts.pendingAppointmentAlert()
+        for (Appointment userAppointment : userAppointments) {
 
-        for (int i = 0; i < userAppointments.size(); ++i) {
-
-            if( (LocalDateTime.now().isBefore(userAppointments.get(i).getStartTime()) &&
-                    LocalDateTime.now().isAfter(userAppointments.get(i).getStartTime().minus(15, ChronoUnit.MINUTES))) ) {
-                System.out.println(userAppointments.get(i).getStartTime());
-                System.out.println(userAppointments.get(i).getAppointmentId());
+            if ((LocalDateTime.now().isBefore(userAppointment.getStartTime()) &&
+                    LocalDateTime.now().isAfter(userAppointment.getStartTime().minus(15, ChronoUnit.MINUTES)))) {
+                ProgramAlerts.pendingAppointmentAlert();
             }
 
         }
-
 
     }
 

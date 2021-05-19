@@ -4,7 +4,6 @@ import Dao.UserDao;
 import Model.AppointmentManager;
 import Model.User;
 import Utility.FileLogger;
-import Utility.PendingAppointmentAlert;
 import Utility.dbConnection;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;

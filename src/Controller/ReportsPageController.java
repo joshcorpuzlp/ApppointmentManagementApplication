@@ -3,6 +3,7 @@ package Controller;
 import Dao.ReportsDao;
 import Model.AppointmentManager;
 import Model.User;
+import Utility.ProgramAlerts;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -58,11 +59,26 @@ public class ReportsPageController implements Initializable {
         User selectedUser;
 
         for (int i =0; i < AppointmentManager.getAllUsers().size(); ++i) {
-            if (userNamesComboBox.getSelectionModel().getSelectedItem()
-                    .matches(AppointmentManager.getAllUsers().get(i).getUserName())) {
-                selectedUser = AppointmentManager.getAllUsers().get(i);
-                reportTextArea.setText(reportsDao.report2(selectedUser));
+
+            /*
+            * surround program under try/catch clause to check if there is a selected User to base report on,
+            * if exception is thrown, catch with an alert and a return statement.
+            *
+             */
+
+            try {
+                if (userNamesComboBox.getSelectionModel().getSelectedItem()
+                        .matches(AppointmentManager.getAllUsers().get(i).getUserName())) {
+                    selectedUser = AppointmentManager.getAllUsers().get(i);
+                    reportTextArea.setText(reportsDao.report2(selectedUser));
+                }
             }
+            catch (Exception ex) {
+
+                ProgramAlerts.selectUserAlert();
+                return;
+            }
+
         }
     }
 
@@ -73,14 +89,29 @@ public class ReportsPageController implements Initializable {
      * reportsDao.report3 returns a String which is the report displayed on the reportTextArea
      *
      ***************************************************/
-    public void report3Pressed(ActionEvent actionEvent) throws SQLException {
+    public void report3Pressed(ActionEvent actionEvent)  {
         User selectedUser;
         for (int i =0; i < AppointmentManager.getAllUsers().size(); ++i) {
-            if (userNamesComboBox.getSelectionModel().getSelectedItem()
-                    .matches(AppointmentManager.getAllUsers().get(i).getUserName())) {
-                selectedUser = AppointmentManager.getAllUsers().get(i);
-                reportTextArea.setText(reportsDao.report3(selectedUser));
-            }
+
+            /*
+             * surround program under try/catch clause to check if there is a selected User to base report on,
+             * if exception is thrown, catch with an alert and a return statement.
+             *
+             */
+                try {
+
+                    if (userNamesComboBox.getSelectionModel().getSelectedItem()
+                            .matches(AppointmentManager.getAllUsers().get(i).getUserName())) {
+                        selectedUser = AppointmentManager.getAllUsers().get(i);
+
+                        reportTextArea.setText(reportsDao.report3(selectedUser));
+                    }
+                }
+                catch (Exception exception) {
+                    ProgramAlerts.selectUserAlert();
+                    return;
+                }
+
         }
 
     }
@@ -102,7 +133,7 @@ public class ReportsPageController implements Initializable {
         for (int i = 0; i < AppointmentManager.getAllUsers().size(); ++i) {
             userNamesComboBox.getItems().add(AppointmentManager.getAllUsers().get(i).getUserName());
         }
-        //disables comboBox userNames, re-enabled when reports2 button is pressed.
+
 
     }
 }
