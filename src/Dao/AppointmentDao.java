@@ -59,7 +59,7 @@ public class AppointmentDao implements Dao<Appointment> {
         insertQuery.setTimestamp(5, appointment.getEndDateTimeSQL());
         insertQuery.setInt(6, appointment.getCustomer().getCustomerId());
         insertQuery.setInt(7, appointment.getContact().getContactId());
-        insertQuery.setInt(8, AppointmentManager.getLoggedInUserId());
+        insertQuery.setInt(8, appointment.getUserId());
 
         insertQuery.execute();
     }
@@ -76,7 +76,7 @@ public class AppointmentDao implements Dao<Appointment> {
         updateQuery.setTimestamp(4, appointment.getEndDateTimeSQL());
         updateQuery.setInt(5, appointment.getCustomer().getCustomerId());
         updateQuery.setInt(6, appointment.getContact().getContactId());
-        updateQuery.setInt(7, AppointmentManager.getLoggedInUserId());
+        updateQuery.setInt(7, appointment.getUserId());
         updateQuery.setInt(8, appointment.getAppointmentId());
 
         updateQuery.execute();

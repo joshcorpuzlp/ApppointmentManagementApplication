@@ -23,6 +23,7 @@ import java.net.URL;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.Map;
 import java.util.ResourceBundle;
 
 public class ModifyAppointmentPageController implements Initializable {
@@ -33,17 +34,29 @@ public class ModifyAppointmentPageController implements Initializable {
     ContactDao contactDao = new ContactDao();
 
 
-    @FXML private TextField locationField;
-    @FXML private TextField typeField;
-    @FXML private ComboBox<String> customerComboBox;
-    @FXML private ComboBox<LocalTime> startTimeComboBox;
-    @FXML private ComboBox<LocalTime> endTimeComboBox;
-    @FXML private DatePicker datePicker;
-    @FXML private ComboBox<String> contactComboBox;
+    @FXML
+    private TextField locationField;
+    @FXML
+    private TextField typeField;
+    @FXML
+    private ComboBox<String> customerComboBox;
+    @FXML
+    private ComboBox<LocalTime> startTimeComboBox;
+    @FXML
+    private ComboBox<LocalTime> endTimeComboBox;
+    @FXML
+    private DatePicker datePicker;
+    @FXML
+    private ComboBox<String> contactComboBox;
+    @FXML
+    private ComboBox<String> userComboBox;
 
-    @FXML private Button saveButton;
-    @FXML private Button cancelButton;
-    @FXML private Button deleteButton;
+    @FXML
+    private Button saveButton;
+    @FXML
+    private Button cancelButton;
+    @FXML
+    private Button deleteButton;
 
 
     private Appointment selectedAppointment = MainController.selectedAppointment;
@@ -60,7 +73,10 @@ public class ModifyAppointmentPageController implements Initializable {
         LocalTime startTime = startTimeComboBox.getSelectionModel().getSelectedItem();
         LocalTime endTime = endTimeComboBox.getSelectionModel().getSelectedItem();
         LocalDate date = datePicker.getValue();
-        int userId = AppointmentManager.getLoggedInUserId();
+
+        //utilizes AppointmentManager.getAllUserHashMaps to get the userId from a list of userNames that are also keys to the hashMap
+        int userId = AppointmentManager.getAllUserHashMaps().get(userComboBox.getSelectionModel().getSelectedItem());
+        System.out.println(userId);
 
         Appointment appointmentModifications = new Appointment(appointmentId, location, type, customerName, contactName, startTime, endTime, date, userId);
         AppointmentManager.updateAppointment(selectedAppointmentIndex, appointmentModifications);
@@ -78,7 +94,7 @@ public class ModifyAppointmentPageController implements Initializable {
     }
 
     //Method that deletes the currently selected Appointment
-    public void deleteButtonPressed(ActionEvent actionEvent) throws  SQLException, IOException {
+    public void deleteButtonPressed(ActionEvent actionEvent) throws SQLException, IOException {
         AppointmentManager.removeAppointment(selectedAppointment);
         appointmentDao.removeObject(selectedAppointment);
 
@@ -104,7 +120,6 @@ public class ModifyAppointmentPageController implements Initializable {
     }
 
 
-
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         //loads the ObservableList of Customer objects within AppointmentManager with contents of the DB.
@@ -113,13 +128,18 @@ public class ModifyAppointmentPageController implements Initializable {
         appointmentDao.loadDbObjects();
         contactDao.loadDbObjects();
 
+        //loads the ComboBox with User userNames
+        for (int i = 0; i < AppointmentManager.getAllUsers().size(); ++i) {
+            userComboBox.getItems().addAll(AppointmentManager.getAllUsers().get(i).getUserName());
+        }
+
         //loads the ObservableList of Customer objects within the AppointmentManager to the customerComboBox
         for (int i = 0; i < AppointmentManager.getAllCustomers().size(); ++i) {
             customerComboBox.getItems().add(AppointmentManager.getCustomer(i).getCustomerName());
         }
 
         //loads the ComboBox with the LocalTimes, options limited to business hours
-        for (int hour = 8; hour <= 17; ++hour ) {
+        for (int hour = 8; hour <= 17; ++hour) {
             for (int minutes = 00; minutes <= 30; minutes += 30) {
 //                DateTimeFormatter myFormat = DateTimeFormatter.ofPattern("hh:mm a");
 
@@ -131,7 +151,7 @@ public class ModifyAppointmentPageController implements Initializable {
         }
 
         //loads the ComboBox with the LocalTimes, option limited to business hours
-        for (int hour = 8; hour <= 17; ++hour ) {
+        for (int hour = 8; hour <= 17; ++hour) {
             for (int minutes = 00; minutes <= 30; minutes += 30) {
 //                DateTimeFormatter myFormat = DateTimeFormatter.ofPattern("hh:mm a");
 
@@ -157,8 +177,11 @@ public class ModifyAppointmentPageController implements Initializable {
         datePicker.setValue(selectedAppointment.getDate());
         contactComboBox.getSelectionModel().select(selectedAppointment.getContactName());
 
-
-
+        //Utilized Map to retrieve the key from a given value
+        for (Map.Entry<String, Integer> entry : AppointmentManager.getAllUserHashMaps().entrySet()) {
+            if (entry.getValue() == selectedAppointment.getUserId()) {
+                userComboBox.getSelectionModel().select(entry.getKey());
+            }
+        }
     }
-
 }

@@ -23,7 +23,6 @@ import java.net.URL;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.LocalTime;
-import java.time.format.DateTimeFormatter;
 import java.util.ResourceBundle;
 
 public class AddAppointmentPageController implements Initializable {
@@ -35,9 +34,9 @@ public class AddAppointmentPageController implements Initializable {
 
     @FXML private TextField locationField;
     @FXML private TextField typeField;
-    @FXML private ComboBox customerComboBox;
-    @FXML private ComboBox startTimeComboBox;
-    @FXML private ComboBox endTimeComboBox;
+    @FXML private ComboBox<String> customerComboBox;
+    @FXML private ComboBox<LocalTime> startTimeComboBox;
+    @FXML private ComboBox<LocalTime> endTimeComboBox;
     @FXML private DatePicker datePicker;
     @FXML private ComboBox<String> contactComboBox;
     @FXML private ComboBox<String> userComboBox;
@@ -100,7 +99,7 @@ public class AddAppointmentPageController implements Initializable {
         appointmentDao.loadDbObjects();
         contactDao.loadDbObjects();
 
-
+        //loads the ComboBox with User userNames
         for (int i = 0; i < AppointmentManager.getAllUsers().size(); ++i) {
             userComboBox.getItems().addAll(AppointmentManager.getAllUsers().get(i).getUserName());
         }
