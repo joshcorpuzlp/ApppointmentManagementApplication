@@ -81,6 +81,7 @@ public class LogInController implements Initializable {
         String userNameInput = userNameField.getText();
         String passwordInput = passwordField.getText();
 
+        //First loop through all the users and check if the login credentials are matched.
         for (User user : AppointmentManager.getAllUsers()) {
             if (user.getUserName().matches(userNameInput) && user.getPassword().matches(passwordInput)) {
 
@@ -108,23 +109,30 @@ public class LogInController implements Initializable {
                 stage.setScene(MainPageScene);
                 stage.show();
 
+
                 //return keyword exits the for loop
                 return;
             }
-            else {
-                //logInMessage message changes depending the System language.
-                if (lang.matches("English")) {
-                    logInMessage.setText("Login Failed!");
-                } else {
-                    logInMessage.setText("Échec de la connexion");
-                }
 
-                logInMessage.setTextFill(Color.web("#ff0000"));
-            }
         }
 
-    }
+        //Since login credentials can not be found, we run the LoginFailed message as well as the FileLogger.invalidLoginLog() method
+        if (lang.matches("English")) {
+            logInMessage.setText("Login Failed!");
 
+            //calls the FileLogger.invalidLoginLog that passed the userNameInput as the string argument.
+            FileLogger.invalidLoginLog(userNameInput);
+
+        } else {
+            logInMessage.setText("Échec de la connexion");
+
+            //calls the FileLogger.invalidLoginLog that passed the userNameInput as the string argument.
+            FileLogger.invalidLoginLog(userNameInput);
+
+        }
+
+        logInMessage.setTextFill(Color.web("#ff0000"));
+    }
 
 
 
