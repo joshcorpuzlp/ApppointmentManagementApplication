@@ -55,12 +55,6 @@ public class AddAppointmentPageController implements Initializable {
 
     //need to fix to actually work with Appointment Constructor method.
     public void saveButtonPressed(ActionEvent actionEvent) throws IOException, SQLException {
-//        System.out.println(locationField.getText().getClass());
-//        System.out.println(typeField.getText().getClass());
-//        System.out.println(customerComboBox.getSelectionModel().getSelectedItem().getClass());
-//        System.out.println(startTimeComboBox.getSelectionModel().getSelectedItem().getClass());
-//        System.out.println(endTimeComboBox.getSelectionModel().getSelectedItem().getClass());
-//        System.out.println(datePicker.getEditor().getClass());
 
         System.out.println(locationField.getText());
         System.out.println(typeField.getText());

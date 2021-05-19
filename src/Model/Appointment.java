@@ -41,8 +41,10 @@ public class Appointment {
         ZonedDateTime defaultZoned = tempTime.withZoneSameInstant(localZone);
         this.startTime = defaultZoned.toLocalDateTime();
 
-        System.out.println(tempTime);
-        System.out.println(defaultZoned);
+
+//        //console tester, can be removed later
+//        System.out.println(tempTime);
+//        System.out.println(defaultZoned);
     }
 
     public LocalDateTime getEndTime() {

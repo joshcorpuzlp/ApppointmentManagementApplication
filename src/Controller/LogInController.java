@@ -4,6 +4,7 @@ import Dao.UserDao;
 import Model.AppointmentManager;
 import Model.User;
 import Utility.FileLogger;
+import Utility.PendingAppointmentAlert;
 import Utility.dbConnection;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -53,7 +54,6 @@ public class LogInController implements Initializable {
 
         //initializes between English and French loginPages based on the Locale.language
         if (lang.matches("English")) {
-            //System.out.println(lang + country + locale);
             welcomeMessage.setText("Welcome! Please sign in.");
             signInButton.setText("Sign in");
             cancelButton.setText("Cancel");
@@ -99,6 +99,7 @@ public class LogInController implements Initializable {
 
                 //call the FileLogger class's method to log the user that logged in and the current time
                 FileLogger.fileLog(user);
+
 
                 //if login is successful, open the MainPage.fxml
                 Parent root = FXMLLoader.load(getClass().getResource("../View/MainPage.fxml"));

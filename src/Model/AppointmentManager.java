@@ -12,6 +12,7 @@ public class AppointmentManager {
     //variable that holds the UserId of the login credentials used.
     private static int loggedInUserId;
 
+
     //configure an Observable list of CustomerObjects
     private static  ObservableList<Customer> customers = FXCollections.observableArrayList();
     private static Customer foundCustomer;

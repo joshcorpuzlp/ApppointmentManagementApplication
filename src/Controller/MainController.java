@@ -3,6 +3,7 @@ package Controller;
 import Dao.AppointmentDao;
 import Model.Appointment;
 import Model.AppointmentManager;
+import Model.User;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -19,6 +20,9 @@ import java.io.IOException;
 import java.net.URL;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.temporal.ChronoUnit;
 import java.time.temporal.TemporalAdjusters;
 import java.time.temporal.WeekFields;
 import java.util.Date;
@@ -59,6 +63,11 @@ public class MainController implements Initializable {
     private ObservableList<Appointment> filteredAppointments = FXCollections.observableArrayList();
 
     private AppointmentDao appointmentDao = new AppointmentDao();
+
+
+    //temporary, might delete later
+    private User tempUser;
+    private ObservableList<Appointment> userAppointments = FXCollections.observableArrayList();
 
 
 
@@ -252,6 +261,31 @@ public class MainController implements Initializable {
                 modifyAppointmentButton.setDisable(true);
             }
         });
+
+
+
+        //TODO clean up code! Need to create a currentUser and get an ObservableList of Appointments of CurrentUser
+        for (int i = 0; i < AppointmentManager.getAllUsers().size(); ++i) {
+            if (AppointmentManager.getLoggedInUserId() == AppointmentManager.getAllUsers().get(i).getUserId()) {
+                tempUser = AppointmentManager.getAllUsers().get(i);
+            }
+        }
+
+        for (int i = 0; i < AppointmentManager.getAllAppointments().size(); ++i) {
+            if (tempUser.getUserId() == AppointmentManager.getAllAppointments().get(i).getUserId()) {
+                userAppointments.add(AppointmentManager.getAllAppointments().get(i));
+            }
+        }
+
+        for (int i = 0; i < userAppointments.size(); ++i) {
+
+            if( (LocalDateTime.now().isBefore(userAppointments.get(i).getStartTime()) &&
+                    LocalDateTime.now().isAfter(userAppointments.get(i).getStartTime().minus(15, ChronoUnit.MINUTES))) ) {
+                System.out.println(userAppointments.get(i).getStartTime());
+                System.out.println(userAppointments.get(i).getAppointmentId());
+            }
+
+        }
 
 
     }

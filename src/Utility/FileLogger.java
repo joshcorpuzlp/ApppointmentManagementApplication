@@ -17,7 +17,7 @@ public class FileLogger {
      * @throws IOException
      */
     public static void fileLog(User user) throws IOException {
-        String fileName = "fileLog.txt";
+        String fileName = "login_activity.txt";
         LocalTime currTime = LocalTime.now();
 
         FileWriter outputFile = new FileWriter(fileName, true);
