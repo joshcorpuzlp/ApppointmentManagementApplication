@@ -21,10 +21,16 @@ public class UserDao implements Dao<User>{
                 String userName = rs.getString("User_Name");
                 String password = rs.getString("Password");
 
+                //load AppointmentManager's ObservableList of Users.
                 AppointmentManager.addUsers(new User(userId, userName, password));
+
+                //load the userHashMap with the userName and userId using the AppointmentManager.addToUserHashMap
+                AppointmentManager.addToUserHashMap(userName, userId);
+
 
                 //console checker, can be deleted if needed.
                 System.out.println(userId + ", " + userName + ", " + password);
+
 
 
             }

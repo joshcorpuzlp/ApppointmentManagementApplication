@@ -32,6 +32,12 @@ public class User {
         this.userId = userId;
     }
 
+    /**
+     * Concstructor
+     * @param userId
+     * @param userName
+     * @param password
+     */
     public User(int userId, String userName, String password) {
         this.userId = userId;
         this.userName = userName;

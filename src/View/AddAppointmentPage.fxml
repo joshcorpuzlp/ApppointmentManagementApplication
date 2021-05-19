@@ -13,7 +13,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="521.5" prefWidth="750.0" style="-fx-background-color: #d8e3e7;" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml" fx:controller="Controller.AddAppointmentPageController">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="521.5" prefWidth="750.0" style="-fx-background-color: #d8e3e7;" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.AddAppointmentPageController">
    <top>
       <ToolBar prefHeight="40.0" prefWidth="750.0" style="-fx-background-color: #132c33;" BorderPane.alignment="CENTER">
         <items>
@@ -53,6 +53,8 @@
             <Label layoutX="23.0" layoutY="149.0" text="Date" />
             <Label layoutX="23.0" layoutY="115.0" text="Contact" />
             <ComboBox fx:id="contactComboBox" layoutX="96.0" layoutY="111.0" prefWidth="150.0" />
+            <Label layoutX="23.0" layoutY="252.0" text="Users" />
+            <ComboBox fx:id="userComboBox" layoutX="96.0" layoutY="248.0" prefWidth="150.0" />
          </children>
       </AnchorPane>
    </center>

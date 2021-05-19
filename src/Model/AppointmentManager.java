@@ -6,11 +6,17 @@ import javafx.collections.ObservableList;
 import java.util.HashMap;
 
 public class AppointmentManager {
+
+
     //configures an ObservableList of User objects.
     private static ObservableList<User> users = FXCollections.observableArrayList();
-
     //variable that holds the UserId of the login credentials used.
     private static int loggedInUserId;
+
+
+    //create a hashmap to hold the User userNames and UserIds
+    private static HashMap<String, Integer> userHashMap = new HashMap<String, Integer>();
+
 
 
     //configure an Observable list of CustomerObjects
@@ -108,6 +114,13 @@ public class AppointmentManager {
     //method that returns the userId
     public static int getLoggedInUserId() {
         return loggedInUserId;
+    }
+    //method that sets the hashmap based on the inputted User object data fields.
+    public static void addToUserHashMap(String key, int value) {
+        userHashMap.put(key, value);
+    }
+    public static HashMap<String, Integer> getAllUserHashMaps() {
+        return userHashMap;
     }
 
 

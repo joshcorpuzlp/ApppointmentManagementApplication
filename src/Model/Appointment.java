@@ -11,6 +11,7 @@ public class Appointment {
 
     //you might be able to replace this later with inner join tables combining appointments with users and customers
     private int userId;
+    private User user;
     private String customerName;
     private String contactName;
 

@@ -39,7 +39,8 @@ public class AddAppointmentPageController implements Initializable {
     @FXML private ComboBox startTimeComboBox;
     @FXML private ComboBox endTimeComboBox;
     @FXML private DatePicker datePicker;
-    @FXML private ComboBox contactComboBox;
+    @FXML private ComboBox<String> contactComboBox;
+    @FXML private ComboBox<String> userComboBox;
 
     @FXML private Button saveButton;
     @FXML private Button cancelButton;
@@ -71,7 +72,9 @@ public class AddAppointmentPageController implements Initializable {
         LocalTime startTime = (LocalTime) startTimeComboBox.getSelectionModel().getSelectedItem();
         LocalTime endTime = (LocalTime) endTimeComboBox.getSelectionModel().getSelectedItem();
         LocalDate date = datePicker.getValue();
-        int userId = AppointmentManager.getLoggedInUserId();
+
+        //utilizes AppointmentManager.getAllUserHashMaps to get the userId from a list of userNames that are also keys to the hashMap
+        int userId =  AppointmentManager.getAllUserHashMaps().get(userComboBox.getSelectionModel().getSelectedItem()) ;
 
 
         Appointment appointmentToAdd = new Appointment(appointmentId, location, type, customerName, contactName, startTime, endTime, date, userId);
@@ -98,6 +101,9 @@ public class AddAppointmentPageController implements Initializable {
         contactDao.loadDbObjects();
 
 
+        for (int i = 0; i < AppointmentManager.getAllUsers().size(); ++i) {
+            userComboBox.getItems().addAll(AppointmentManager.getAllUsers().get(i).getUserName());
+        }
 
         //loads the ObservableList of Customer objects within the AppointmentManager to the customerComboBox
         for (int i = 0; i < AppointmentManager.getAllCustomers().size(); ++i) {

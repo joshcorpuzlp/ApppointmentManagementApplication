@@ -33,6 +33,8 @@ public class AppointmentDao implements Dao<Appointment> {
                 Timestamp endTime = rs.getTimestamp("End");
 
                 tempAppointmentHolder.add(new Appointment(appointmentId, location, type, userId, customerName, consultantName, startTime, endTime));
+
+//                AppointmentManager.addToUserHashMap();
             }
 
             AppointmentManager.setAppointments(tempAppointmentHolder);
