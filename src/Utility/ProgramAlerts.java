@@ -26,12 +26,12 @@ public class ProgramAlerts {
      * Method that shows an alert used in conjunction with the event that the a user was not selected when needed in the ReportsPageController
      */
     //TODO change this to contact, as well as the reports page that this is used with.
-    public static void selectUserAlert() {
+    public static void selectUserAlert(String userOrContact) {
         Alert alert = new Alert(Alert.AlertType.WARNING);
         alert.initModality(Modality.NONE);
-        alert.setTitle("No user selected");
-        alert.setHeaderText("Select a user.");
-        alert.setContentText("Make sure to choose a user to run your program on!");
+        alert.setTitle("No " + userOrContact + " selected");
+        alert.setHeaderText("Select a " + userOrContact + ".");
+        alert.setContentText("Make sure to choose a " + userOrContact + " to run your program on!");
         alert.showAndWait();
     }
 
