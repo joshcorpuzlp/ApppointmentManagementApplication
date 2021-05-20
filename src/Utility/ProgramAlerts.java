@@ -96,5 +96,21 @@ public class ProgramAlerts {
         return isOk;
     }
 
+    public static boolean overlappingTimes() {
+        boolean isTimeInvalid = false;
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.initModality(Modality.NONE);
+        alert.setTitle("ERROR!");
+        alert.setHeaderText("The selected times have already been scheduled for the selected contact.");
+        alert.setContentText("Please select different start and end times.");
+        Optional<ButtonType> result = alert.showAndWait();
+
+        if (result.get() == ButtonType.OK) {
+            isTimeInvalid = true;
+        }
+
+        return isTimeInvalid;
+    }
+
 
 }
