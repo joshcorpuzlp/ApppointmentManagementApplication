@@ -129,7 +129,7 @@ public class ReportsPageController implements Initializable {
 
         //load comboBox userNames with user objects
         for (int i = 0; i < AppointmentManager.getAllContacts().size(); ++i) {
-            contactComboBox.getItems().add(AppointmentManager.getAllContacts().get(i).getContactName());
+            contactComboBox.getItems().add(AppointmentManager.getContact(i).getContactName());
         }
 
 
