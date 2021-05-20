@@ -3,6 +3,7 @@ package Controller;
 import Dao.ReportsDao;
 import Model.AppointmentManager;
 import Model.User;
+import Utility.MainMenuWindow;
 import Utility.ProgramAlerts;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -118,12 +119,8 @@ public class ReportsPageController implements Initializable {
 
     //method that runs when the cancelButton is pressed. It returns the program to the MainPage.
     public void cancelButtonPressed(ActionEvent actionEvent) throws IOException {
-        Parent root = FXMLLoader.load(getClass().getResource("../View/MainPage.fxml"));
-        Scene MainPageScene = new Scene(root);
-
-        Stage stage = (Stage) cancelButton.getScene().getWindow();
-        stage.setScene(MainPageScene);
-        stage.show();
+        //Return to the MainPage.fxml
+        MainMenuWindow.returnToMainMenu(actionEvent);
     }
 
     @Override

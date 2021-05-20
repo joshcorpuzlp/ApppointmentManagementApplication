@@ -6,6 +6,8 @@ import Dao.CustomerDao;
 import Dao.DivisionDao;
 import Model.Appointment;
 import Model.AppointmentManager;
+import Utility.MainMenuWindow;
+import Utility.ProgramAlerts;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -44,49 +46,54 @@ public class AddAppointmentPageController implements Initializable {
     @FXML private Button saveButton;
     @FXML private Button cancelButton;
 
-    public void cancelButtonPressed(ActionEvent actionEvent) throws IOException {
-        Parent root = FXMLLoader.load(getClass().getResource("../View/MainPage.fxml"));
-        Scene MainPageScene = new Scene(root);
+    private boolean confirmChanges = false;
 
-        Stage stage = (Stage) cancelButton.getScene().getWindow();
-        stage.setScene(MainPageScene);
-        stage.show();
+    public void cancelButtonPressed(ActionEvent actionEvent) throws IOException {
+
+        confirmChanges = ProgramAlerts.cancelAlert();
+
+        if (confirmChanges) {
+            //Return to the MainPage.fxml
+            MainMenuWindow.returnToMainMenu(actionEvent);
+        }
+
     }
 
     //need to fix to actually work with Appointment Constructor method.
     public void saveButtonPressed(ActionEvent actionEvent) throws IOException, SQLException {
 
-        System.out.println(locationField.getText());
-        System.out.println(typeField.getText());
-        System.out.println(customerComboBox.getSelectionModel().getSelectedItem());
-        System.out.println(startTimeComboBox.getSelectionModel().getSelectedItem());
-        System.out.println(endTimeComboBox.getSelectionModel().getSelectedItem());
-        System.out.println(datePicker.getEditor().getText());
+        //Calls the ProgramAlerts.saveChangesAlert and changes the flag boolean variable depending on the user response.
 
-        int appointmentId = AppointmentManager.getAllAppointments().size() + 1;
-        String location = locationField.getText();
-        String type = typeField.getText();
-        String customerName = (String) customerComboBox.getSelectionModel().getSelectedItem();
-        String contactName = (String) contactComboBox.getSelectionModel().getSelectedItem();
-        LocalTime startTime = (LocalTime) startTimeComboBox.getSelectionModel().getSelectedItem();
-        LocalTime endTime = (LocalTime) endTimeComboBox.getSelectionModel().getSelectedItem();
-        LocalDate date = datePicker.getValue();
+        confirmChanges = ProgramAlerts.saveChangesAlert();
 
-        //utilizes AppointmentManager.getAllUserHashMaps to get the userId from a list of userNames that are also keys to the hashMap
-        int userId =  AppointmentManager.getAllUserHashMaps().get(userComboBox.getSelectionModel().getSelectedItem()) ;
+        if (confirmChanges) {
+            System.out.println(locationField.getText());
+            System.out.println(typeField.getText());
+            System.out.println(customerComboBox.getSelectionModel().getSelectedItem());
+            System.out.println(startTimeComboBox.getSelectionModel().getSelectedItem());
+            System.out.println(endTimeComboBox.getSelectionModel().getSelectedItem());
+            System.out.println(datePicker.getEditor().getText());
+
+            int appointmentId = AppointmentManager.getAllAppointments().size() + 1;
+            String location = locationField.getText();
+            String type = typeField.getText();
+            String customerName = (String) customerComboBox.getSelectionModel().getSelectedItem();
+            String contactName = (String) contactComboBox.getSelectionModel().getSelectedItem();
+            LocalTime startTime = (LocalTime) startTimeComboBox.getSelectionModel().getSelectedItem();
+            LocalTime endTime = (LocalTime) endTimeComboBox.getSelectionModel().getSelectedItem();
+            LocalDate date = datePicker.getValue();
+
+            //utilizes AppointmentManager.getAllUserHashMaps to get the userId from a list of userNames that are also keys to the hashMap
+            int userId =  AppointmentManager.getAllUserHashMaps().get(userComboBox.getSelectionModel().getSelectedItem()) ;
 
 
-        Appointment appointmentToAdd = new Appointment(appointmentId, location, type, customerName, contactName, startTime, endTime, date, userId);
-        AppointmentManager.addAppointment(appointmentToAdd);
-        appointmentDao.addObject(appointmentToAdd);
+            Appointment appointmentToAdd = new Appointment(appointmentId, location, type, customerName, contactName, startTime, endTime, date, userId);
+            AppointmentManager.addAppointment(appointmentToAdd);
+            appointmentDao.addObject(appointmentToAdd);
 
-        //Return to the MainPage.fxml
-        Parent root = FXMLLoader.load(getClass().getResource("../View/MainPage.fxml"));
-        Scene MainPageScene = new Scene(root);
-
-        Stage stage = (Stage) saveButton.getScene().getWindow();
-        stage.setScene(MainPageScene);
-        stage.show();
+            //Return to the MainPage.fxml
+            MainMenuWindow.returnToMainMenu(actionEvent);
+        }
 
     }
 

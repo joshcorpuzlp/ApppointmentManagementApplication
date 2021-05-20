@@ -4,6 +4,8 @@ import Dao.CustomerDao;
 import Dao.DivisionDao;
 import Model.AppointmentManager;
 import Model.Customer;
+import Utility.MainMenuWindow;
+import Utility.ProgramAlerts;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -46,45 +48,56 @@ public class UpdateCustomerPageController implements Initializable {
     private CustomerDao customerDao = new CustomerDao();
     private DivisionDao divisionDao = new DivisionDao();
 
+    private boolean confirmChanges = false;
+
     public void saveButtonPressed(ActionEvent actionEvent) throws SQLException, IOException {
         int selectedIndex;
         selectedIndex = customerTableView.getSelectionModel().getFocusedIndex();
 
-        Customer selectedCustomer = AppointmentManager.getAllCustomers().get(selectedIndex);
-        selectedCustomer.setCustomerName(customerNameField.getText());
-        selectedCustomer.setCustomerAddress(addressField.getText());
-        selectedCustomer.setCustomerPostalCode(postalField.getText());
-        selectedCustomer.setPhoneNumber(phoneField.getText());
-        selectedCustomer.setCustomerDivision(divisionComboBox.getSelectionModel().getSelectedItem());
+        //Calls the ProgramAlerts.saveChangesAlert and changes the flag boolean variable depending on the user response.
+        confirmChanges = ProgramAlerts.saveChangesAlert();
 
-        AppointmentManager.updateCustomer(selectedIndex, selectedCustomer);
-        customerDao.modifyObject(selectedCustomer);
+        if (confirmChanges) {
+            Customer selectedCustomer = AppointmentManager.getAllCustomers().get(selectedIndex);
+            selectedCustomer.setCustomerName(customerNameField.getText());
+            selectedCustomer.setCustomerAddress(addressField.getText());
+            selectedCustomer.setCustomerPostalCode(postalField.getText());
+            selectedCustomer.setPhoneNumber(phoneField.getText());
+            selectedCustomer.setCustomerDivision(divisionComboBox.getSelectionModel().getSelectedItem());
 
-        //Return to the MainPage.fxml
-        Parent root = FXMLLoader.load(getClass().getResource("../View/MainPage.fxml"));
-        Scene MainPageScene = new Scene(root);
+            AppointmentManager.updateCustomer(selectedIndex, selectedCustomer);
+            customerDao.modifyObject(selectedCustomer);
 
-        Stage stage = (Stage) cancelButton.getScene().getWindow();
-        stage.setScene(MainPageScene);
-        stage.show();
+            //Return to the MainPage.fxml
+            Parent root = FXMLLoader.load(getClass().getResource("../View/MainPage.fxml"));
+            Scene MainPageScene = new Scene(root);
+
+            Stage stage = (Stage) cancelButton.getScene().getWindow();
+            stage.setScene(MainPageScene);
+            stage.show();
+        }
+
+
 
     }
 
     public void deleteButtonPressed(ActionEvent actionEvent) throws SQLException, IOException {
-        int selectedIndex;
-        selectedIndex = customerTableView.getSelectionModel().getFocusedIndex();
-        Customer selectedCustomer = AppointmentManager.getAllCustomers().get(selectedIndex);
 
-        AppointmentManager.removeCustomer(selectedCustomer);
-        customerDao.removeObject(selectedCustomer);
+        confirmChanges = ProgramAlerts.deleteAlert();
 
-        //Return to the MainPage.fxml
-        Parent root = FXMLLoader.load(getClass().getResource("../View/MainPage.fxml"));
-        Scene MainPageScene = new Scene(root);
+        if (confirmChanges) {
+            int selectedIndex;
+            selectedIndex = customerTableView.getSelectionModel().getFocusedIndex();
+            Customer selectedCustomer = AppointmentManager.getAllCustomers().get(selectedIndex);
 
-        Stage stage = (Stage) cancelButton.getScene().getWindow();
-        stage.setScene(MainPageScene);
-        stage.show();
+            AppointmentManager.removeCustomer(selectedCustomer);
+            customerDao.removeObject(selectedCustomer);
+
+            //Return to the MainPage.fxml
+            MainMenuWindow.returnToMainMenu(actionEvent);
+        }
+
+
     }
 
     public void selectCustomerToChange() {
@@ -100,12 +113,19 @@ public class UpdateCustomerPageController implements Initializable {
     }
 
     public void cancelButtonPressed(ActionEvent actionEvent) throws IOException {
-        Parent root = FXMLLoader.load(getClass().getResource("../View/MainPage.fxml"));
-        Scene MainPageScene = new Scene(root);
 
-        Stage stage = (Stage) cancelButton.getScene().getWindow();
-        stage.setScene(MainPageScene);
-        stage.show();
+        //calls the ProgramAlerts.cancelAlert() and saves the response as a boolean value.
+        confirmChanges = ProgramAlerts.cancelAlert();
+
+        if (confirmChanges) {
+            Parent root = FXMLLoader.load(getClass().getResource("../View/MainPage.fxml"));
+            Scene MainPageScene = new Scene(root);
+
+            Stage stage = (Stage) cancelButton.getScene().getWindow();
+            stage.setScene(MainPageScene);
+            stage.show();
+        }
+
     }
 
 
@@ -132,6 +152,22 @@ public class UpdateCustomerPageController implements Initializable {
         customerTableView.setItems(AppointmentManager.getAllCustomers());
         customerTableView.setEditable(true);
         customerTableView.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
+
+
+        //initialize the customerTableView to select the first index by default.
+        customerTableView.getSelectionModel().focus(0);
+        customerTableView.getSelectionModel().select(0);
+
+        int selectedIndex;
+        selectedIndex = customerTableView.getSelectionModel().getFocusedIndex();
+        Customer selectedCustomer = AppointmentManager.getAllCustomers().get(selectedIndex);
+
+        //initialize the textFields and the ComboBoxes to default the values of the selectedCustomer.
+        customerNameField.setText(selectedCustomer.getCustomerName());
+        addressField.setText(selectedCustomer.getCustomerAddress());
+        postalField.setText(selectedCustomer.getCustomerPostalCode());
+        phoneField.setText(selectedCustomer.getPhoneNumber());
+        divisionComboBox.getSelectionModel().select(selectedCustomer.getCustomerDivision());
     }
 }
 

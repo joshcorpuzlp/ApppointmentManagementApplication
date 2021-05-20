@@ -6,6 +6,8 @@ import Dao.CustomerDao;
 import Dao.DivisionDao;
 import Model.Appointment;
 import Model.AppointmentManager;
+import Utility.MainMenuWindow;
+import Utility.ProgramAlerts;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -18,6 +20,7 @@ import javafx.scene.control.DatePicker;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
+import javax.swing.text.Utilities;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
@@ -58,65 +61,76 @@ public class ModifyAppointmentPageController implements Initializable {
     @FXML
     private Button deleteButton;
 
-
     private Appointment selectedAppointment = MainController.selectedAppointment;
     int selectedAppointmentIndex = MainController.selectedAppointmentIndex;
+
+    boolean confirmChanges = false;
 
 
     //Method that saves the current values and selections within the TextFields, ComboBoxes and DatePicker
     public void saveButtonPressed(ActionEvent actionEvent) throws SQLException, IOException {
-        int appointmentId = selectedAppointment.getAppointmentId();
-        String location = locationField.getText();
-        String type = typeField.getText();
-        String customerName = customerComboBox.getSelectionModel().getSelectedItem();
-        String contactName = contactComboBox.getSelectionModel().getSelectedItem();
-        LocalTime startTime = startTimeComboBox.getSelectionModel().getSelectedItem();
-        LocalTime endTime = endTimeComboBox.getSelectionModel().getSelectedItem();
-        LocalDate date = datePicker.getValue();
 
-        //utilizes AppointmentManager.getAllUserHashMaps to get the userId from a list of userNames that are also keys to the hashMap
-        int userId = AppointmentManager.getAllUserHashMaps().get(userComboBox.getSelectionModel().getSelectedItem());
-        System.out.println(userId);
+        //Calls the ProgramAlerts.saveChangesAlert and changes the flag boolean variable depending on the user response.
+        confirmChanges = ProgramAlerts.saveChangesAlert();
 
-        Appointment appointmentModifications = new Appointment(appointmentId, location, type, customerName, contactName, startTime, endTime, date, userId);
-        AppointmentManager.updateAppointment(selectedAppointmentIndex, appointmentModifications);
-        appointmentDao.modifyObject(appointmentModifications);
+        if (confirmChanges) {
+            int appointmentId = selectedAppointment.getAppointmentId();
+            String location = locationField.getText();
+            String type = typeField.getText();
+            String customerName = customerComboBox.getSelectionModel().getSelectedItem();
+            String contactName = contactComboBox.getSelectionModel().getSelectedItem();
+            LocalTime startTime = startTimeComboBox.getSelectionModel().getSelectedItem();
+            LocalTime endTime = endTimeComboBox.getSelectionModel().getSelectedItem();
+            LocalDate date = datePicker.getValue();
 
-        //Return to the MainPage.fxml
-        Parent root = FXMLLoader.load(getClass().getResource("../View/MainPage.fxml"));
-        Scene MainPageScene = new Scene(root);
+            //utilizes AppointmentManager.getAllUserHashMaps to get the userId from a list of userNames that are also keys to the hashMap
+            int userId = AppointmentManager.getAllUserHashMaps().get(userComboBox.getSelectionModel().getSelectedItem());
+            System.out.println(userId);
 
-        Stage stage = (Stage) saveButton.getScene().getWindow();
-        stage.setScene(MainPageScene);
-        stage.show();
+            Appointment appointmentModifications = new Appointment(appointmentId, location, type, customerName, contactName, startTime, endTime, date, userId);
+            AppointmentManager.updateAppointment(selectedAppointmentIndex, appointmentModifications);
+            appointmentDao.modifyObject(appointmentModifications);
+
+            //Return to the MainPage.fxml
+            MainMenuWindow.returnToMainMenu(actionEvent);
+        }
+
+        else {
+            return;
+        }
+
+
 
 
     }
 
     //Method that deletes the currently selected Appointment
     public void deleteButtonPressed(ActionEvent actionEvent) throws SQLException, IOException {
-        AppointmentManager.removeAppointment(selectedAppointment);
-        appointmentDao.removeObject(selectedAppointment);
 
-        //Return to the MainPage.fxml
-        Parent root = FXMLLoader.load(getClass().getResource("../View/MainPage.fxml"));
-        Scene MainPageScene = new Scene(root);
+        confirmChanges = ProgramAlerts.deleteAlert();
 
-        Stage stage = (Stage) deleteButton.getScene().getWindow();
-        stage.setScene(MainPageScene);
-        stage.show();
+        if (confirmChanges) {
+            AppointmentManager.removeAppointment(selectedAppointment);
+            appointmentDao.removeObject(selectedAppointment);
+
+            //Return to the MainPage.fxml
+            MainMenuWindow.returnToMainMenu(actionEvent);
+        }
+
+
 
 
     }
 
     //Method exits out of the ModifyAppointmentPage and back to the MainMenu
     public void cancelButtonPressed(ActionEvent actionEvent) throws IOException {
-        Parent root = FXMLLoader.load(getClass().getResource("../View/MainPage.fxml"));
-        Scene MainPageScene = new Scene(root);
 
-        Stage stage = (Stage) cancelButton.getScene().getWindow();
-        stage.setScene(MainPageScene);
-        stage.show();
+        confirmChanges = ProgramAlerts.cancelAlert();
+        if (confirmChanges) {
+            //Return to the MainPage.fxml
+            MainMenuWindow.returnToMainMenu(actionEvent);
+        }
+
     }
 
 

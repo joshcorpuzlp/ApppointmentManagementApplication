@@ -4,6 +4,8 @@ import Dao.CustomerDao;
 import Dao.DivisionDao;
 import Model.AppointmentManager;
 import Model.Customer;
+import Utility.MainMenuWindow;
+import Utility.ProgramAlerts;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -45,48 +47,55 @@ public class AddCustomerPageController implements Initializable {
     private CustomerDao customerDao = new CustomerDao();
     private DivisionDao divisionDao = new DivisionDao();
 
+    private boolean confirmChanges = false;
+
     //FIXME convert to reusable code for cancel buttons.
     //method that runs when the cancelButton is pressed. It returns the program to the MainPage.
     public void cancelButtonPressed(ActionEvent actionEvent) throws IOException {
-        Parent root = FXMLLoader.load(getClass().getResource("../View/MainPage.fxml"));
-        Scene MainPageScene = new Scene(root);
 
-        Stage stage = (Stage) cancelButton.getScene().getWindow();
-        stage.setScene(MainPageScene);
-        stage.show();
+        //calls the ProgramAlerts.cancelAlert() and saves the response as a boolean value.
+        confirmChanges = ProgramAlerts.cancelAlert();
+
+        if (confirmChanges) {
+            MainMenuWindow.returnToMainMenu(actionEvent);
+        }
+
+
     }
 
     //TODO add input validation for SaveCustomerButtonPressed
     //FIXME fix the unresolved method in the corresponding AddCustomerPage.FXML
 
     public void saveNewCustomerButtonPressed(ActionEvent actionEvent) throws SQLException, IOException {
-        //1.a pull data from textFields
-        int customerCounter = AppointmentManager.getAllCustomers().size();
-        String customerName = customerNameField.getText();
-        String customerAddress = addressField.getText();
-        String customerPostal = postalField.getText();
-        String customerPhone = phoneField.getText();
+
+        //Calls the ProgramAlerts.saveChangesAlert and changes the flag boolean variable depending on the user response.
+        confirmChanges = ProgramAlerts.saveChangesAlert();
+
+        if (confirmChanges) {
+            //1.a pull data from textFields
+            int customerCounter = AppointmentManager.getAllCustomers().size();
+            String customerName = customerNameField.getText();
+            String customerAddress = addressField.getText();
+            String customerPostal = postalField.getText();
+            String customerPhone = phoneField.getText();
 
 
-        //1.b pull data from ComboBoxField, then use the HashMap to use the corresponding value with the selected key.
-        String selectedDivision = divisionComboBox.getSelectionModel().getSelectedItem();
-        int customerDivision = AppointmentManager.getAllHashMaps().get(selectedDivision);
+            //1.b pull data from ComboBoxField, then use the HashMap to use the corresponding value with the selected key.
+            String selectedDivision = divisionComboBox.getSelectionModel().getSelectedItem();
+            int customerDivision = AppointmentManager.getAllHashMaps().get(selectedDivision);
 
-        //2. create Customer object using the data from textFields
-        Customer customerToAdd = new Customer(customerCounter + 1, customerName, customerAddress, customerPostal, customerDivision, selectedDivision, customerPhone);
-        //3. add the Customer object to the ObservableList of Customer objects from the AppointmentManager class.
-        AppointmentManager.addCustomer(customerToAdd);
-        //4. Use the CustomerDao method to pass the same class into the addObject method.
-        customerDao.addObject(customerToAdd);
+            //2. create Customer object using the data from textFields
+            Customer customerToAdd = new Customer(customerCounter + 1, customerName, customerAddress, customerPostal, customerDivision, selectedDivision, customerPhone);
+            //3. add the Customer object to the ObservableList of Customer objects from the AppointmentManager class.
+            AppointmentManager.addCustomer(customerToAdd);
+            //4. Use the CustomerDao method to pass the same class into the addObject method.
+            customerDao.addObject(customerToAdd);
 
 
-        //Return to the MainPage.fxml
-        Parent root = FXMLLoader.load(getClass().getResource("../View/MainPage.fxml"));
-        Scene MainPageScene = new Scene(root);
+            //Return to the MainPage.fxml
+            MainMenuWindow.returnToMainMenu(actionEvent);
+        }
 
-        Stage stage = (Stage) cancelButton.getScene().getWindow();
-        stage.setScene(MainPageScene);
-        stage.show();
 
     }
 
