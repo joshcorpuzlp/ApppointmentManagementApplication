@@ -10,7 +10,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="521.25" prefWidth="750.0" style="-fx-background-color: #d8e3e7;" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml" fx:controller="Controller.ReportsPageController">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="521.25" prefWidth="750.0" style="-fx-background-color: #d8e3e7;" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.ReportsPageController">
    <top>
       <ToolBar prefHeight="40.0" prefWidth="750.0" style="-fx-background-color: #132c33;" BorderPane.alignment="CENTER">
         <items>
@@ -31,7 +31,7 @@
       <AnchorPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
          <children>
             <TextArea fx:id="reportTextArea" layoutX="14.0" layoutY="131.0" prefHeight="341.0" prefWidth="722.0" />
-            <ComboBox fx:id="userNamesComboBox" layoutX="586.0" layoutY="94.0" prefWidth="150.0" promptText="Select User" />
+            <ComboBox fx:id="contactComboBox" layoutX="586.0" layoutY="94.0" prefWidth="150.0" promptText="Select Contact" />
           <Button fx:id="report1" layoutX="14.0" layoutY="14.0" mnemonicParsing="false" onAction="#report1Pressed" text="Number of Appointments / Type" />
             <Button layoutX="15.0" layoutY="47.0" mnemonicParsing="false" onAction="#report2Pressed" text="Number of Appointments / User" />
             <Button layoutX="15.0" layoutY="81.0" mnemonicParsing="false" onAction="#report3Pressed" text="Average Appointment Length / User" />

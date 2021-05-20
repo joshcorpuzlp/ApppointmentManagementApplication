@@ -1,20 +1,18 @@
 package Controller;
 
+import Dao.ContactDao;
 import Dao.ReportsDao;
 import Model.AppointmentManager;
+import Model.Contact;
 import Model.User;
 import Utility.MainMenuWindow;
 import Utility.ProgramAlerts;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextArea;
-import javafx.stage.Stage;
 
 
 import java.io.IOException;
@@ -31,10 +29,12 @@ public class ReportsPageController implements Initializable {
     @FXML private TextArea reportTextArea;
 
     //The GUI element used to select the Users for reports 2 and 3
-    @FXML private ComboBox<String> userNamesComboBox;
+    @FXML private ComboBox<String> contactComboBox;
 
     //Needed to call the reportsDao methods.
     private ReportsDao reportsDao = new ReportsDao();
+
+    private ContactDao contactDao = new ContactDao();
 
 
 
@@ -57,9 +57,9 @@ public class ReportsPageController implements Initializable {
      *
      ***************************************************/
     public void report2Pressed(ActionEvent actionEvent) throws SQLException {
-        User selectedUser;
+        Contact selectedContact;
 
-        for (int i =0; i < AppointmentManager.getAllUsers().size(); ++i) {
+        for (int i =0; i < AppointmentManager.getAllContacts().size(); ++i) {
 
             /*
             * surround program under try/catch clause to check if there is a selected User to base report on,
@@ -68,15 +68,15 @@ public class ReportsPageController implements Initializable {
              */
 
             try {
-                if (userNamesComboBox.getSelectionModel().getSelectedItem()
-                        .matches(AppointmentManager.getAllUsers().get(i).getUserName())) {
-                    selectedUser = AppointmentManager.getAllUsers().get(i);
-                    reportTextArea.setText(reportsDao.report2(selectedUser));
+                if (contactComboBox.getSelectionModel().getSelectedItem()
+                        .matches(AppointmentManager.getAllContacts().get(i).getContactName())) {
+                    selectedContact = AppointmentManager.getAllContacts().get(i);
+                    reportTextArea.setText(reportsDao.report2(selectedContact));
                 }
             }
             catch (Exception ex) {
 
-                ProgramAlerts.selectUserAlert();
+                ProgramAlerts.selectUserAlert("contact");
                 return;
             }
 
@@ -91,8 +91,8 @@ public class ReportsPageController implements Initializable {
      *
      ***************************************************/
     public void report3Pressed(ActionEvent actionEvent)  {
-        User selectedUser;
-        for (int i =0; i < AppointmentManager.getAllUsers().size(); ++i) {
+        Contact selectedContact;
+        for (int i =0; i < AppointmentManager.getAllContacts().size(); ++i) {
 
             /*
              * surround program under try/catch clause to check if there is a selected User to base report on,
@@ -101,15 +101,15 @@ public class ReportsPageController implements Initializable {
              */
                 try {
 
-                    if (userNamesComboBox.getSelectionModel().getSelectedItem()
-                            .matches(AppointmentManager.getAllUsers().get(i).getUserName())) {
-                        selectedUser = AppointmentManager.getAllUsers().get(i);
+                    if (contactComboBox.getSelectionModel().getSelectedItem()
+                            .matches(AppointmentManager.getAllContacts().get(i).getContactName())) {
+                        selectedContact = AppointmentManager.getAllContacts().get(i);
 
-                        reportTextArea.setText(reportsDao.report3(selectedUser));
+                        reportTextArea.setText(reportsDao.report3(selectedContact));
                     }
                 }
                 catch (Exception exception) {
-                    ProgramAlerts.selectUserAlert();
+                    ProgramAlerts.selectUserAlert("contact");
                     return;
                 }
 
@@ -125,10 +125,11 @@ public class ReportsPageController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        contactDao.loadDbObjects();
 
-        //load comboxBox userNames with user objects
-        for (int i = 0; i < AppointmentManager.getAllUsers().size(); ++i) {
-            userNamesComboBox.getItems().add(AppointmentManager.getAllUsers().get(i).getUserName());
+        //load comboBox userNames with user objects
+        for (int i = 0; i < AppointmentManager.getAllContacts().size(); ++i) {
+            contactComboBox.getItems().add(AppointmentManager.getAllContacts().get(i).getContactName());
         }
 
 
