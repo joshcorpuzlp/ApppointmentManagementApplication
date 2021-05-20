@@ -144,7 +144,9 @@ public class MainController implements Initializable {
             fromDatePicker.setDisable(true);
             toDatePicker.setDisable(true);
 
-            //used streams instead of a for loop. Utilized a lambda to convert appointment to appointment.getDate()
+            /**
+             *used streams instead of a for loop. Utilized a lambda to convert appointment to appointment.getDate()
+             */
             appointmentCalendar.setItems(appointments.stream()
                     .filter(appointment -> appointment.getDate().getMonth() == LocalDate.now().getMonth())
                     .filter(appointment -> appointment.getDate().getYear() == LocalDate.now().getYear())
@@ -251,7 +253,8 @@ public class MainController implements Initializable {
         modifyAppointmentButton.setDisable(true);
 
 
-        /*create a listener that checks for a selection within the appointmentCalendar. If newSelection is not null, then we can enable the modifyAppointmentButton using a lambda
+        /**
+         * created a listener that checks for a selection within the appointmentCalendar. If newSelection is not null, then we can enable the modifyAppointmentButton using a lambda
             else we set it to disable it again.
          */
         appointmentCalendar.getSelectionModel().selectedItemProperty().addListener((abs, oldSelection, newSelection) -> {
