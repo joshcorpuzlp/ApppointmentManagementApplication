@@ -6,8 +6,11 @@ import Dao.CustomerDao;
 import Dao.DivisionDao;
 import Model.Appointment;
 import Model.AppointmentManager;
+import Model.Contact;
 import Utility.MainMenuWindow;
 import Utility.ProgramAlerts;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -47,6 +50,7 @@ public class AddAppointmentPageController implements Initializable {
     @FXML private Button cancelButton;
 
     private boolean confirmChanges = false;
+    private boolean isTimeInvalid = false;
 
     public void cancelButtonPressed(ActionEvent actionEvent) throws IOException {
 
@@ -59,28 +63,32 @@ public class AddAppointmentPageController implements Initializable {
 
     }
 
-    //need to fix to actually work with Appointment Constructor method.
+    //Method called when saveButton is Pressed. This will take in all the fields and selections, create an appointment, and update the database through AppointmentsDao
     public void saveButtonPressed(ActionEvent actionEvent) throws IOException, SQLException {
+        //call the timeValidation method to check if time is valid for the selected user.
+        //if invalid, it will trigger ProgramAlerts.overlappingTimes() and have it return false which will be in isTimeInvalid.
+        timeValidation(customerComboBox.getSelectionModel().getSelectedItem());
+
+        //if isTimeInvalid == true, then clear startTime and endTimes and exit the saveButtonPressed method.
+        //statement is skipped if isTimeInvalid == false
+        if (isTimeInvalid) {
+            startTimeComboBox.getSelectionModel().clearSelection();
+            endTimeComboBox.getSelectionModel().clearSelection();
+            return;
+        }
 
         //Calls the ProgramAlerts.saveChangesAlert and changes the flag boolean variable depending on the user response.
-
         confirmChanges = ProgramAlerts.saveChangesAlert();
 
         if (confirmChanges) {
-            System.out.println(locationField.getText());
-            System.out.println(typeField.getText());
-            System.out.println(customerComboBox.getSelectionModel().getSelectedItem());
-            System.out.println(startTimeComboBox.getSelectionModel().getSelectedItem());
-            System.out.println(endTimeComboBox.getSelectionModel().getSelectedItem());
-            System.out.println(datePicker.getEditor().getText());
 
             int appointmentId = AppointmentManager.getAllAppointments().size() + 1;
             String location = locationField.getText();
             String type = typeField.getText();
-            String customerName = (String) customerComboBox.getSelectionModel().getSelectedItem();
-            String contactName = (String) contactComboBox.getSelectionModel().getSelectedItem();
-            LocalTime startTime = (LocalTime) startTimeComboBox.getSelectionModel().getSelectedItem();
-            LocalTime endTime = (LocalTime) endTimeComboBox.getSelectionModel().getSelectedItem();
+            String customerName = customerComboBox.getSelectionModel().getSelectedItem();
+            String contactName = contactComboBox.getSelectionModel().getSelectedItem();
+            LocalTime startTime = startTimeComboBox.getSelectionModel().getSelectedItem();
+            LocalTime endTime = endTimeComboBox.getSelectionModel().getSelectedItem();
             LocalDate date = datePicker.getValue();
 
             //utilizes AppointmentManager.getAllUserHashMaps to get the userId from a list of userNames that are also keys to the hashMap
@@ -91,11 +99,50 @@ public class AddAppointmentPageController implements Initializable {
             AppointmentManager.addAppointment(appointmentToAdd);
             appointmentDao.addObject(appointmentToAdd);
 
-            //Return to the MainPage.fxml
+            //Returns to the MainPage.fxml
             MainMenuWindow.returnToMainMenu(actionEvent);
         }
 
     }
+
+    //Method validates the start and end time inputs for the selected contact.
+    //if time is invalid, it will set the flag variable to true, used in the saveButtonPressed as a validation method.
+    public void timeValidation(String contactName) {
+        ObservableList<Appointment> contactAppointments = FXCollections.observableArrayList();
+
+        for (int i = 0; i < AppointmentManager.getAllAppointments().size(); ++i) {
+            if (contactComboBox.getSelectionModel().getSelectedItem()
+                    .matches(AppointmentManager.getAllAppointments().get(i).getContactName())) {
+                contactAppointments.add(AppointmentManager.getAllAppointments().get(i));
+            }
+        }
+
+        LocalTime startTimeInput = startTimeComboBox.getSelectionModel().getSelectedItem();
+        LocalTime endTimeInput = endTimeComboBox.getSelectionModel().getSelectedItem();
+
+        for (int i = 0; i < contactAppointments.size(); ++i) {
+            if(
+                    (startTimeInput.isAfter(contactAppointments.get(i).getStartTime().toLocalTime()) && startTimeInput.isBefore(contactAppointments.get(i).getEndTime().toLocalTime()) ) ||
+                            (endTimeInput.isAfter(contactAppointments.get(i).getStartTime().toLocalTime()) && endTimeInput.isBefore(contactAppointments.get(i).getEndTime().toLocalTime()) )
+            )
+            {
+
+                isTimeInvalid = ProgramAlerts.overlappingTimes();
+                //need to return to exit the for loop when conditional statement goes through
+                return;
+
+            }
+            //necessary to set the isTimeInvalid to false next time that the saveButtonPressed is called..
+            else {
+                isTimeInvalid = false;
+            }
+
+        }
+
+
+    }
+
+
 
 
     @Override

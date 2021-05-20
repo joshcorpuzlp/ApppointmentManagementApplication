@@ -8,19 +8,16 @@ import Model.Appointment;
 import Model.AppointmentManager;
 import Utility.MainMenuWindow;
 import Utility.ProgramAlerts;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.TextField;
-import javafx.stage.Stage;
 
-import javax.swing.text.Utilities;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
@@ -64,11 +61,24 @@ public class ModifyAppointmentPageController implements Initializable {
     private Appointment selectedAppointment = MainController.selectedAppointment;
     int selectedAppointmentIndex = MainController.selectedAppointmentIndex;
 
-    boolean confirmChanges = false;
+    private boolean confirmChanges = false;
+    private boolean isTimeInvalid = false;
 
 
     //Method that saves the current values and selections within the TextFields, ComboBoxes and DatePicker
     public void saveButtonPressed(ActionEvent actionEvent) throws SQLException, IOException {
+        //call the timeValidation method to check if time is valid for the selected user.
+        //if invalid, it will trigger ProgramAlerts.overlappingTimes() and have it return false which will be in isTimeInvalid.
+        timeValidation(customerComboBox.getSelectionModel().getSelectedItem());
+
+        //if isTimeInvalid == true, then clear startTime and endTimes and exit the saveButtonPressed method.
+        //statement is skipped if isTimeInvalid == false
+        if (isTimeInvalid) {
+            startTimeComboBox.getSelectionModel().clearSelection();
+            endTimeComboBox.getSelectionModel().clearSelection();
+            return;
+        }
+
 
         //Calls the ProgramAlerts.saveChangesAlert and changes the flag boolean variable depending on the user response.
         confirmChanges = ProgramAlerts.saveChangesAlert();
@@ -100,8 +110,39 @@ public class ModifyAppointmentPageController implements Initializable {
         }
 
 
+    }
 
+    //Method validates the start and end time inputs for the selected contact.
+    //if time is invalid, it will set the flag variable to true, used in the saveButtonPressed as a validation method.
+    public void timeValidation(String contactName) {
+        ObservableList<Appointment> contactAppointments = FXCollections.observableArrayList();
 
+        for (int i = 0; i < AppointmentManager.getAllAppointments().size(); ++i) {
+            if (contactComboBox.getSelectionModel().getSelectedItem()
+                    .matches(AppointmentManager.getAllAppointments().get(i).getContactName())) {
+                contactAppointments.add(AppointmentManager.getAllAppointments().get(i));
+            }
+        }
+
+        LocalTime startTimeInput = startTimeComboBox.getSelectionModel().getSelectedItem();
+        LocalTime endTimeInput = endTimeComboBox.getSelectionModel().getSelectedItem();
+
+        for (int i = 0; i < contactAppointments.size(); ++i) {
+            if(
+                    (startTimeInput.isAfter(contactAppointments.get(i).getStartTime().toLocalTime()) && startTimeInput.isBefore(contactAppointments.get(i).getEndTime().toLocalTime()) ) ||
+                            (endTimeInput.isAfter(contactAppointments.get(i).getStartTime().toLocalTime()) && endTimeInput.isBefore(contactAppointments.get(i).getEndTime().toLocalTime()) )
+            )
+            {
+                isTimeInvalid = ProgramAlerts.overlappingTimes();
+                //need to return to exit the for loop when conditional statement goes through
+                return;
+
+            }
+            //necessary to set the isTimeInvalid to false next time that the saveButtonPressed is called..
+            else {
+                isTimeInvalid = false;
+            }
+        }
     }
 
     //Method that deletes the currently selected Appointment
@@ -116,9 +157,6 @@ public class ModifyAppointmentPageController implements Initializable {
             //Return to the MainPage.fxml
             MainMenuWindow.returnToMainMenu(actionEvent);
         }
-
-
-
 
     }
 
