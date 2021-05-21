@@ -21,8 +21,7 @@ import javafx.scene.control.TextField;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
-import java.time.LocalDate;
-import java.time.LocalTime;
+import java.time.*;
 import java.util.Map;
 import java.util.ResourceBundle;
 
@@ -65,6 +64,7 @@ public class ModifyAppointmentPageController implements Initializable {
     private boolean confirmChanges = false;
     private boolean isTimeInvalid = false;
     private boolean isInputInvalid = false;
+    private boolean isOutsideBusinessHours = false;
 
 
     //Method that saves the current values and selections within the TextFields, ComboBoxes and DatePicker
@@ -82,7 +82,7 @@ public class ModifyAppointmentPageController implements Initializable {
 
         //call the timeValidation method to check if time is valid for the selected user.
         //if invalid, it will trigger ProgramAlerts.overlappingTimes() and have it return false which will be in isTimeInvalid.
-        timeValidation(customerComboBox.getSelectionModel().getSelectedItem());
+        timeValidation();
 
         //if isTimeInvalid == true, then clear startTime and endTimes and exit the saveButtonPressed method.
         //statement is skipped if isTimeInvalid == false
@@ -92,6 +92,13 @@ public class ModifyAppointmentPageController implements Initializable {
             return;
         }
 
+        //check if time is within EST business hours
+        insideBusinessHours();
+
+        if (isOutsideBusinessHours) {
+            ProgramAlerts.outsideBusinessHoursError();
+            return;
+        }
 
         //Calls the ProgramAlerts.saveChangesAlert and changes the flag boolean variable depending on the user response.
         confirmChanges = ProgramAlerts.saveChangesAlert();
@@ -154,7 +161,7 @@ public class ModifyAppointmentPageController implements Initializable {
 
     //Method validates the start and end time inputs for the selected contact.
     //if time is invalid, it will set the flag variable to true, used in the saveButtonPressed as a validation method.
-    public void timeValidation(String contactName) {
+    public void timeValidation() {
         ObservableList<Appointment> contactAppointments = FXCollections.observableArrayList();
 
         for (int i = 0; i < AppointmentManager.getAllAppointments().size(); ++i) {
@@ -164,13 +171,15 @@ public class ModifyAppointmentPageController implements Initializable {
             }
         }
 
-        LocalTime startTimeInput = startTimeComboBox.getSelectionModel().getSelectedItem();
-        LocalTime endTimeInput = endTimeComboBox.getSelectionModel().getSelectedItem();
+        LocalDateTime startTimeInput = LocalDateTime.of(datePicker.getValue(), startTimeComboBox.getSelectionModel().getSelectedItem());
+        LocalDateTime endTimeInput = LocalDateTime.of(datePicker.getValue(), endTimeComboBox.getSelectionModel().getSelectedItem());
 
         for (int i = 0; i < contactAppointments.size(); ++i) {
             if(
-                    (startTimeInput.isAfter(contactAppointments.get(i).getStartTime().toLocalTime()) && startTimeInput.isBefore(contactAppointments.get(i).getEndTime().toLocalTime()) ) ||
-                            (endTimeInput.isAfter(contactAppointments.get(i).getStartTime().toLocalTime()) && endTimeInput.isBefore(contactAppointments.get(i).getEndTime().toLocalTime()) )
+                    (startTimeInput.isAfter(LocalDateTime.of(contactAppointments.get(i).getDate(), contactAppointments.get(i).getStartTime().toLocalTime())) &&
+                            startTimeInput.isBefore(LocalDateTime.of(contactAppointments.get(i).getDate(), contactAppointments.get(i).getEndTime().toLocalTime()))  ) ||
+                            (endTimeInput.isAfter(LocalDateTime.of(contactAppointments.get(i).getDate(), contactAppointments.get(i).getStartTime().toLocalTime())) &&
+                                    endTimeInput.isBefore(LocalDateTime.of(contactAppointments.get(i).getDate(), contactAppointments.get(i).getEndTime().toLocalTime()))  )
             )
             {
                 isTimeInvalid = ProgramAlerts.overlappingTimes();
@@ -279,6 +288,39 @@ public class ModifyAppointmentPageController implements Initializable {
         return errorMessage.toString();
     }
 
+    //Checks to make sure the start and end times the user selected are within business hours (9:00-17:00 UTD)
+    public void insideBusinessHours() {
+        ZonedDateTime startTime = LocalDateTime.of(datePicker.getValue(), startTimeComboBox.getSelectionModel().getSelectedItem()).atZone(ZoneId.systemDefault());
+        ZonedDateTime endTime = LocalDateTime.of(datePicker.getValue(), endTimeComboBox.getSelectionModel().getSelectedItem()).atZone(ZoneId.systemDefault());
+
+
+
+        ZonedDateTime estStart = startTime.toInstant().atZone(ZoneId.of("EST", ZoneId.SHORT_IDS));
+        ZonedDateTime estEnd = endTime.toInstant().atZone(ZoneId.of("EST", ZoneId.SHORT_IDS));
+
+
+        //Compare by using LocalTime datatypes
+        LocalTime openingHour = LocalTime.parse("08:59");
+        LocalTime closingHour = LocalTime.parse("17:01");
+
+        Boolean startTimeAllowed = estStart.toLocalTime().isAfter(openingHour);
+        Boolean endTimeAllowed = estEnd.toLocalTime().isBefore(closingHour);
+
+        System.out.println(startTime);
+        System.out.println(endTime);
+        System.out.println(estStart);
+        System.out.println(estEnd);
+        System.out.println(openingHour);
+        System.out.println(closingHour);
+
+        if (startTimeAllowed && endTimeAllowed) {
+            isOutsideBusinessHours = false;
+        }
+        else {
+            isOutsideBusinessHours = true;
+        }
+
+    }
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -299,8 +341,8 @@ public class ModifyAppointmentPageController implements Initializable {
         }
 
         //loads the ComboBox with the LocalTimes, options limited to business hours
-        for (int hour = 8; hour <= 17; ++hour) {
-            for (int minutes = 00; minutes <= 30; minutes += 30) {
+        for (int hour = 5; hour <= 20; ++hour) {
+            for (int minutes = 00; minutes <= 45; minutes +=15) {
 //                DateTimeFormatter myFormat = DateTimeFormatter.ofPattern("hh:mm a");
 
                 LocalTime startTime = LocalTime.of(hour, minutes);
@@ -311,8 +353,8 @@ public class ModifyAppointmentPageController implements Initializable {
         }
 
         //loads the ComboBox with the LocalTimes, option limited to business hours
-        for (int hour = 8; hour <= 17; ++hour) {
-            for (int minutes = 00; minutes <= 30; minutes += 30) {
+        for (int hour = 5; hour <= 20; ++hour) {
+            for (int minutes = 00; minutes <= 45; minutes += 15) {
 //                DateTimeFormatter myFormat = DateTimeFormatter.ofPattern("hh:mm a");
 
                 LocalTime endTime = LocalTime.of(hour, minutes);

@@ -128,4 +128,16 @@ public class ProgramAlerts {
         alert.showAndWait();
     }
 
+    public static void outsideBusinessHoursError() {
+
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.initModality(Modality.NONE);
+        alert.setTitle("ERROR!");
+        alert.setHeaderText("The selected times are outside normal business hours.");
+        alert.setContentText("Please select different start and end times.");
+        alert.showAndWait();
+
+
+    }
+
 }
