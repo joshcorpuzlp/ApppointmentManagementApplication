@@ -97,7 +97,7 @@ public class ProgramAlerts {
     }
 
     public static boolean overlappingTimes() {
-        boolean isTimeInvalid = false;
+
         Alert alert = new Alert(Alert.AlertType.ERROR);
         alert.initModality(Modality.NONE);
         alert.setTitle("ERROR!");
@@ -106,10 +106,7 @@ public class ProgramAlerts {
         Optional<ButtonType> result = alert.showAndWait();
 
 
-        isTimeInvalid = true;
-
-
-        return isTimeInvalid;
+        return true;
     }
 
     public static void inputValidationAlert(String errorMessage) {
