@@ -61,12 +61,25 @@ public class ModifyAppointmentPageController implements Initializable {
     private Appointment selectedAppointment = MainController.selectedAppointment;
     int selectedAppointmentIndex = MainController.selectedAppointmentIndex;
 
+    //configure boolean flag variables
     private boolean confirmChanges = false;
     private boolean isTimeInvalid = false;
+    private boolean isInputInvalid = false;
 
 
     //Method that saves the current values and selections within the TextFields, ComboBoxes and DatePicker
     public void saveButtonPressed(ActionEvent actionEvent) throws SQLException, IOException {
+
+        //stores the errorMessage in a variable
+        String errorMessage = inputValidation(actionEvent);
+
+        if (isInputInvalid) {
+            //the inputValidation method will make isInputValid = true and return the error message
+            ProgramAlerts.inputValidationAlert(errorMessage);
+            //exits the method to prevent it from saving.
+            return;
+        }
+
         //call the timeValidation method to check if time is valid for the selected user.
         //if invalid, it will trigger ProgramAlerts.overlappingTimes() and have it return false which will be in isTimeInvalid.
         timeValidation(customerComboBox.getSelectionModel().getSelectedItem());
@@ -112,6 +125,33 @@ public class ModifyAppointmentPageController implements Initializable {
 
     }
 
+
+    //Method that deletes the currently selected Appointment
+    public void deleteButtonPressed(ActionEvent actionEvent) throws SQLException, IOException {
+
+        confirmChanges = ProgramAlerts.deleteAlert();
+
+        if (confirmChanges) {
+            AppointmentManager.removeAppointment(selectedAppointment);
+            appointmentDao.removeObject(selectedAppointment);
+
+            //Return to the MainPage.fxml
+            MainMenuWindow.returnToMainMenu(actionEvent);
+        }
+
+    }
+
+    //Method exits out of the ModifyAppointmentPage and back to the MainMenu
+    public void cancelButtonPressed(ActionEvent actionEvent) throws IOException {
+
+        confirmChanges = ProgramAlerts.cancelAlert();
+        if (confirmChanges) {
+            //Return to the MainPage.fxml
+            MainMenuWindow.returnToMainMenu(actionEvent);
+        }
+
+    }
+
     //Method validates the start and end time inputs for the selected contact.
     //if time is invalid, it will set the flag variable to true, used in the saveButtonPressed as a validation method.
     public void timeValidation(String contactName) {
@@ -145,30 +185,98 @@ public class ModifyAppointmentPageController implements Initializable {
         }
     }
 
-    //Method that deletes the currently selected Appointment
-    public void deleteButtonPressed(ActionEvent actionEvent) throws SQLException, IOException {
+    //input validation to check if each field is not blank
+    public String inputValidation(ActionEvent actionEvent) {
+        StringBuilder errorMessage = new StringBuilder();
 
-        confirmChanges = ProgramAlerts.deleteAlert();
+        isInputInvalid = false;
+        //validate each input
+        try {
 
-        if (confirmChanges) {
-            AppointmentManager.removeAppointment(selectedAppointment);
-            appointmentDao.removeObject(selectedAppointment);
-
-            //Return to the MainPage.fxml
-            MainMenuWindow.returnToMainMenu(actionEvent);
+            if (locationField.getText().isBlank()) {
+                throw new myExceptions("Location field is empty.\n");
+            }
+        }
+        catch (myExceptions ex) {
+            errorMessage.append(ex.getMessage());
+            isInputInvalid = true;
         }
 
-    }
-
-    //Method exits out of the ModifyAppointmentPage and back to the MainMenu
-    public void cancelButtonPressed(ActionEvent actionEvent) throws IOException {
-
-        confirmChanges = ProgramAlerts.cancelAlert();
-        if (confirmChanges) {
-            //Return to the MainPage.fxml
-            MainMenuWindow.returnToMainMenu(actionEvent);
+        try {
+            if (typeField.getText().isBlank()) {
+                throw new myExceptions("Type field is empty.\n");
+            }
+        }
+        catch (myExceptions ex) {
+            errorMessage.append(ex.getMessage());
+            isInputInvalid = true;
         }
 
+        try {
+            if (customerComboBox.getSelectionModel().isEmpty()) {
+                throw new myExceptions("No customer was selected.\n");
+            }
+
+        }
+        catch (myExceptions ex) {
+            errorMessage.append(ex.getMessage());
+            isInputInvalid = true;
+        }
+
+        try {
+            if (startTimeComboBox.getSelectionModel().isEmpty()) {
+                throw new myExceptions("No start time selected.\n");
+            }
+            if (startTimeComboBox.getSelectionModel().getSelectedItem().isAfter(endTimeComboBox.getSelectionModel().getSelectedItem())) {
+                throw new myExceptions("The start time can not be after the end time");
+            }
+        }
+        catch (myExceptions ex) {
+            errorMessage.append((ex.getMessage()));
+            isInputInvalid = true;
+        }
+
+        try {
+            if (endTimeComboBox.getSelectionModel().isEmpty()) {
+                throw new myExceptions("No end time selected.\n");
+            }
+        }
+        catch (myExceptions ex) {
+            errorMessage.append((ex.getMessage()));
+            isInputInvalid = true;
+        }
+
+        try {
+            if (datePicker.getValue() == null) {
+                throw new myExceptions("No date selected.\n");
+            }
+        }
+        catch (myExceptions ex) {
+            errorMessage.append((ex.getMessage()));
+            isInputInvalid = true;
+        }
+
+        try {
+            if (userComboBox.getSelectionModel().isEmpty()) {
+                throw new myExceptions("No user selected.\n");
+            }
+        }
+        catch (myExceptions ex) {
+            errorMessage.append((ex.getMessage()));
+            isInputInvalid = true;
+        }
+
+        try {
+            if (contactComboBox.getSelectionModel().isEmpty()) {
+                throw new myExceptions("No contact selected.\n");
+            }
+        }
+        catch (myExceptions ex) {
+            errorMessage.append((ex.getMessage()));
+            isInputInvalid = true;
+        }
+
+        return errorMessage.toString();
     }
 
 

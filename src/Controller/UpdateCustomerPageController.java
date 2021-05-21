@@ -49,10 +49,84 @@ public class UpdateCustomerPageController implements Initializable {
     private DivisionDao divisionDao = new DivisionDao();
 
     private boolean confirmChanges = false;
+    private boolean isInputInvalid = false;
+
+
+    //input validation to check if each field is not blank
+    public String inputValidation(ActionEvent actionEvent) {
+        StringBuilder errorMessage = new StringBuilder();
+
+        isInputInvalid = false;
+        //validate each input
+        try {
+
+            if (customerNameField.getText().isBlank()) {
+                throw new myExceptions("Customer name field is empty.\n");
+            }
+        }
+        catch (myExceptions ex) {
+            errorMessage.append(ex.getMessage());
+            isInputInvalid = true;
+        }
+
+        try {
+            if (addressField.getText().isBlank()) {
+                throw new myExceptions("Address field is empty.\n");
+            }
+        }
+        catch (myExceptions ex) {
+            errorMessage.append(ex.getMessage());
+            isInputInvalid = true;
+        }
+
+        try {
+            if (postalField.getText().isBlank()) {
+                throw new myExceptions("Postal code field is empty.\n");
+            }
+
+        }
+        catch (myExceptions ex) {
+            errorMessage.append(ex.getMessage());
+            isInputInvalid = true;
+        }
+
+        try {
+            if (phoneField.getText().isBlank()) {
+                throw new myExceptions("Phone field is empty.\n");
+            }
+        }
+        catch (myExceptions ex) {
+            errorMessage.append((ex.getMessage()));
+            isInputInvalid = true;
+        }
+
+        try {
+            if (divisionComboBox.getSelectionModel().isEmpty()) {
+                System.out.println("1");
+                throw new myExceptions("No division selected.\n");
+            }
+        }
+        catch (myExceptions ex) {
+            errorMessage.append(ex.getMessage());
+            isInputInvalid = true;
+        }
+
+        return errorMessage.toString();
+    }
 
     public void saveButtonPressed(ActionEvent actionEvent) throws SQLException, IOException {
         int selectedIndex;
         selectedIndex = customerTableView.getSelectionModel().getFocusedIndex();
+
+        //stores the errorMessage in a variable
+        String errorMessage = inputValidation(actionEvent);
+
+        if (isInputInvalid) {
+            //the inputValidation method will make isInputValid = true and return the error message
+            ProgramAlerts.inputValidationAlert(errorMessage);
+            //exits the method to prevent it from saving.
+            return;
+        }
 
         //Calls the ProgramAlerts.saveChangesAlert and changes the flag boolean variable depending on the user response.
         confirmChanges = ProgramAlerts.saveChangesAlert();
