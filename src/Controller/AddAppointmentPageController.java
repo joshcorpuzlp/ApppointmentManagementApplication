@@ -37,8 +37,6 @@ public class AddAppointmentPageController implements Initializable {
     @FXML private ComboBox<String> contactComboBox;
     @FXML private ComboBox<String> userComboBox;
 
-    @FXML private Button saveButton;
-    @FXML private Button cancelButton;
 
     //configure boolean flag variables
     private boolean confirmChanges = false;
@@ -61,7 +59,7 @@ public class AddAppointmentPageController implements Initializable {
     public void saveButtonPressed(ActionEvent actionEvent) throws IOException, SQLException {
 
         //stores the errorMessage in a variable
-        String errorMessage = inputValidation(actionEvent);
+        String errorMessage = inputValidation();
 
         if (isInputInvalid) {
             //the inputValidation method will make isInputValid = true and return the error message
@@ -133,19 +131,18 @@ public class AddAppointmentPageController implements Initializable {
         LocalDateTime startTimeInput = LocalDateTime.of(datePicker.getValue(), startTimeComboBox.getSelectionModel().getSelectedItem());
         LocalDateTime endTimeInput = LocalDateTime.of(datePicker.getValue(), endTimeComboBox.getSelectionModel().getSelectedItem());
 
-        for (int i = 0; i < contactAppointments.size(); ++i) {
+        for (Appointment contactAppointment : contactAppointments) {
             //check for whether the inputs clash with the selected contact's existing appointments.
-            if(
-                    (startTimeInput.isAfter(LocalDateTime.of(contactAppointments.get(i).getDate(), contactAppointments.get(i).getStartTime().toLocalTime())) &&
-                            startTimeInput.isBefore(LocalDateTime.of(contactAppointments.get(i).getDate(), contactAppointments.get(i).getEndTime().toLocalTime()))  ) ||
-                            (endTimeInput.isAfter(LocalDateTime.of(contactAppointments.get(i).getDate(), contactAppointments.get(i).getStartTime().toLocalTime())) &&
-                                    endTimeInput.isBefore(LocalDateTime.of(contactAppointments.get(i).getDate(), contactAppointments.get(i).getEndTime().toLocalTime()))  ) ||
-                            (startTimeInput.isEqual(LocalDateTime.of(contactAppointments.get(i).getDate(), contactAppointments.get(i).getStartTime().toLocalTime())) &&
-                                    endTimeInput.isEqual(LocalDateTime.of(contactAppointments.get(i).getDate(), contactAppointments.get(i).getEndTime().toLocalTime())))
+            if (
+                    (startTimeInput.isAfter(LocalDateTime.of(contactAppointment.getDate(), contactAppointment.getStartTime().toLocalTime())) &&
+                            startTimeInput.isBefore(LocalDateTime.of(contactAppointment.getDate(), contactAppointment.getEndTime().toLocalTime()))) ||
+                            (endTimeInput.isAfter(LocalDateTime.of(contactAppointment.getDate(), contactAppointment.getStartTime().toLocalTime())) &&
+                                    endTimeInput.isBefore(LocalDateTime.of(contactAppointment.getDate(), contactAppointment.getEndTime().toLocalTime()))) ||
+                            (startTimeInput.isEqual(LocalDateTime.of(contactAppointment.getDate(), contactAppointment.getStartTime().toLocalTime())) &&
+                                    endTimeInput.isEqual(LocalDateTime.of(contactAppointment.getDate(), contactAppointment.getEndTime().toLocalTime())))
 
 
-            )
-            {
+            ) {
 
                 isTimeInvalid = ProgramAlerts.overlappingTimes();
                 //need to return to exit the for loop when conditional statement goes through
@@ -163,7 +160,7 @@ public class AddAppointmentPageController implements Initializable {
     }
 
     //input validation to check if each field is not blank
-    public String inputValidation(ActionEvent actionEvent) {
+    public String inputValidation() {
         StringBuilder errorMessage = new StringBuilder();
 
         isInputInvalid = false;
@@ -274,19 +271,11 @@ public class AddAppointmentPageController implements Initializable {
         Boolean startTimeAllowed = estStart.toLocalTime().isAfter(openingHour);
         Boolean endTimeAllowed = estEnd.toLocalTime().isBefore(closingHour);
 
-        System.out.println(startTime);
-        System.out.println(endTime);
-        System.out.println(estStart);
-        System.out.println(estEnd);
-        System.out.println(openingHour);
-        System.out.println(closingHour);
-
-        if (startTimeAllowed && endTimeAllowed) {
+        //if else is necessary to allow code to validate both ways.
+        if (startTimeAllowed && endTimeAllowed)
             isOutsideBusinessHours = false;
-        }
-        else {
+        else
             isOutsideBusinessHours = true;
-        }
 
     }
 
@@ -313,7 +302,7 @@ public class AddAppointmentPageController implements Initializable {
 
         //loads the ComboBox with the LocalTimes
         for (int hour = 5; hour <= 20; ++hour ) {
-            for (int minutes = 00; minutes <= 45; minutes += 15) {
+            for (int minutes = 0; minutes <= 45; minutes += 15) {
 //                DateTimeFormatter myFormat = DateTimeFormatter.ofPattern("hh:mm a");
 
                 LocalTime startTime = LocalTime.of(hour, minutes);
@@ -325,7 +314,7 @@ public class AddAppointmentPageController implements Initializable {
 
         //loads the ComboBox with the LocalTimes
         for (int hour = 5; hour <= 20; ++hour ) {
-            for (int minutes = 00; minutes <= 45; minutes += 15) {
+            for (int minutes = 0; minutes <= 45; minutes += 15) {
 //                DateTimeFormatter myFormat = DateTimeFormatter.ofPattern("hh:mm a");
 
                 LocalTime endTime = LocalTime.of(hour, minutes);
