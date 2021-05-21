@@ -33,8 +33,8 @@
             <TextArea fx:id="reportTextArea" layoutX="14.0" layoutY="131.0" prefHeight="341.0" prefWidth="722.0" />
             <ComboBox fx:id="contactComboBox" layoutX="586.0" layoutY="94.0" prefWidth="150.0" promptText="Select Contact" />
           <Button fx:id="report1" layoutX="14.0" layoutY="14.0" mnemonicParsing="false" onAction="#report1Pressed" text="Number of Appointments / Type" />
-            <Button layoutX="15.0" layoutY="47.0" mnemonicParsing="false" onAction="#report2Pressed" text="Number of Appointments / User" />
-            <Button layoutX="15.0" layoutY="81.0" mnemonicParsing="false" onAction="#report3Pressed" text="Average Appointment Length / User" />
+            <Button layoutX="15.0" layoutY="47.0" mnemonicParsing="false" onAction="#report2Pressed" text="Number of Appointments / Contact" />
+            <Button layoutX="15.0" layoutY="81.0" mnemonicParsing="false" onAction="#report3Pressed" text="Average Appointment Length / Contact" />
          </children>
       </AnchorPane>
    </center>
