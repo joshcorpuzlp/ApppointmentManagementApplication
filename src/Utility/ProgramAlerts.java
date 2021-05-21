@@ -118,4 +118,14 @@ public class ProgramAlerts {
         alert.showAndWait();
     }
 
+    public static void customerAppointmentError(String customerName) {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.initModality(Modality.NONE);
+        alert.setTitle("ERROR!");
+        alert.setHeaderText("Customer has existing appointments");
+        alert.setContentText("The customer: " + customerName + " can not be deleted!!\n" +
+                        "They have existing appointment(s)");
+        alert.showAndWait();
+    }
+
 }
