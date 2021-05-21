@@ -10,7 +10,7 @@
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="400.0" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml" fx:controller="Controller.LogInController">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="400.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.LogInController">
    <right>
       <AnchorPane prefHeight="400.0" prefWidth="363.0" style="-fx-background-color: #d8e3e7;" BorderPane.alignment="CENTER">
          <children>
@@ -33,6 +33,11 @@
             <Label fx:id="logInMessage" layoutX="94.0" layoutY="252.0" style="-fx-text-fill: #ff0000;" text="Incorrect credentials" textFill="GREEN">
                <font>
                   <Font name="Segoe UI" size="11.0" />
+               </font>
+            </Label>
+            <Label fx:id="zoneIdLabel" layoutX="6.0" layoutY="381.0" text="Label" textFill="#8d8d8d">
+               <font>
+                  <Font size="10.0" />
                </font>
             </Label>
          </children>

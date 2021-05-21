@@ -21,6 +21,7 @@ import javafx.stage.Stage;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
+import java.time.ZoneId;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
@@ -30,6 +31,7 @@ public class LogInController implements Initializable {
     @FXML private Label logInMessage;
     @FXML private Label userNameLabel;
     @FXML private Label passwordLabel;
+    @FXML private Label zoneIdLabel;
 
     @FXML private TextField userNameField;
     @FXML private PasswordField passwordField;
@@ -37,12 +39,17 @@ public class LogInController implements Initializable {
     @FXML private Button signInButton;
     @FXML private Button cancelButton;
 
+
+
     private Locale locale = Locale.getDefault();
-    String lang = locale.getDisplayLanguage();
-    String country = locale.getDisplayCountry();
+    private String lang = locale.getDisplayLanguage();
+    private String country = locale.getDisplayCountry();
+    private ZoneId zoneId = ZoneId.systemDefault();
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+
+        zoneIdLabel.setText("Zone: " + zoneId.toString());
 
         //configures the login message to say nothing.
         logInMessage.setText("");
