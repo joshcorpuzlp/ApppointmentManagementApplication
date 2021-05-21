@@ -105,12 +105,20 @@ public class ProgramAlerts {
         alert.setContentText("Please select different start and end times.");
         Optional<ButtonType> result = alert.showAndWait();
 
-        if (result.get() == ButtonType.OK) {
-            isTimeInvalid = true;
-        }
+
+        isTimeInvalid = true;
+
 
         return isTimeInvalid;
     }
 
+    public static void inputValidationAlert(String errorMessage) {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.initModality(Modality.NONE);
+        alert.setTitle("ERROR!");
+        alert.setHeaderText("Invalid input(s)");
+        alert.setContentText(errorMessage);
+        alert.showAndWait();
+    }
 
 }
