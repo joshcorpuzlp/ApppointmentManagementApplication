@@ -118,8 +118,10 @@ public class MainController implements Initializable {
         stage.show();
     }
 
-
-    //Method for filtering the tableView based on which radio button is toggled.
+    /**
+     * Method for filtering the tableView based on which radio button is toggled.
+     * used streams instead of a for loop. Utilized a lambda to convert appointment to appointment.getDate()
+     */
     public void dateFilterButtonSelected() {
         filteredAppointments.clear();
 
@@ -144,9 +146,8 @@ public class MainController implements Initializable {
             fromDatePicker.setDisable(true);
             toDatePicker.setDisable(true);
 
-            /**
-             *used streams instead of a for loop. Utilized a lambda to convert appointment to appointment.getDate()
-             */
+
+            //used streams instead of a for loop. Utilized a lambda to convert appointment to appointment.getDate()
             appointmentCalendar.setItems(appointments.stream()
                     .filter(appointment -> appointment.getDate().getMonth() == LocalDate.now().getMonth())
                     .filter(appointment -> appointment.getDate().getYear() == LocalDate.now().getYear())
@@ -183,7 +184,11 @@ public class MainController implements Initializable {
 
     }
 
-    //method that handles changes to the DatePickers
+
+    /**
+     * Method that handles changes to the DatePickers
+     * @param actionEvent
+     */
     public void handle(ActionEvent actionEvent) {
         filteredAppointments.clear();
         LocalDate fromDate = fromDatePicker.getValue();
@@ -196,10 +201,19 @@ public class MainController implements Initializable {
                 .collect(Collectors.toCollection(FXCollections::observableArrayList)));
     }
 
+    /**
+     * Method that handles changes in the calendar
+     * @param actionEvent triggered by button press
+     */
     public void handleCalendarChange(ActionEvent actionEvent) {
         modifyAppointmentButton.setDisable(false);
     }
 
+    /**
+     * Method that opens the ReportsPage
+     * @param actionEvent triggered by button pressed
+     * @throws IOException
+     */
     public void reportsButtonPressed(ActionEvent actionEvent) throws IOException {
         Parent root = FXMLLoader.load(getClass().getResource("../View/ReportsPage.fxml"));
         Scene MainPageScene = new Scene(root);
@@ -209,10 +223,15 @@ public class MainController implements Initializable {
         stage.show();
     }
 
-    //TODO create a reusable return to mainMenuPage method to be used on all the cancel buttons throughout the program.
 
-
-
+    /**
+     * Method that initializes the MainController page
+     * created a listener that checks for a selection within the appointmentCalendar.
+     * If newSelection is not null, then we can enable the modifyAppointmentButton using a Lambda
+     *
+     * @param url
+     * @param rb
+     */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         appointmentDao.loadDbObjects();
@@ -253,10 +272,8 @@ public class MainController implements Initializable {
         modifyAppointmentButton.setDisable(true);
 
 
-        /**
-         * created a listener that checks for a selection within the appointmentCalendar. If newSelection is not null, then we can enable the modifyAppointmentButton using a lambda
-            else we set it to disable it again.
-         */
+        //created a listener that checks for a selection within the appointmentCalendar. If newSelection is not null, then we can enable the modifyAppointmentButton using a lambda
+        //else we set it to disable it again.
         appointmentCalendar.getSelectionModel().selectedItemProperty().addListener((abs, oldSelection, newSelection) -> {
             if (newSelection != null) {
                 modifyAppointmentButton.setDisable(false);
@@ -266,9 +283,6 @@ public class MainController implements Initializable {
             }
         });
 
-
-
-        //TODO clean up code! Need to create a currentUser and get an ObservableList of Appointments of CurrentUser
         //Created a for loop that will load the selected User based on AppointmentManager's loggedInUserId
         for (int i = 0; i < AppointmentManager.getAllUsers().size(); ++i) {
             if (AppointmentManager.getLoggedInUserId() == AppointmentManager.getAllUsers().get(i).getUserId()) {

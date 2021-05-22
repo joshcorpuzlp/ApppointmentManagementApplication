@@ -44,6 +44,12 @@ public class AddAppointmentPageController implements Initializable {
     private boolean isInputInvalid = false;
     private boolean isOutsideBusinessHours = false;
 
+
+    /**
+     * Method called when cancel button is pressed.
+     * @param actionEvent triggered by button press
+     * @throws IOException
+     */
     public void cancelButtonPressed(ActionEvent actionEvent) throws IOException {
 
         confirmChanges = ProgramAlerts.cancelAlert();
@@ -55,7 +61,13 @@ public class AddAppointmentPageController implements Initializable {
 
     }
 
-    //Method called when saveButton is Pressed. This will take in all the fields and selections, create an appointment, and update the database through AppointmentsDao
+    /**
+     * Method called when saveButton is Pressed. This will take in all the fields and selections, create an appointment, and update the database through AppointmentsDao.
+     *
+     * @param actionEvent triggered by button press
+     * @throws IOException
+     * @throws SQLException
+     */
     public void saveButtonPressed(ActionEvent actionEvent) throws IOException, SQLException {
 
         //stores the errorMessage in a variable
@@ -116,8 +128,10 @@ public class AddAppointmentPageController implements Initializable {
 
     }
 
-    //Method validates the start and end time inputs for the selected contact.
-    //if time is invalid, it will set the flag variable to true, used in the saveButtonPressed as a validation method.
+    /**
+     * Method validates the start and end time inputs for the selected contact.
+     * if time is invalid, it will set the flag variable to true, used in the saveButtonPressed as a validation method.
+     */
     public void timeValidation() {
         ObservableList<Appointment> contactAppointments = FXCollections.observableArrayList();
 
@@ -159,7 +173,12 @@ public class AddAppointmentPageController implements Initializable {
 
     }
 
-    //input validation to check if each field is not blank
+    //
+
+    /**
+     * A method for input validation to check if each field is not blank
+     * @return Returns a string object
+     */
     public String inputValidation() {
         StringBuilder errorMessage = new StringBuilder();
 
@@ -253,7 +272,11 @@ public class AddAppointmentPageController implements Initializable {
         return errorMessage.toString();
     }
 
-    //Checks to make sure the start and end times the user selected are within business hours (9:00-17:00 UTD)
+    //
+
+    /**
+     * Method that checks to make sure the start and end times the user selected are within business hours (9:00-17:00 UTD)
+     */
     public void insideBusinessHours() {
         ZonedDateTime startTime = LocalDateTime.of(datePicker.getValue(), startTimeComboBox.getSelectionModel().getSelectedItem()).atZone(ZoneId.systemDefault());
         ZonedDateTime endTime = LocalDateTime.of(datePicker.getValue(), endTimeComboBox.getSelectionModel().getSelectedItem()).atZone(ZoneId.systemDefault());
@@ -280,8 +303,18 @@ public class AddAppointmentPageController implements Initializable {
     }
 
 
-
-
+    /**
+     * Method that initializes the AddAppointmentPage.
+     * loads the ObservableList of Customer objects within AppointmentManager with contents of the DB.
+     * loads the ComboBox with User userNames.
+     * loads the ObservableList of Customer objects within the AppointmentManager to the customerComboBox.
+     * loads the ComboBox with the LocalTimes.
+     * loads the ComboBox with the LocalTimes.
+     * load ContactComboBox with Contacts.
+     * Lambda used to disable past dates and weekends from being selected.
+     * @param url
+     * @param rb
+     */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         //loads the ObservableList of Customer objects within AppointmentManager with contents of the DB.

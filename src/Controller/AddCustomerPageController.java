@@ -8,13 +8,9 @@ import Utility.MainMenuWindow;
 import Utility.ProgramAlerts;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.net.URL;
@@ -50,8 +46,13 @@ public class AddCustomerPageController implements Initializable {
     private boolean confirmChanges = false;
     private boolean isInputInvalid = false;
 
-    //FIXME convert to reusable code for cancel buttons.
-    //method that runs when the cancelButton is pressed. It returns the program to the MainPage.
+    //
+
+    /**
+     * Method that runs when the cancelButton is pressed. It returns the program to the MainPage.
+     * @param actionEvent Triggered by button pressed
+     * @throws IOException
+     */
     public void cancelButtonPressed(ActionEvent actionEvent) throws IOException {
 
         //calls the ProgramAlerts.cancelAlert() and saves the response as a boolean value.
@@ -64,7 +65,13 @@ public class AddCustomerPageController implements Initializable {
 
     }
 
-    //input validation to check if each field is not blank
+    //
+
+    /**
+     * A method for input validation to check if each field is not blank
+     * @param actionEvent Triggered by button pressed
+     * @return
+     */
     public String inputValidation(ActionEvent actionEvent) {
         StringBuilder errorMessage = new StringBuilder();
 
@@ -126,7 +133,12 @@ public class AddCustomerPageController implements Initializable {
         return errorMessage.toString();
     }
 
-
+    /**
+     * Method called when saved button is pressed. Saves a new Customer
+     * @param actionEvent triggered by button press
+     * @throws SQLException
+     * @throws IOException
+     */
     public void saveNewCustomerButtonPressed(ActionEvent actionEvent) throws SQLException, IOException {
 
         //stores the errorMessage in a variable
@@ -170,13 +182,22 @@ public class AddCustomerPageController implements Initializable {
 
     }
 
+    /**
+     * Method that initializes the AddCustomerPage.
+     * loads the ObservableList of Customer objects within AppointmentManager with contents of the DB.
+     * loads the ObservableList of Division objects within the AppointmentManager to the ComboBox options.
+     * initialize each column of the TableView.
+     *
+     * @param url
+     * @param rb
+     */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         //loads the ObservableList of Customer objects within AppointmentManager with contents of the DB.
         divisionDao.loadDbObjects();
         customerDao.loadDbObjects();
 
-        //loads the ObservableList of Division objects within the AppointmentManager to the ComboxOptions
+        //loads the ObservableList of Division objects within the AppointmentManager to the ComboBox options
         for (int i = 0; i < AppointmentManager.getAllDivisions().size(); ++i) {
             divisionComboBox.getItems().add(AppointmentManager.getDivision(i));
         }

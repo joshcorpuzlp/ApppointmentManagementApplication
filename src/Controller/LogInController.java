@@ -46,6 +46,11 @@ public class LogInController implements Initializable {
     private String country = locale.getDisplayCountry();
     private ZoneId zoneId = ZoneId.systemDefault();
 
+    /**
+     * Initializes the Login page
+     * @param url
+     * @param rb
+     */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
 

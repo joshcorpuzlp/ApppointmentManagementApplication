@@ -262,9 +262,12 @@ public class UpdateCustomerPageController implements Initializable {
         return errorMessage.toString();
     }
 
-    // TODO scheduling an appointment outside of business hours defined as 8:00 a.m. to 10:00 p.m. EST, including weekends
 
-
+    /**
+     * Initializes the UpdateCustomerPage
+     * @param url
+     * @param rb
+     */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         //loads the ObservableList of Customer, Division and Appointment objects within AppointmentManager with contents of the DB.

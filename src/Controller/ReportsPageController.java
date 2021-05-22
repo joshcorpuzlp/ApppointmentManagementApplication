@@ -4,7 +4,6 @@ import Dao.ContactDao;
 import Dao.ReportsDao;
 import Model.AppointmentManager;
 import Model.Contact;
-import Model.User;
 import Utility.MainMenuWindow;
 import Utility.ProgramAlerts;
 import javafx.event.ActionEvent;
@@ -13,7 +12,6 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextArea;
-
 
 import java.io.IOException;
 import java.net.URL;
@@ -36,26 +34,21 @@ public class ReportsPageController implements Initializable {
 
     private ContactDao contactDao = new ContactDao();
 
-
-
-
-
-    /*
-     * method that runs the reportsDao.report1 method and then displays the results on the reportTextArea
-     *
-     ***************************************************/
+    /**
+     * Method that runs the reportsDao.report1 method and then displays the results on the reportTextArea
+     * @param actionEvent
+     */
     public void report1Pressed(ActionEvent actionEvent) {
         reportTextArea.setText(reportsDao.report1());
     }
 
 
-
-
-    /*
-     * method that runs the reportsDao.report2 method passing the selected value within the userNamesComboBox as an argument
+    /**
+     * Method that runs the reportsDao.report2 method passing the selected value within the userNamesComboBox as an argument.
      * for the reportsDao.report2 method, then displays the String returned on reportTextArea
-     *
-     ***************************************************/
+     * @param actionEvent
+     * @throws SQLException
+     */
     public void report2Pressed(ActionEvent actionEvent) throws SQLException {
         Contact selectedContact;
 
@@ -83,13 +76,13 @@ public class ReportsPageController implements Initializable {
         }
     }
 
-    /*
-     * method that runs the reportsDao.report3 method, passing the selected value of the userNamesComboBox
-     * as its argument
-     *
+
+    /**
+     * Method that runs the reportsDao.report3 method, passing the selected value of the userNamesComboBox as its argument.
      * reportsDao.report3 returns a String which is the report displayed on the reportTextArea
      *
-     ***************************************************/
+     * @param actionEvent
+     */
     public void report3Pressed(ActionEvent actionEvent)  {
         Contact selectedContact;
         for (int i =0; i < AppointmentManager.getAllContacts().size(); ++i) {
@@ -117,12 +110,22 @@ public class ReportsPageController implements Initializable {
 
     }
 
-    //method that runs when the cancelButton is pressed. It returns the program to the MainPage.
+
+    /**
+     * method that runs when the cancelButton is pressed. It returns the program to the MainPage.
+     * @param actionEvent triggered by button press
+     * @throws IOException
+     */
     public void cancelButtonPressed(ActionEvent actionEvent) throws IOException {
         //Return to the MainPage.fxml
         MainMenuWindow.returnToMainMenu(actionEvent);
     }
 
+    /**
+     * Initializes the ReportsPage
+     * @param url
+     * @param rb
+     */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         contactDao.loadDbObjects();

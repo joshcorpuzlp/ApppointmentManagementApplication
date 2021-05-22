@@ -11,6 +11,11 @@ import java.sql.SQLException;
 
 public class Main extends Application {
 
+    /**
+     * Start method for the JAVAFX application
+     * @param primaryStage
+     * @throws Exception
+     */
     @Override
     public void start(Stage primaryStage) throws Exception{
         Parent root = FXMLLoader.load(getClass().getResource("../View/LogInPage.fxml"));
@@ -19,11 +24,13 @@ public class Main extends Application {
         primaryStage.show();
     }
 
-
+    /**
+     * Main method of the programm
+     * @param args
+     * @throws SQLException
+     * @throws ClassNotFoundException
+     */
     public static void main(String[] args) throws SQLException, ClassNotFoundException {
-//        tester code that forces the default locale to be of French language.
-//        Locale forcedLocale = new Locale("fr");
-//        Locale.setDefault(forcedLocale);
 
         //establish the connection with the database.
         DbConnection.makeConnection();
@@ -36,7 +43,7 @@ public class Main extends Application {
         DbConnection.closeConnection();
     }
 }
-
+//Created myExceptions to throw my own exceptions
 class myExceptions extends Exception {
     public myExceptions() {
         super();

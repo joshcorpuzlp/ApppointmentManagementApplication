@@ -57,8 +57,12 @@ public class ModifyAppointmentPageController implements Initializable {
     private boolean isInputInvalid = false;
     private boolean isOutsideBusinessHours = false;
 
-
-    //Method that saves the current values and selections within the TextFields, ComboBoxes and DatePicker
+    /**
+     * Method that saves the current values and selections within the TextFields, ComboBoxes and DatePicker
+     * @param actionEvent triggered by button pressed
+     * @throws SQLException
+     * @throws IOException
+     */
     public void saveButtonPressed(ActionEvent actionEvent) throws SQLException, IOException {
 
         //stores the errorMessage in a variable
@@ -119,7 +123,12 @@ public class ModifyAppointmentPageController implements Initializable {
     }
 
 
-    //Method that deletes the currently selected Appointment
+    /**
+     * Method that deletes the currently selected Appointment
+     * @param actionEvent triggered by button pressed
+     * @throws SQLException
+     * @throws IOException
+     */
     public void deleteButtonPressed(ActionEvent actionEvent) throws SQLException, IOException {
 
         confirmChanges = ProgramAlerts.deleteAlert();
@@ -134,7 +143,12 @@ public class ModifyAppointmentPageController implements Initializable {
 
     }
 
-    //Method exits out of the ModifyAppointmentPage and back to the MainMenu
+
+    /**
+     * Method exits out of the ModifyAppointmentPage and back to the MainMenu
+     * @param actionEvent triggered by button pressed
+     * @throws IOException
+     */
     public void cancelButtonPressed(ActionEvent actionEvent) throws IOException {
 
         confirmChanges = ProgramAlerts.cancelAlert();
@@ -145,8 +159,10 @@ public class ModifyAppointmentPageController implements Initializable {
 
     }
 
-    //Method validates the start and end time inputs for the selected contact.
-    //if time is invalid, it will set the flag variable to true, used in the saveButtonPressed as a validation method.
+    /**
+     * Method validates the start and end time inputs for the selected contact.
+     * if time is invalid, it will set the flag variable to true, used in the saveButtonPressed as a validation method.
+     */
     public void timeValidation() {
         ObservableList<Appointment> contactAppointments = FXCollections.observableArrayList();
 
@@ -179,7 +195,12 @@ public class ModifyAppointmentPageController implements Initializable {
         }
     }
 
-    //input validation to check if each field is not blank
+
+    /**
+     * input validation to check if each field is not blank
+     * @param actionEvent triggered by button pressed
+     * @return
+     */
     public String inputValidation(ActionEvent actionEvent) {
         StringBuilder errorMessage = new StringBuilder();
 
@@ -273,7 +294,10 @@ public class ModifyAppointmentPageController implements Initializable {
         return errorMessage.toString();
     }
 
-    //Checks to make sure the start and end times the user selected are within business hours (9:00-17:00 UTD)
+
+    /**
+     * Checks to make sure the start and end times the user selected are within business hours (9:00-17:00 EST)
+     */
     public void insideBusinessHours() {
         ZonedDateTime startTime = LocalDateTime.of(datePicker.getValue(), startTimeComboBox.getSelectionModel().getSelectedItem()).atZone(ZoneId.systemDefault());
         ZonedDateTime endTime = LocalDateTime.of(datePicker.getValue(), endTimeComboBox.getSelectionModel().getSelectedItem()).atZone(ZoneId.systemDefault());
@@ -284,7 +308,7 @@ public class ModifyAppointmentPageController implements Initializable {
         ZonedDateTime estEnd = endTime.toInstant().atZone(ZoneId.of("EST", ZoneId.SHORT_IDS));
 
 
-        //Compare by using LocalTime datatypes
+        //Compare by using LocalTime objects
         LocalTime openingHour = LocalTime.parse("08:59");
         LocalTime closingHour = LocalTime.parse("17:01");
 
@@ -299,6 +323,20 @@ public class ModifyAppointmentPageController implements Initializable {
 
     }
 
+    /**
+     * Initializes the ModifyAppointmentPage.
+     * loads the ObservableList of Customer objects within AppointmentManager with contents of the DB.
+     * loads the ComboBox with User userNames.
+     * loads the ObservableList of Customer objects within the AppointmentManager to the customerComboBox.
+     * loads the ComboBox with the LocalTimes.
+     * load ContactComboBox with Contacts.
+     * Load the TextFields, ComboBoxes and DatePicker with the selectedAppointment's data members.
+     * Utilized Map to retrieve the key from a given value.
+     * Lambda used to disable past dates and weekends from being selected.
+     *
+     * @param url
+     * @param rb
+     */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         //loads the ObservableList of Customer objects within AppointmentManager with contents of the DB.
@@ -317,25 +355,22 @@ public class ModifyAppointmentPageController implements Initializable {
             customerComboBox.getItems().add(AppointmentManager.getCustomer(i).getCustomerName());
         }
 
-        //loads the ComboBox with the LocalTimes, options limited to business hours
+        //loads the ComboBox with the LocalTimes
         for (int hour = 5; hour <= 20; ++hour) {
             for (int minutes = 0; minutes <= 45; minutes +=15) {
-//                DateTimeFormatter myFormat = DateTimeFormatter.ofPattern("hh:mm a");
+
 
                 LocalTime startTime = LocalTime.of(hour, minutes);
-//                startTimeComboBox.getItems().add(startTime.format(myFormat));
                 startTimeComboBox.getItems().add(startTime);
             }
 
         }
 
-        //loads the ComboBox with the LocalTimes, option limited to business hours
+        //loads the ComboBox with the LocalTimes
         for (int hour = 5; hour <= 20; ++hour) {
             for (int minutes = 0; minutes <= 45; minutes += 15) {
-//                DateTimeFormatter myFormat = DateTimeFormatter.ofPattern("hh:mm a");
 
                 LocalTime endTime = LocalTime.of(hour, minutes);
-//                endTimeComboBox.getItems().add(startTime.format(myFormat));
                 endTimeComboBox.getItems().add(endTime);
             }
 
