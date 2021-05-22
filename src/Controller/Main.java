@@ -9,6 +9,9 @@ import javafx.stage.Stage;
 
 import java.sql.SQLException;
 
+/**
+ * @author Joshua Corpuz
+ */
 public class Main extends Application {
 
     /**
