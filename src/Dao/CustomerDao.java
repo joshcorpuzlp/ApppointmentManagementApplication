@@ -2,7 +2,7 @@ package Dao;
 
 import Model.AppointmentManager;
 import Model.Customer;
-import Utility.dbConnection;
+import Utility.DbConnection;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
@@ -22,7 +22,7 @@ public class CustomerDao implements Dao<Customer> {
                 "on c.Division_ID = d.Division_ID;";
 
         try {
-            ResultSet rs = dbConnection.getStatement().executeQuery(query);
+            ResultSet rs = DbConnection.getStatement().executeQuery(query);
             while (rs.next()) {
                 int customerId = rs.getInt("Customer_ID");
                 String customerName = rs.getString("Customer_Name");
@@ -56,7 +56,7 @@ public class CustomerDao implements Dao<Customer> {
         String query = "INSERT INTO customers (Customer_Name, Address, Postal_Code, Division_ID, Phone) VALUES (?, ?, ?, ?, ?);";
 
         //create a PreparedStatement object called the insertQuery that has the value of the above query.
-        PreparedStatement insertQuery = dbConnection.getConnection().prepareStatement(query);
+        PreparedStatement insertQuery = DbConnection.getConnection().prepareStatement(query);
 
         //configure the each value placeholder.
         insertQuery.setString(1, customer.getCustomerName());
@@ -75,7 +75,7 @@ public class CustomerDao implements Dao<Customer> {
         String query = "UPDATE customers\n" +
                 "SET Customer_Name = ?, Address = ?, Postal_Code = ?, Division_ID = ?, Phone = ?\n" +
                 "WHERE Customer_ID = ?;";
-        PreparedStatement insertQuery = dbConnection.getConnection().prepareStatement(query);
+        PreparedStatement insertQuery = DbConnection.getConnection().prepareStatement(query);
 
         insertQuery.setString(1, customer.getCustomerName());
         insertQuery.setString(2, customer.getCustomerAddress());
@@ -92,7 +92,7 @@ public class CustomerDao implements Dao<Customer> {
     public void removeObject(Customer customer) throws SQLException {
         String query = "DELETE FROM customers WHERE Customer_ID = ?;";
 
-        PreparedStatement insertQuery = dbConnection.getConnection().prepareStatement(query);
+        PreparedStatement insertQuery = DbConnection.getConnection().prepareStatement(query);
         insertQuery.setInt(1, customer.getCustomerId());
 
         insertQuery.execute();

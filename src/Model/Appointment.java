@@ -30,28 +30,34 @@ public class Appointment {
     private String formattedEndTime;
 
 
-
+    /**
+     * Returns the StarTime of the Appointment object as a LocalDateTime
+     * @return LocalDateTime object
+     */
     public LocalDateTime getStartTime() {
         return startTime;
     }
 
-    //method that uses Timestamp Objects from the MySQL database as parameters. it will first assign it a UTC zone and then convert it to SystemZone.
+    /**
+     * method that uses Timestamp Objects from the MySQL database as parameters. it will first assign it a UTC zone and then convert it to SystemZone.
+     * @param startTime Passes a TimeStamp object
+     */
     public void setStartTime(Timestamp startTime) {
         ZonedDateTime tempTime = startTime.toLocalDateTime().atZone(ZoneId.of("UTC"));
         ZoneId localZone = ZoneId.systemDefault();
         ZonedDateTime defaultZoned = tempTime.withZoneSameInstant(localZone);
         this.startTime = defaultZoned.toLocalDateTime();
 
-
-//        //console tester, can be removed later
-//        System.out.println(tempTime);
-//        System.out.println(defaultZoned);
     }
 
     public LocalDateTime getEndTime() {
         return endTime;
     }
-    //method that uses Timestamp Objects from the MySQL database as parameters. it will first assign it a UTC zone and then convert it to SystemZone.
+
+    /**
+     * Method that uses Timestamp Objects from the MySQL database as parameters. it will first assign it a UTC zone and then convert it to SystemZone.
+     * @param endTime Passes a TimeStamp object.
+     */
     public void setEndTime(Timestamp endTime) {
         ZonedDateTime tempTime = endTime.toLocalDateTime().atZone(ZoneId.of("UTC"));
         ZoneId localZone = ZoneId.systemDefault();
@@ -60,7 +66,10 @@ public class Appointment {
 
     }
 
-    //method does a similar function as the setStart/EndTime but creates a formatted string instead.
+    /**
+     * Method does a similar function as the setStart/EndTime but creates a formatted string instead.
+     * @param startTime Passes a TimeStamp object.
+     */
     public void setFormattedStartTime(Timestamp startTime) {
         DateTimeFormatter myFormat = DateTimeFormatter.ofPattern("hh:mm a");
 
@@ -74,7 +83,10 @@ public class Appointment {
         return formattedStartTime;
     }
 
-    //method does a similar function as the setStart/EndTime but creates a formatted string instead.
+    /**
+     * Method does a similar function as the setStart/EndTime but creates a formatted string instead.
+     * @param endTime Passes a TimeStamp object.
+     */
     public void setFormattedEndTime(Timestamp endTime) {
         DateTimeFormatter myFormat = DateTimeFormatter.ofPattern("hh:mm a");
 
@@ -94,7 +106,10 @@ public class Appointment {
     *setters and getters for converting LocalDateTime to TimeStamp, used with User created appointments
      */
 
-    //Method used to convert the user inputs of LocalDateTime class to TimeStamp objects. Called in the constructor.
+    /**
+     * Method used to convert the user inputs of LocalDateTime class to TimeStamp objects. Called in the constructor.
+     * @param startTime Passes a LocalDateTime object
+     */
     public void setStartDateTimeSQL(LocalDateTime startTime) {
         ZoneId utcZone = ZoneId.of("UTC");
         ZonedDateTime timeConvToUTC = startTime.atZone(ZoneId.systemDefault()).withZoneSameInstant(utcZone);
@@ -103,12 +118,20 @@ public class Appointment {
         this.startDateTimeSQL = timestamp;
 
     }
-    //method returns the TimeStamp objects of an Appointment Object.
+
+    /**
+     * Method returns the TimeStamp objects of an Appointment Object.
+     * @return LocalDateTime object
+     */
     public Timestamp getStartDateTimeSQL() {
         return startDateTimeSQL;
     }
 
-    //Method used to convert the user inputs of LocalDateTime class to TimeStamp objects. Called in the constructor.
+
+    /**
+     * Method used to convert the user inputs of LocalDateTime class to TimeStamp objects. Called in the constructor.
+     * @param endTime Passes a LocalDateTime object
+     */
     public void setEndDateTimeSQL(LocalDateTime endTime) {
         ZoneId utcZone = ZoneId.of("UTC");
         ZonedDateTime timeConvToUTC = endTime.atZone(ZoneId.systemDefault()).withZoneSameInstant(utcZone);
@@ -117,87 +140,173 @@ public class Appointment {
         this.endDateTimeSQL = timestamp;
     }
 
-    //method returns the TimeStamp objects of an Appointment Object.
+    /**
+     * Method returns the TimeStamp objects of an Appointment Object. Utilized with the AppointmentDAO
+     * @return returns a TimeStamp object.
+     */
     public Timestamp getEndDateTimeSQL() {
         return endDateTimeSQL;
     }
 
-
+    /**
+     * Method that retrieves the AppoinmentId
+     * @return An integer value containing the AppointmentId
+     */
     public int getAppointmentId() {
         return appointmentId;
     }
 
+    /**
+     * Method that sets the AppointmentId
+     * @param appointmentId passes an integer value
+     */
     public void setAppointmentId(int appointmentId) {
         this.appointmentId = appointmentId;
     }
 
+    /**
+     * Method that retrieves the location of the Appointment
+     * @return A String object containing the location for the appointment
+     */
     public String getLocation() {
         return location;
     }
 
+    /**
+     * Method that sets the location of the Appointment
+     * @param location Passes a String object.
+     */
     public void setLocation(String location) {
         this.location = location;
     }
 
+    /**
+     * Method that retrieves the type of the Appointment
+     * @return A String object containing of the type of the appointment
+     */
     public String getType() {
         return type;
     }
 
+    /**
+     * Method that sets the type of Appointment
+     * @param type Passes a String object
+     */
     public void setType(String type) {
         this.type = type;
     }
 
+    /**
+     * Method that retrieves the related User's userId
+     * @return An Integer value containing the integer
+     */
     public int getUserId() {
         return userId;
     }
 
+    /**
+     * Method that sets the related User's userId
+     * @param userId passes an integer.
+     */
     public void setUserId(int userId) {
         this.userId = userId;
     }
 
+    /**
+     * Method that returns the related Contact's name34
+     * @return String object containing the Customer name
+     */
     public String getCustomerName() {
         return customerName;
     }
 
+    /**
+     * Method sets the Customer name for the appointment
+     * @param customerName
+     */
     public void setCustomerName(String customerName) {
         this.customerName = customerName;
     }
 
+    /**
+     * Method that returns the related Contact's name
+     * @return String object containing the contact name
+     */
     public String getContactName() {
         return contactName;
     }
 
+    /**
+     * Method sets the contact name for the appointment
+     * @param contactName
+     */
     public void setContactName(String contactName) {
         this.contactName = contactName;
     }
 
+    /**
+     * Method that returns the date of the Appoointment
+     * @return
+     */
     public LocalDate getDate() {
         return date;
     }
 
+    /**
+     * Sets the date for Appointment by converting the passed TimeStamp object
+     * @param timestamp Utilizes a TimeStamp object as a parameter
+     */
     public void setDate(Timestamp timestamp) {
         date = timestamp.toLocalDateTime().toLocalDate();
     }
 
-
+    /**
+     * Method sets the Customer name for the appointment
+     * @param customerName
+     */
     public void setCustomer(String customerName) {
         customer = AppointmentManager.getCustomerFromName(customerName);
     }
 
+    /**
+     * Method that retrieves the Customer object within the appointment object
+     * @return Returns the Customer object related the appointment object.
+     */
     public Customer getCustomer() {
         return customer;
     }
 
+    /**
+     * Method sets the contact for the appointment
+     * @param contactName Passes the contact name as a String object as an argument
+     */
     public void setContact(String contactName) {
         contact = AppointmentManager.getContactFromName(contactName);
     }
+
+    /**
+     * Method that retrieves the contact object within the Appointment object
+     * @return Returns the contact object related to the appointment object.
+     */
     public Contact getContact() {
         return contact;
     }
 
 
 
-    //constructor for the Appointment class. Used when creating from Database data.
+    //
+
+    /**
+     * Constructor for the Appointment class. Used when creating from Database data.
+     * @param appointmentId Passes an integer
+     * @param location Passes a String object
+     * @param type Passes a String object
+     * @param userId Passes an integer
+     * @param customerName Passes a String object
+     * @param contactName Passes a String object
+     * @param startTime Passes a LocalTime object
+     * @param endTime Passes a LocalTime object
+     */
     public Appointment(int appointmentId, String location, String type, int userId, String customerName, String contactName, Timestamp startTime, Timestamp endTime) {
         this.appointmentId = appointmentId;
         this.location = location;
@@ -217,7 +326,19 @@ public class Appointment {
 
     }
 
-    //overloaded constructor for the Appointment class. Used when creating from User Input
+
+    /**
+     * Overloaded constructor for the Appointment class. Used when creating from User Input
+     * @param appointmentId Passes an integer
+     * @param location Passes a String object
+     * @param type Passes a String object
+     * @param customerName Passes a String object
+     * @param contactName Passes a String object
+     * @param startTime Passes a LocalTime object
+     * @param endTime Passes a LocalTime object
+     * @param date Passes a LocalDate object
+     * @param userId Passes an integer
+     */
     public Appointment(int appointmentId, String location, String type, String customerName, String contactName, LocalTime startTime, LocalTime endTime, LocalDate date, int userId) {
         this.appointmentId = appointmentId;
         this.location = location;

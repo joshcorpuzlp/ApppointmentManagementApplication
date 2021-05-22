@@ -1,6 +1,6 @@
 package Controller;
 
-import Utility.dbConnection;
+import Utility.DbConnection;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -26,14 +26,14 @@ public class Main extends Application {
 //        Locale.setDefault(forcedLocale);
 
         //establish the connection with the database.
-        dbConnection.makeConnection();
+        DbConnection.makeConnection();
 
         //sets the statement as the connection.
-        dbConnection.setStatement(dbConnection.getConnection());
+        DbConnection.setStatement(DbConnection.getConnection());
 
         launch(args);
 
-        dbConnection.closeConnection();
+        DbConnection.closeConnection();
     }
 }
 

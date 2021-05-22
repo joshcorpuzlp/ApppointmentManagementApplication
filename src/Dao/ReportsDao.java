@@ -1,7 +1,7 @@
 package Dao;
 
 import Model.Contact;
-import Utility.dbConnection;
+import Utility.DbConnection;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -28,7 +28,7 @@ public class ReportsDao {
         StringBuilder reportMessage = new StringBuilder();
 
         try {
-            ResultSet rs = dbConnection.getStatement().executeQuery(query);
+            ResultSet rs = DbConnection.getStatement().executeQuery(query);
 
             reportMessage.append("These are the number of appointments per type this month:\n");
 
@@ -69,7 +69,7 @@ public class ReportsDao {
                 "LEFT OUTER JOIN customers cu\n" +
                 "ON summaryTable.customerId = cu.Customer_ID\n" +
                 "WHERE contactID = ?;";
-        PreparedStatement reportQuery = dbConnection.getConnection().prepareStatement(query);
+        PreparedStatement reportQuery = DbConnection.getConnection().prepareStatement(query);
         reportQuery.setInt(1, contact.getContactId());
 
         ResultSet rs = reportQuery.executeQuery();
@@ -135,7 +135,7 @@ public class ReportsDao {
                 "ON a.Contact_ID = c.Contact_ID\n" +
                 "WHERE a.Contact_ID = ?;";
 
-        PreparedStatement reportQuery = dbConnection.getConnection().prepareStatement(query);
+        PreparedStatement reportQuery = DbConnection.getConnection().prepareStatement(query);
         reportQuery.setInt(1, contact.getContactId());
 
         ResultSet rs = reportQuery.executeQuery();

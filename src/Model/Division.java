@@ -15,6 +15,12 @@ public class Division {
         return division;
     }
 
+    /**
+     * Division class constructor
+     * @param divisionId Passes an integer value
+     * @param division Passes a String object
+     * @param countryId Passes a an integer value.
+     */
     public Division(int divisionId, String division, int countryId) {
         this.divisionId = divisionId;
         this.division = division;

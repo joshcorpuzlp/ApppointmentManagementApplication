@@ -1,9 +1,8 @@
 package Dao;
 
-import Model.Appointment;
 import Model.AppointmentManager;
 import Model.Contact;
-import Utility.dbConnection;
+import Utility.DbConnection;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
@@ -19,7 +18,7 @@ public class ContactDao implements Dao<Contact> {
         String query = "SELECT * FROM contacts;";
         try
         {
-            ResultSet rs = dbConnection.getStatement().executeQuery(query);
+            ResultSet rs = DbConnection.getStatement().executeQuery(query);
             while (rs.next()) {
                 int contactId = rs.getInt("Contact_ID");
                 String contactName = rs.getString("Contact_Name");

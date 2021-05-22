@@ -60,10 +60,16 @@ public class Customer {
     }
 
 
-
-
-
-    //constructor
+    /**
+     * Customer class constructor
+     * @param customerId
+     * @param customerName
+     * @param customerAddress
+     * @param customerPostalCode
+     * @param customerDivisionId
+     * @param customerDivision
+     * @param phoneNumber
+     */
     public Customer(int customerId, String customerName,
                     String customerAddress, String customerPostalCode, int customerDivisionId,
                     String customerDivision, String phoneNumber) {

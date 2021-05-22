@@ -1,9 +1,8 @@
 package Dao;
 
 import Model.AppointmentManager;
-import Model.Customer;
 import Model.Division;
-import Utility.dbConnection;
+import Utility.DbConnection;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
@@ -20,7 +19,7 @@ public class DivisionDao implements Dao<Division> {
         String query = "SELECT * FROM first_level_divisions;";
 
         try {
-            ResultSet rs = dbConnection.getStatement().executeQuery(query);
+            ResultSet rs = DbConnection.getStatement().executeQuery(query);
             while (rs.next()) {
                 int divisionId = rs.getInt("Division_ID");
                 String division = rs.getString("Division");

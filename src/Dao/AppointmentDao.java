@@ -2,16 +2,21 @@ package Dao;
 
 import Model.Appointment;
 import Model.AppointmentManager;
-import Utility.dbConnection;
+import Utility.DbConnection;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import java.sql.*;
+
 
 public class AppointmentDao implements Dao<Appointment> {
 
     private ObservableList<Appointment> tempAppointmentHolder = FXCollections.observableArrayList();
 
+
     @Override
+    /**
+     * Loads the ObservableList of Appointment objects with new objects using data from the database
+     */
     public void loadDbObjects() {
         String query = "SELECT a.Appointment_ID,  a.Location, a.Type, a.User_ID, a.Customer_ID, c.Customer_Name, a.Contact_ID, co.Contact_Name, a.Start, a.End\n" +
                 "from appointments a\n" +
@@ -21,7 +26,7 @@ public class AppointmentDao implements Dao<Appointment> {
                 "on a.Contact_ID = co.Contact_ID;\n";
 
         try {
-            ResultSet rs = dbConnection.getStatement().executeQuery(query);
+            ResultSet rs = DbConnection.getStatement().executeQuery(query);
             while (rs.next()) {
                 int appointmentId = rs.getInt("Appointment_ID");
                 String location = rs.getString("Location");
@@ -34,24 +39,25 @@ public class AppointmentDao implements Dao<Appointment> {
 
                 tempAppointmentHolder.add(new Appointment(appointmentId, location, type, userId, customerName, consultantName, startTime, endTime));
 
-//                AppointmentManager.addToUserHashMap();
             }
 
             AppointmentManager.setAppointments(tempAppointmentHolder);
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
-//        //tester code, can be deleted.
-//        for (Appointment a : AppointmentManager.getAllAppointments()) {
-//            System.out.println(a.getAppointmentId());
-//        }
+
     }
 
+    /**
+     * Adds an Appointment object to the ObservableList of Appointments
+     * @param appointment passes an Appointment object
+     * @throws SQLException
+     */
     @Override
     public void addObject(Appointment appointment) throws SQLException {
         String query = "INSERT INTO appointments (Title, Location, Type, Start, End, Customer_ID, Contact_ID, User_ID)\n" +
                 "VALUES (?, ?, ?, ?, ?, ?, ?, ?);";
-        PreparedStatement insertQuery = dbConnection.getConnection().prepareStatement(query);
+        PreparedStatement insertQuery = DbConnection.getConnection().prepareStatement(query);
         insertQuery.setString(1, "title");
         insertQuery.setString(2, appointment.getLocation());
         insertQuery.setString(3, appointment.getType());
@@ -64,12 +70,17 @@ public class AppointmentDao implements Dao<Appointment> {
         insertQuery.execute();
     }
 
+    /**
+     * A method that modifies the Appointment object with the Appointment object passed
+     * @param appointment Passes an Appointment object
+     * @throws SQLException
+     */
     @Override
     public void modifyObject(Appointment appointment) throws SQLException {
         String query = "UPDATE appointments\n" +
                 "SET Location = ?, Type = ?, Start = ?, End = ?, Customer_ID = ?, Contact_ID = ?, User_ID = ?\n" +
                 "WHERE Appointment_ID = ?;";
-        PreparedStatement updateQuery = dbConnection.getConnection().prepareStatement(query);
+        PreparedStatement updateQuery = DbConnection.getConnection().prepareStatement(query);
         updateQuery.setString(1, appointment.getLocation());
         updateQuery.setString(2, appointment.getType());
         updateQuery.setTimestamp(3, appointment.getStartDateTimeSQL());
@@ -83,11 +94,16 @@ public class AppointmentDao implements Dao<Appointment> {
 
     }
 
+    /**
+     * A method that removes the passed Appointment object from the Observablelist of Appointment objects
+     * @param appointment Passes an Appointment object
+     * @throws SQLException
+     */
     @Override
     public void removeObject(Appointment appointment) throws SQLException {
         String query = "DELETE FROM appointments WHERE Appointment_ID = ?;";
 
-        PreparedStatement removeQuery = dbConnection.getConnection().prepareStatement(query);
+        PreparedStatement removeQuery = DbConnection.getConnection().prepareStatement(query);
         removeQuery.setInt(1, appointment.getAppointmentId());
 
         removeQuery.execute();

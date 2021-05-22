@@ -2,12 +2,10 @@ package Dao;
 
 import Model.AppointmentManager;
 import Model.User;
-import Utility.dbConnection;
+import Utility.DbConnection;
 
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ResourceBundle;
 
 public class UserDao implements Dao<User>{
     @Override
@@ -15,7 +13,7 @@ public class UserDao implements Dao<User>{
         String query = "SELECT * FROM users";
 
         try {
-            ResultSet rs = dbConnection.getStatement().executeQuery(query);
+            ResultSet rs = DbConnection.getStatement().executeQuery(query);
             while (rs.next()) {
                 int userId = rs.getInt("User_ID");
                 String userName = rs.getString("User_Name");

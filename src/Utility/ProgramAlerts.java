@@ -96,6 +96,10 @@ public class ProgramAlerts {
         return isOk;
     }
 
+    /**
+     * Alert that is used to alert the user that there was an error with overlapping times.
+     * @return Boolean value can be utilized for flag variable use.
+     */
     public static boolean overlappingTimes() {
 
         Alert alert = new Alert(Alert.AlertType.ERROR);
@@ -109,6 +113,9 @@ public class ProgramAlerts {
         return true;
     }
 
+    /**
+     * Alert that is used to alert the user that there was an error with user inputs.
+     */
     public static void inputValidationAlert(String errorMessage) {
         Alert alert = new Alert(Alert.AlertType.ERROR);
         alert.initModality(Modality.NONE);
@@ -118,6 +125,9 @@ public class ProgramAlerts {
         alert.showAndWait();
     }
 
+    /**
+     * Alert that is used to alert the user that the selected customer can not be deleted due to related appointment(s).
+     */
     public static void customerAppointmentError(String customerName) {
         Alert alert = new Alert(Alert.AlertType.ERROR);
         alert.initModality(Modality.NONE);
@@ -128,6 +138,9 @@ public class ProgramAlerts {
         alert.showAndWait();
     }
 
+    /**
+     * Alert that is used to alert the user that the selected hours are outside business hours.
+     */
     public static void outsideBusinessHoursError() {
 
         Alert alert = new Alert(Alert.AlertType.ERROR);

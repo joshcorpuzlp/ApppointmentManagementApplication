@@ -4,7 +4,7 @@ import Dao.UserDao;
 import Model.AppointmentManager;
 import Model.User;
 import Utility.FileLogger;
-import Utility.dbConnection;
+import Utility.DbConnection;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -79,7 +79,7 @@ public class LogInController implements Initializable {
 
     public void cancelButtonPressed(ActionEvent actionEvent) throws SQLException {
         Stage stage = (Stage) cancelButton.getScene().getWindow();
-        dbConnection.closeConnection();
+        DbConnection.closeConnection();
         stage.close();
     }
 

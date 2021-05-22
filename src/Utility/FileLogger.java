@@ -5,9 +5,7 @@ import Model.User;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 
 
@@ -18,7 +16,6 @@ public class FileLogger {
      * @param user - passes a User object.
      * @throws IOException
      */
-    //TODO include the date into the report
     public static void fileLog(User user) throws IOException {
         String fileName = "login_activity.txt";
         LocalDateTime currTime = LocalDateTime.now();
@@ -30,8 +27,6 @@ public class FileLogger {
         printWriter.println("The user: " + user.getUserName() + " has logged in at " + currTime.format(myFormat) );
         outputFile.close();
     }
-
-    //TODO create a fileLog that records the incorrect login attempt
 
     /**
      * Method that creates(if not created already) a file with the designated fileName of "fileLog.txt" and inputs the string used to log in and the current date and time
