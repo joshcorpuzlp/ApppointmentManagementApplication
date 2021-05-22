@@ -12,13 +12,13 @@ import java.time.format.DateTimeFormatter;
 
 public class ReportsDao {
 
-    /* Method that returns a String report containing
+    /**
+     * Method that returns a String report containing.
      * the number of appointments per type in the current month.
-     *
      * Data is pulled from the connected Database.
      *
-     ***************************************************/
-    //TODO add a month selector - comboBox maybe?
+     * @return A String object
+     */
     public String report1() {
         String query = "SELECT Type, COUNT(Type) AS Number_Per_Type\n" +
                 "FROM appointments\n" +
@@ -49,11 +49,19 @@ public class ReportsDao {
     }
 
     /*
-     * Method that returns the appointments for a selected Contact
-     * passed on as the method parameter
      *
-     * Data is pulled from the connected Database.
+     *
+     *
+     *
      ***************************************************/
+
+    /**
+     * Method that returns the appointments for a selected Contact passed on as the method parameter
+     * Data is pulled from the connected Database.
+     * @param contact Passes a contact object
+     * @return Returns a String object
+     * @throws SQLException
+     */
     public String report2(Contact contact) throws SQLException {
         StringBuilder reportMessage = new StringBuilder();
 
@@ -120,13 +128,13 @@ public class ReportsDao {
     }
 
 
-
-    /*
-     * Method that returns a String message that details
-     * the average appointment length for the passed User argument
-     *
+    /**
+     * Method that returns a String message that details the average appointment length for the passed User argument.
      * Data is pulled from the connected Database.
-     ***************************************************/
+     * @param contact Passes a contact object
+     * @return returns a String object
+     * @throws SQLException
+     */
     public String report3(Contact contact) throws SQLException {
         String reportMessage = "";
         String query = "SELECT a.Contact_ID, c.Contact_Name , avg(timestampdiff(SECOND, a.Start, a.End) / 60 / 60)  AS Avg_Appt_Length\n" +

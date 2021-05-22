@@ -8,6 +8,10 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class UserDao implements Dao<User>{
+
+    /**
+     * Loads the ObservableList of User objects with new objects using data from the database
+     */
     @Override
     public void loadDbObjects() {
         String query = "SELECT * FROM users";
@@ -37,6 +41,10 @@ public class UserDao implements Dao<User>{
         }
     }
 
+    /**
+     * Adds a User object to the ObservableList of Users
+     * @param user
+     */
     @Override
     public void addObject(User user) {
         AppointmentManager.addUsers(user);

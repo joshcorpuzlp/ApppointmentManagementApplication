@@ -14,6 +14,9 @@ public class DivisionDao implements Dao<Division> {
     private ObservableList<Division> tempDivisionHolder = FXCollections.observableArrayList();
     private Division tempDivision;
 
+    /**
+     * Loads the ObservableList of Division objects with new objects using data from the database
+     */
     @Override
     public void loadDbObjects() {
         String query = "SELECT * FROM first_level_divisions;";

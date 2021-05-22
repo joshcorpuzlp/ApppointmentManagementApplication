@@ -12,11 +12,10 @@ public class AppointmentDao implements Dao<Appointment> {
 
     private ObservableList<Appointment> tempAppointmentHolder = FXCollections.observableArrayList();
 
-
-    @Override
     /**
      * Loads the ObservableList of Appointment objects with new objects using data from the database
      */
+    @Override
     public void loadDbObjects() {
         String query = "SELECT a.Appointment_ID,  a.Location, a.Type, a.User_ID, a.Customer_ID, c.Customer_Name, a.Contact_ID, co.Contact_Name, a.Start, a.End\n" +
                 "from appointments a\n" +

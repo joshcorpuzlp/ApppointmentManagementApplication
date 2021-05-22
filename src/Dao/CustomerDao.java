@@ -14,6 +14,9 @@ public class CustomerDao implements Dao<Customer> {
 
     private ObservableList<Customer> tempCustomerHolder = FXCollections.observableArrayList();
 
+    /**
+     * Loads the ObservableList of Customer objects with new objects using data from the database
+     */
     @Override
     public void loadDbObjects() {
         String query = "SELECT c.Customer_ID, c.Customer_Name, c.Address, c.Postal_Code, c.Phone, c.Division_ID, d.Division \n" +
@@ -50,6 +53,11 @@ public class CustomerDao implements Dao<Customer> {
         }
     }
 
+    /**
+     * Adds a Customer object to the ObservableList of Customer
+     * @param customer passes an Customer object
+     * @throws SQLException
+     */
     @Override
     public void addObject(Customer customer) throws SQLException {
         //configures a String object to store the SQL statement that we would like to execute
@@ -70,6 +78,11 @@ public class CustomerDao implements Dao<Customer> {
 
     }
 
+    /**
+     * A method that modifies the Customer object with the Customer object passed
+     * @param customer Passes an Customer object
+     * @throws SQLException
+     */
     @Override
     public void modifyObject(Customer customer) throws SQLException {
         String query = "UPDATE customers\n" +
@@ -88,6 +101,11 @@ public class CustomerDao implements Dao<Customer> {
 
     }
 
+    /**
+     * A method that removes the passed customer object from the Observablelist of Customer objects
+     * @param customer Passes a Contact object
+     * @throws SQLException
+     */
     @Override
     public void removeObject(Customer customer) throws SQLException {
         String query = "DELETE FROM customers WHERE Customer_ID = ?;";
