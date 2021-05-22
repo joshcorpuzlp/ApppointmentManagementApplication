@@ -48,12 +48,6 @@ public class ReportsDao {
 
     }
 
-    /*
-     *
-     *
-     *
-     *
-     ***************************************************/
 
     /**
      * Method that returns the appointments for a selected Contact passed on as the method parameter
