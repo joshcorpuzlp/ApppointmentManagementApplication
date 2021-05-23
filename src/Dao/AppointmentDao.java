@@ -31,6 +31,7 @@ public class AppointmentDao implements Dao<Appointment> {
                 String location = rs.getString("Location");
                 String type = rs.getString("Type");
                 int userId = rs.getInt("User_ID");
+                int customerId = rs.getInt("Customer_ID");
                 String customerName = rs.getString("Customer_Name");
                 String consultantName = rs.getString("Contact_Name");
                 Timestamp startTime = rs.getTimestamp("Start");
@@ -38,7 +39,7 @@ public class AppointmentDao implements Dao<Appointment> {
                 String title = rs.getString("Title");
                 String description = rs.getString("Description");
 
-                tempAppointmentHolder.add(new Appointment(appointmentId, location, type, userId, customerName, consultantName, startTime, endTime, title, description));
+                tempAppointmentHolder.add(new Appointment(appointmentId, location, type, userId, customerId, customerName, consultantName, startTime, endTime, title, description));
 
             }
 

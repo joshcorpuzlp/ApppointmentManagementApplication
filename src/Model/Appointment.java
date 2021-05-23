@@ -12,6 +12,7 @@ public class Appointment {
     //you might be able to replace this later with inner join tables combining appointments with users and customers
     private int userId;
     private User user;
+    private int customerId;
     private String customerName;
     private String contactName;
 
@@ -31,6 +32,7 @@ public class Appointment {
     private String formattedEndTime;
     private String title;
     private String description;
+
 
     public String getTitle() {
         return title;
@@ -326,6 +328,14 @@ public class Appointment {
         return contact;
     }
 
+    public int getCustomerId() {
+        return customerId;
+    }
+
+    public void setCustomerId(int customerId) {
+        this.customerId = customerId;
+    }
+
 
 
     //
@@ -341,16 +351,21 @@ public class Appointment {
      * @param startTime Passes a LocalTime object
      * @param endTime Passes a LocalTime object
      */
-    public Appointment(int appointmentId, String location, String type, int userId, String customerName, String contactName, Timestamp startTime, Timestamp endTime, String title, String description) {
+    public Appointment(int appointmentId, String location, String type, int userId, int customerId, String customerName, String contactName, Timestamp startTime, Timestamp endTime, String title, String description) {
         this.appointmentId = appointmentId;
         this.location = location;
         this.type = type;
         this.userId = userId;
         this.customerName = customerName;
+        this.customerId = customerId;
+
+
+
         setStartTime(startTime);
         setEndTime(endTime);
         this.contactName = contactName;
         setStartDate(startTime);
+        setEndDate(endTime);
         setEndDate(endTime);
         setFormattedStartTime(startTime);
         setFormattedEndTime(endTime);
@@ -359,6 +374,7 @@ public class Appointment {
         //method that relates the Customer objects and Contact objects to an appointment via String input of names
         setCustomer(customerName);
         setContact(contactName);
+
 
         this.title = title;
         this.description = description;
@@ -420,6 +436,7 @@ public class Appointment {
         this.type = type;
         this.customerName = customerName;
 
+
         //converts startTime, endTime and date inputs to create LocalDateTime objects.
         this.startDate = startDate;
         this.endDate = endDate;
@@ -432,6 +449,7 @@ public class Appointment {
         this.contactName = contactName;
 
         //method that relates the Customer objects and Contact objects to an appointment via String input of names
+        setCustomer(customerName);
         setCustomer(customerName);
         setContact(contactName);
 
