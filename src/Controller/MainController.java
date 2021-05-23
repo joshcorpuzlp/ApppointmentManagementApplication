@@ -1,6 +1,7 @@
 package Controller;
 
 import Dao.AppointmentDao;
+import Dao.CustomerDao;
 import Model.Appointment;
 import Model.AppointmentManager;
 import Model.User;
@@ -51,11 +52,11 @@ public class MainController implements Initializable {
     @FXML private TableColumn<Appointment, String> startTimeColumn;
     @FXML private TableColumn<Appointment, String> endTimeColumn;
     @FXML private TableColumn<Appointment, String> locationColumn;
+    @FXML private TableColumn<Appointment, Integer> customerIdColumn;
     @FXML private TableColumn<Appointment, String> customerNameColumn;
     @FXML private TableColumn<Appointment, Integer> appointmentIdColumn;
     @FXML private TableColumn<Appointment, String> contactNameColumn;
     @FXML private TableColumn<Appointment, String> appointmentTypeColumn;
-    @FXML private TableColumn<Appointment, Integer> customerIdColumn;
     @FXML private TableColumn<Appointment, String> titleColumn;
     @FXML private TableColumn<Appointment,String> descriptionColumn;
 
@@ -68,6 +69,7 @@ public class MainController implements Initializable {
     private ObservableList<Appointment> filteredAppointments = FXCollections.observableArrayList();
 
     private AppointmentDao appointmentDao = new AppointmentDao();
+    private CustomerDao customerDao = new CustomerDao();
 
 
     //create a variable reference to the current user
@@ -239,6 +241,7 @@ public class MainController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        customerDao.loadDbObjects();
         appointmentDao.loadDbObjects();
         appointments = AppointmentManager.getAllAppointments();
 
@@ -246,7 +249,7 @@ public class MainController implements Initializable {
         locationColumn.setCellValueFactory(new PropertyValueFactory<>("location"));
         appointmentTypeColumn.setCellValueFactory(new PropertyValueFactory<>("type"));
         contactNameColumn.setCellValueFactory(new PropertyValueFactory<>("contactName"));
-        customerIdColumn.setCellValueFactory(new PropertyValueFactory<>("contactId"));
+        customerIdColumn.setCellValueFactory(new PropertyValueFactory<>("customerId"));
         customerNameColumn.setCellValueFactory(new PropertyValueFactory<>("customerName"));
         startDateColumn.setCellValueFactory(new PropertyValueFactory<>("startDate"));
         endDateColumn.setCellValueFactory(new PropertyValueFactory<>("endDate"));
