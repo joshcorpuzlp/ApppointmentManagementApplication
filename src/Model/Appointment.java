@@ -29,7 +29,24 @@ public class Appointment {
 
     private String formattedStartTime;
     private String formattedEndTime;
+    private String title;
+    private String description;
 
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
 
     /**
      * Returns the StarTime of the Appointment object as a LocalDateTime
@@ -324,7 +341,7 @@ public class Appointment {
      * @param startTime Passes a LocalTime object
      * @param endTime Passes a LocalTime object
      */
-    public Appointment(int appointmentId, String location, String type, int userId, String customerName, String contactName, Timestamp startTime, Timestamp endTime) {
+    public Appointment(int appointmentId, String location, String type, int userId, String customerName, String contactName, Timestamp startTime, Timestamp endTime, String title, String description) {
         this.appointmentId = appointmentId;
         this.location = location;
         this.type = type;
@@ -338,48 +355,52 @@ public class Appointment {
         setFormattedStartTime(startTime);
         setFormattedEndTime(endTime);
 
-        //method that relates the Customer objects and Contact objects to an appointment via String input of names
-        setCustomer(customerName);
-        setContact(contactName);
-
-    }
-
-
-    /**
-     * Overloaded constructor for the Appointment class. Used when creating from User Input
-     * @param appointmentId Passes an integer
-     * @param location Passes a String object
-     * @param type Passes a String object
-     * @param customerName Passes a String object
-     * @param contactName Passes a String object
-     * @param startTime Passes a LocalTime object
-     * @param endTime Passes a LocalTime object
-     * @param startDate Passes a LocalDate object
-     * @param userId Passes an integer
-     */
-    public Appointment(int appointmentId, String location, String type, String customerName, String contactName, LocalTime startTime, LocalTime endTime, LocalDate startDate, int userId) {
-        this.appointmentId = appointmentId;
-        this.location = location;
-        this.type = type;
-        this.customerName = customerName;
-
-        //converts startTime, endTime and date inputs to create LocalDateTime objects.
-        this.startDate = startDate;
-        this.startTime = LocalDateTime.of(startDate, startTime);
-        this.endTime = LocalDateTime.of(startDate, endTime);
-
-        //converts the startTime and endTime, and date inputs to create a localDateTime to be converted into TimeStamp
-        setStartDateTimeSQL(LocalDateTime.of(startDate, startTime));
-        setEndDateTimeSQL(LocalDateTime.of(startDate, endTime));
-        this.contactName = contactName;
 
         //method that relates the Customer objects and Contact objects to an appointment via String input of names
         setCustomer(customerName);
         setContact(contactName);
 
-        this.userId = userId;
+        this.title = title;
+        this.description = description;
 
     }
+
+
+//    /**
+//     * Overloaded constructor for the Appointment class. Used when creating from User Input
+//     * @param appointmentId Passes an integer
+//     * @param location Passes a String object
+//     * @param type Passes a String object
+//     * @param customerName Passes a String object
+//     * @param contactName Passes a String object
+//     * @param startTime Passes a LocalTime object
+//     * @param endTime Passes a LocalTime object
+//     * @param startDate Passes a LocalDate object
+//     * @param userId Passes an integer
+//     */
+//    public Appointment(int appointmentId, String location, String type, String customerName, String contactName, LocalTime startTime, LocalTime endTime, LocalDate startDate, int userId) {
+//        this.appointmentId = appointmentId;
+//        this.location = location;
+//        this.type = type;
+//        this.customerName = customerName;
+//
+//        //converts startTime, endTime and date inputs to create LocalDateTime objects.
+//        this.startDate = startDate;
+//        this.startTime = LocalDateTime.of(startDate, startTime);
+//        this.endTime = LocalDateTime.of(startDate, endTime);
+//
+//        //converts the startTime and endTime, and date inputs to create a localDateTime to be converted into TimeStamp
+//        setStartDateTimeSQL(LocalDateTime.of(startDate, startTime));
+//        setEndDateTimeSQL(LocalDateTime.of(startDate, endTime));
+//        this.contactName = contactName;
+//
+//        //method that relates the Customer objects and Contact objects to an appointment via String input of names
+//        setCustomer(customerName);
+//        setContact(contactName);
+//
+//        this.userId = userId;
+//
+//    }
 
     /**
      * Overloaded constructor for the Appointment class. Used when creating from User Input

@@ -17,7 +17,7 @@ public class AppointmentDao implements Dao<Appointment> {
      */
     @Override
     public void loadDbObjects() {
-        String query = "SELECT a.Appointment_ID,  a.Location, a.Type, a.User_ID, a.Customer_ID, c.Customer_Name, a.Contact_ID, co.Contact_Name, a.Start, a.End\n" +
+        String query = "SELECT a.Appointment_ID, a.Location, a.Type, a.User_ID, a.Customer_ID, c.Customer_Name, a.Contact_ID, co.Contact_Name, a.Start, a.End, a.Title, a.Description\n" +
                 "from appointments a\n" +
                 "LEFT JOIN customers c \n" +
                 "ON a.Customer_ID = c.Customer_ID\n" +
@@ -35,8 +35,10 @@ public class AppointmentDao implements Dao<Appointment> {
                 String consultantName = rs.getString("Contact_Name");
                 Timestamp startTime = rs.getTimestamp("Start");
                 Timestamp endTime = rs.getTimestamp("End");
+                String title = rs.getString("Title");
+                String description = rs.getString("Description");
 
-                tempAppointmentHolder.add(new Appointment(appointmentId, location, type, userId, customerName, consultantName, startTime, endTime));
+                tempAppointmentHolder.add(new Appointment(appointmentId, location, type, userId, customerName, consultantName, startTime, endTime, title, description));
 
             }
 

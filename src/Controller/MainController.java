@@ -51,10 +51,14 @@ public class MainController implements Initializable {
     @FXML private TableColumn<Appointment, String> startTimeColumn;
     @FXML private TableColumn<Appointment, String> endTimeColumn;
     @FXML private TableColumn<Appointment, String> locationColumn;
-    @FXML private TableColumn<Appointment, String> customerIdColumn;
+    @FXML private TableColumn<Appointment, String> customerNameColumn;
     @FXML private TableColumn<Appointment, Integer> appointmentIdColumn;
-    @FXML private TableColumn<Appointment, String> contactIdColumn;
+    @FXML private TableColumn<Appointment, String> contactNameColumn;
     @FXML private TableColumn<Appointment, String> appointmentTypeColumn;
+    @FXML private TableColumn<Appointment, Integer> customerIdColumn;
+    @FXML private TableColumn<Appointment, String> titleColumn;
+    @FXML private TableColumn<Appointment,String> descriptionColumn;
+
 
     //Reference to the selected appointment from the appointmentCalendar. Used in ModifyAppointmentPage
     public static Appointment selectedAppointment;
@@ -241,13 +245,17 @@ public class MainController implements Initializable {
         appointmentIdColumn.setCellValueFactory(new PropertyValueFactory<>("appointmentId"));
         locationColumn.setCellValueFactory(new PropertyValueFactory<>("location"));
         appointmentTypeColumn.setCellValueFactory(new PropertyValueFactory<>("type"));
-        contactIdColumn.setCellValueFactory(new PropertyValueFactory<>("contactName"));
-        customerIdColumn.setCellValueFactory(new PropertyValueFactory<>("customerName"));
+        contactNameColumn.setCellValueFactory(new PropertyValueFactory<>("contactName"));
+        customerIdColumn.setCellValueFactory(new PropertyValueFactory<>("contactId"));
+        customerNameColumn.setCellValueFactory(new PropertyValueFactory<>("customerName"));
         startDateColumn.setCellValueFactory(new PropertyValueFactory<>("startDate"));
         endDateColumn.setCellValueFactory(new PropertyValueFactory<>("endDate"));
 
         startTimeColumn.setCellValueFactory(new PropertyValueFactory<>("formattedStartTime"));
         endTimeColumn.setCellValueFactory(new PropertyValueFactory<>("formattedEndTime"));
+
+        titleColumn.setCellValueFactory(new PropertyValueFactory<>("title"));
+        descriptionColumn.setCellValueFactory(new PropertyValueFactory<>("description"));
 
         //initialize the appointmentCalendar to only allow one selection at a time.
         appointmentCalendar.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
