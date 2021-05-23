@@ -23,6 +23,20 @@ public class ProgramAlerts {
     }
 
     /**
+     * Method that is used in conjunction to the event that the logged in user has no pending appointments within 15 minutes
+     */
+    public static void noPendingAppointmentAlert() {
+
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.initModality(Modality.NONE);
+        alert.setTitle("No Upcoming Appointment");
+        alert.setHeaderText("There are no appointments pending");
+        alert.setContentText("There aren't any appointments within the next 15 minutes!");
+        alert.showAndWait();
+
+    }
+
+    /**
      * Method that shows an alert used in conjunction with the event that the a user was not selected when needed in the ReportsPageController
      */
     //TODO change this to contact, as well as the reports page that this is used with.
