@@ -33,7 +33,8 @@ public class AddAppointmentPageController implements Initializable {
     @FXML private ComboBox<String> customerComboBox;
     @FXML private ComboBox<LocalTime> startTimeComboBox;
     @FXML private ComboBox<LocalTime> endTimeComboBox;
-    @FXML private DatePicker datePicker;
+    @FXML private DatePicker startDatePicker;
+    @FXML private DatePicker endDatePicker;
     @FXML private ComboBox<String> contactComboBox;
     @FXML private ComboBox<String> userComboBox;
 
@@ -112,13 +113,16 @@ public class AddAppointmentPageController implements Initializable {
             String contactName = contactComboBox.getSelectionModel().getSelectedItem();
             LocalTime startTime = startTimeComboBox.getSelectionModel().getSelectedItem();
             LocalTime endTime = endTimeComboBox.getSelectionModel().getSelectedItem();
-            LocalDate date = datePicker.getValue();
+            LocalDate startDate = startDatePicker.getValue();
+            LocalDate endDate = endDatePicker.getValue();
+
+
 
             //utilizes AppointmentManager.getAllUserHashMaps to get the userId from a list of userNames that are also keys to the hashMap
             int userId =  AppointmentManager.getAllUserHashMaps().get(userComboBox.getSelectionModel().getSelectedItem()) ;
 
 
-            Appointment appointmentToAdd = new Appointment(appointmentId, location, type, customerName, contactName, startTime, endTime, date, userId);
+            Appointment appointmentToAdd = new Appointment(appointmentId, location, type, customerName, contactName, startTime, endTime, startDate, endDate, userId);
             AppointmentManager.addAppointment(appointmentToAdd);
             appointmentDao.addObject(appointmentToAdd);
 
@@ -142,18 +146,18 @@ public class AddAppointmentPageController implements Initializable {
             }
         }
 
-        LocalDateTime startTimeInput = LocalDateTime.of(datePicker.getValue(), startTimeComboBox.getSelectionModel().getSelectedItem());
-        LocalDateTime endTimeInput = LocalDateTime.of(datePicker.getValue(), endTimeComboBox.getSelectionModel().getSelectedItem());
+        LocalDateTime startTimeInput = LocalDateTime.of(startDatePicker.getValue(), startTimeComboBox.getSelectionModel().getSelectedItem());
+        LocalDateTime endTimeInput = LocalDateTime.of(endDatePicker.getValue(), endTimeComboBox.getSelectionModel().getSelectedItem());
 
         for (Appointment contactAppointment : contactAppointments) {
             //check for whether the inputs clash with the selected contact's existing appointments.
             if (
-                    (startTimeInput.isAfter(LocalDateTime.of(contactAppointment.getDate(), contactAppointment.getStartTime().toLocalTime())) &&
-                            startTimeInput.isBefore(LocalDateTime.of(contactAppointment.getDate(), contactAppointment.getEndTime().toLocalTime()))) ||
-                            (endTimeInput.isAfter(LocalDateTime.of(contactAppointment.getDate(), contactAppointment.getStartTime().toLocalTime())) &&
-                                    endTimeInput.isBefore(LocalDateTime.of(contactAppointment.getDate(), contactAppointment.getEndTime().toLocalTime()))) ||
-                            (startTimeInput.isEqual(LocalDateTime.of(contactAppointment.getDate(), contactAppointment.getStartTime().toLocalTime())) &&
-                                    endTimeInput.isEqual(LocalDateTime.of(contactAppointment.getDate(), contactAppointment.getEndTime().toLocalTime())))
+                    (startTimeInput.isAfter(LocalDateTime.of(contactAppointment.getStartDate(), contactAppointment.getStartTime().toLocalTime())) &&
+                            startTimeInput.isBefore(LocalDateTime.of(contactAppointment.getEndDate(), contactAppointment.getEndTime().toLocalTime()))) ||
+                            (endTimeInput.isAfter(LocalDateTime.of(contactAppointment.getStartDate(), contactAppointment.getStartTime().toLocalTime())) &&
+                                    endTimeInput.isBefore(LocalDateTime.of(contactAppointment.getEndDate(), contactAppointment.getEndTime().toLocalTime()))) ||
+                            (startTimeInput.isEqual(LocalDateTime.of(contactAppointment.getStartDate(), contactAppointment.getStartTime().toLocalTime())) &&
+                                    endTimeInput.isEqual(LocalDateTime.of(contactAppointment.getEndDate(), contactAppointment.getEndTime().toLocalTime())))
 
 
             ) {
@@ -221,7 +225,7 @@ public class AddAppointmentPageController implements Initializable {
                 throw new myExceptions("No start time selected.\n");
             }
             if (startTimeComboBox.getSelectionModel().getSelectedItem().isAfter(endTimeComboBox.getSelectionModel().getSelectedItem())) {
-                throw new myExceptions("The start time can not be after the end time");
+                throw new myExceptions("The start time can not be after the end time.\n");
             }
         }
         catch (myExceptions ex) {
@@ -240,8 +244,21 @@ public class AddAppointmentPageController implements Initializable {
         }
 
         try {
-            if (datePicker.getValue() == null) {
-                throw new myExceptions("No date selected.\n");
+            if (startDatePicker.getValue() == null) {
+                throw new myExceptions("No start date selected.\n");
+            }
+            if (startDatePicker.getValue().isAfter(endDatePicker.getValue())) {
+                throw new myExceptions("Start date can not be after the end date.\n");
+            }
+        }
+        catch (myExceptions ex) {
+            errorMessage.append((ex.getMessage()));
+            isInputInvalid = true;
+        }
+
+        try {
+            if (endDatePicker.getValue() == null) {
+                throw new myExceptions("No end date selected.\n");
             }
         }
         catch (myExceptions ex) {
@@ -275,11 +292,11 @@ public class AddAppointmentPageController implements Initializable {
     //
 
     /**
-     * Method that checks to make sure the start and end times the user selected are within business hours (9:00-17:00 UTD)
+     * Method that checks to make sure the start and end times the user selected are within business hours (8:00-20:00 EST)
      */
     public void insideBusinessHours() {
-        ZonedDateTime startTime = LocalDateTime.of(datePicker.getValue(), startTimeComboBox.getSelectionModel().getSelectedItem()).atZone(ZoneId.systemDefault());
-        ZonedDateTime endTime = LocalDateTime.of(datePicker.getValue(), endTimeComboBox.getSelectionModel().getSelectedItem()).atZone(ZoneId.systemDefault());
+        ZonedDateTime startTime = LocalDateTime.of(startDatePicker.getValue(), startTimeComboBox.getSelectionModel().getSelectedItem()).atZone(ZoneId.systemDefault());
+        ZonedDateTime endTime = LocalDateTime.of(startDatePicker.getValue(), endTimeComboBox.getSelectionModel().getSelectedItem()).atZone(ZoneId.systemDefault());
 
 
 
@@ -287,12 +304,19 @@ public class AddAppointmentPageController implements Initializable {
         ZonedDateTime estEnd = endTime.toInstant().atZone(ZoneId.of("EST", ZoneId.SHORT_IDS));
 
 
-        //Compare by using LocalTime datatypes
-        LocalTime openingHour = LocalTime.parse("08:59");
-        LocalTime closingHour = LocalTime.parse("17:01");
+        //Compared by using LocalTime datatypes of the project requirement of 8:00 am to 10:00 pm EST
+        LocalTime openingHour = LocalTime.parse("07:59");
+        LocalTime closingHour = LocalTime.parse("20:01");
 
         Boolean startTimeAllowed = estStart.toLocalTime().isAfter(openingHour);
         Boolean endTimeAllowed = estEnd.toLocalTime().isBefore(closingHour);
+
+        System.out.println(estStart);
+        System.out.println(estEnd);
+        System.out.println(estStart.toLocalTime());
+        System.out.println(estEnd.toLocalTime());
+        System.out.println(openingHour);
+        System.out.println(closingHour);
 
         //if else is necessary to allow code to validate both ways.
         if (startTimeAllowed && endTimeAllowed)
@@ -334,7 +358,7 @@ public class AddAppointmentPageController implements Initializable {
         }
 
         //loads the ComboBox with the LocalTimes
-        for (int hour = 5; hour <= 20; ++hour ) {
+        for (int hour = 5; hour <= 21; ++hour ) {
             for (int minutes = 0; minutes <= 45; minutes += 15) {
 //                DateTimeFormatter myFormat = DateTimeFormatter.ofPattern("hh:mm a");
 
@@ -346,7 +370,7 @@ public class AddAppointmentPageController implements Initializable {
         }
 
         //loads the ComboBox with the LocalTimes
-        for (int hour = 5; hour <= 20; ++hour ) {
+        for (int hour = 5; hour <= 21; ++hour ) {
             for (int minutes = 0; minutes <= 45; minutes += 15) {
 //                DateTimeFormatter myFormat = DateTimeFormatter.ofPattern("hh:mm a");
 
@@ -363,7 +387,18 @@ public class AddAppointmentPageController implements Initializable {
         }
 
         //Lambda used to disable past dates and weekends from being selected
-        datePicker.setDayCellFactory(picker -> new DateCell() {
+        startDatePicker.setDayCellFactory(picker -> new DateCell() {
+            public void updateItem(LocalDate date, boolean empty) {
+                super.updateItem(date, empty);
+                LocalDate today = LocalDate.now();
+                setDisable(empty || date.compareTo(today) < 0);
+                if(date.getDayOfWeek() == DayOfWeek.SATURDAY || date.getDayOfWeek() == DayOfWeek.SUNDAY)
+                    setDisable(true);
+            }
+        });
+
+        //Lambda used to disable past dates and weekends from being selected
+        endDatePicker.setDayCellFactory(picker -> new DateCell() {
             public void updateItem(LocalDate date, boolean empty) {
                 super.updateItem(date, empty);
                 LocalDate today = LocalDate.now();

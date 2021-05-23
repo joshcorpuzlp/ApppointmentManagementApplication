@@ -14,20 +14,21 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="695.0" prefWidth="1000.0" style="-fx-background-color: #d8e3e7;" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml" fx:controller="Controller.MainController">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="695.0" prefWidth="1100.0" style="-fx-background-color: #d8e3e7;" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.MainController">
    <left>
-      <AnchorPane prefHeight="960.0" prefWidth="1009.0" BorderPane.alignment="CENTER">
+      <AnchorPane prefHeight="645.0" prefWidth="1105.0" BorderPane.alignment="CENTER">
          <children>
-            <TableView fx:id="appointmentCalendar" layoutX="12.0" layoutY="123.0" prefHeight="515.0" prefWidth="973.0">
+            <TableView fx:id="appointmentCalendar" layoutX="12.0" layoutY="123.0" prefHeight="515.0" prefWidth="1073.0">
               <columns>
-                <TableColumn fx:id="appointmentIdColumn" prefWidth="57.0" text="Appt ID" />
-                <TableColumn fx:id="dateColumn" prefWidth="95.0" text="Date" />
-                  <TableColumn fx:id="startTimeColumn" minWidth="2.0" prefWidth="87.0" text="Start Time" />
-                  <TableColumn fx:id="endTimeColumn" prefWidth="89.0" text="End Time" />
-                  <TableColumn fx:id="locationColumn" prefWidth="214.0" text="Location" />
-                  <TableColumn fx:id="customerIdColumn" prefWidth="138.0" text="Customer Name" />
-                  <TableColumn fx:id="appointmentTypeColumn" prefWidth="119.0" text="Appointment Type" />
-                  <TableColumn fx:id="contactIdColumn" prefWidth="176.0" text="Contact" />
+                <TableColumn fx:id="appointmentIdColumn" prefWidth="65.0" text="Appt ID" />
+                <TableColumn fx:id="startDateColumn" prefWidth="114.0" text="Start Date" />
+                  <TableColumn fx:id="startTimeColumn" minWidth="2.0" prefWidth="76.0" text="Start Time" />
+                  <TableColumn fx:id="endDateColumn" prefWidth="111.0" text="End Date" />
+                  <TableColumn fx:id="endTimeColumn" prefWidth="94.0" text="End Time" />
+                  <TableColumn fx:id="locationColumn" prefWidth="185.0" text="Location" />
+                  <TableColumn fx:id="customerIdColumn" prefWidth="126.0" text="Customer Name" />
+                  <TableColumn fx:id="appointmentTypeColumn" prefWidth="150.0" text="Appointment Type" />
+                  <TableColumn fx:id="contactIdColumn" prefWidth="151.0" text="Contact" />
               </columns>
             </TableView>
             <HBox alignment="CENTER_LEFT" layoutX="13.0" layoutY="80.0" prefHeight="34.0" prefWidth="830.0" spacing="10.0">

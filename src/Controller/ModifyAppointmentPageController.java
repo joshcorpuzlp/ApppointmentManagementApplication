@@ -41,7 +41,8 @@ public class ModifyAppointmentPageController implements Initializable {
     @FXML
     private ComboBox<LocalTime> endTimeComboBox;
     @FXML
-    private DatePicker datePicker;
+    private DatePicker startDatePicker;
+    @FXML private DatePicker endDatePicker;
     @FXML
     private ComboBox<String> contactComboBox;
     @FXML
@@ -106,13 +107,14 @@ public class ModifyAppointmentPageController implements Initializable {
             String contactName = contactComboBox.getSelectionModel().getSelectedItem();
             LocalTime startTime = startTimeComboBox.getSelectionModel().getSelectedItem();
             LocalTime endTime = endTimeComboBox.getSelectionModel().getSelectedItem();
-            LocalDate date = datePicker.getValue();
+            LocalDate startDate = startDatePicker.getValue();
+            LocalDate endDate = endDatePicker.getValue();
 
             //utilizes AppointmentManager.getAllUserHashMaps to get the userId from a list of userNames that are also keys to the hashMap
             int userId = AppointmentManager.getAllUserHashMaps().get(userComboBox.getSelectionModel().getSelectedItem());
             System.out.println(userId);
 
-            Appointment appointmentModifications = new Appointment(appointmentId, location, type, customerName, contactName, startTime, endTime, date, userId);
+            Appointment appointmentModifications = new Appointment(appointmentId, location, type, customerName, contactName, startTime, endTime, startDate, endDate, userId);
             AppointmentManager.updateAppointment(selectedAppointmentIndex, appointmentModifications);
             appointmentDao.modifyObject(appointmentModifications);
 
@@ -173,15 +175,15 @@ public class ModifyAppointmentPageController implements Initializable {
             }
         }
 
-        LocalDateTime startTimeInput = LocalDateTime.of(datePicker.getValue(), startTimeComboBox.getSelectionModel().getSelectedItem());
-        LocalDateTime endTimeInput = LocalDateTime.of(datePicker.getValue(), endTimeComboBox.getSelectionModel().getSelectedItem());
+        LocalDateTime startTimeInput = LocalDateTime.of(startDatePicker.getValue(), startTimeComboBox.getSelectionModel().getSelectedItem());
+        LocalDateTime endTimeInput = LocalDateTime.of(startDatePicker.getValue(), endTimeComboBox.getSelectionModel().getSelectedItem());
 
         for (Appointment contactAppointment : contactAppointments) {
             if (
-                    (startTimeInput.isAfter(LocalDateTime.of(contactAppointment.getDate(), contactAppointment.getStartTime().toLocalTime())) &&
-                            startTimeInput.isBefore(LocalDateTime.of(contactAppointment.getDate(), contactAppointment.getEndTime().toLocalTime()))) ||
-                            (endTimeInput.isAfter(LocalDateTime.of(contactAppointment.getDate(), contactAppointment.getStartTime().toLocalTime())) &&
-                                    endTimeInput.isBefore(LocalDateTime.of(contactAppointment.getDate(), contactAppointment.getEndTime().toLocalTime())))
+                    (startTimeInput.isAfter(LocalDateTime.of(contactAppointment.getStartDate(), contactAppointment.getStartTime().toLocalTime())) &&
+                            startTimeInput.isBefore(LocalDateTime.of(contactAppointment.getEndDate(), contactAppointment.getEndTime().toLocalTime()))) ||
+                            (endTimeInput.isAfter(LocalDateTime.of(contactAppointment.getStartDate(), contactAppointment.getStartTime().toLocalTime())) &&
+                                    endTimeInput.isBefore(LocalDateTime.of(contactAppointment.getEndDate(), contactAppointment.getEndTime().toLocalTime())))
             ) {
                 isTimeInvalid = ProgramAlerts.overlappingTimes();
                 //need to return to exit the for loop when conditional statement goes through
@@ -243,7 +245,7 @@ public class ModifyAppointmentPageController implements Initializable {
                 throw new myExceptions("No start time selected.\n");
             }
             if (startTimeComboBox.getSelectionModel().getSelectedItem().isAfter(endTimeComboBox.getSelectionModel().getSelectedItem())) {
-                throw new myExceptions("The start time can not be after the end time");
+                throw new myExceptions("The start time can not be after the end time.\n");
             }
         }
         catch (myExceptions ex) {
@@ -262,8 +264,11 @@ public class ModifyAppointmentPageController implements Initializable {
         }
 
         try {
-            if (datePicker.getValue() == null) {
+            if (startDatePicker.getValue() == null) {
                 throw new myExceptions("No date selected.\n");
+            }
+            if (startDatePicker.getValue().isAfter(endDatePicker.getValue())) {
+                throw new myExceptions("Start date can not be after the end date.\n");
             }
         }
         catch (myExceptions ex) {
@@ -299,8 +304,8 @@ public class ModifyAppointmentPageController implements Initializable {
      * Checks to make sure the start and end times the user selected are within business hours (9:00-17:00 EST)
      */
     public void insideBusinessHours() {
-        ZonedDateTime startTime = LocalDateTime.of(datePicker.getValue(), startTimeComboBox.getSelectionModel().getSelectedItem()).atZone(ZoneId.systemDefault());
-        ZonedDateTime endTime = LocalDateTime.of(datePicker.getValue(), endTimeComboBox.getSelectionModel().getSelectedItem()).atZone(ZoneId.systemDefault());
+        ZonedDateTime startTime = LocalDateTime.of(startDatePicker.getValue(), startTimeComboBox.getSelectionModel().getSelectedItem()).atZone(ZoneId.systemDefault());
+        ZonedDateTime endTime = LocalDateTime.of(startDatePicker.getValue(), endTimeComboBox.getSelectionModel().getSelectedItem()).atZone(ZoneId.systemDefault());
 
 
 
@@ -388,7 +393,8 @@ public class ModifyAppointmentPageController implements Initializable {
         customerComboBox.getSelectionModel().select(selectedAppointment.getCustomerName());
         startTimeComboBox.setValue(selectedAppointment.getStartTime().toLocalTime());
         endTimeComboBox.setValue(selectedAppointment.getEndTime().toLocalTime());
-        datePicker.setValue(selectedAppointment.getDate());
+        startDatePicker.setValue(selectedAppointment.getStartDate());
+        endDatePicker.setValue(selectedAppointment.getEndDate());
         contactComboBox.getSelectionModel().select(selectedAppointment.getContactName());
 
         //Utilized Map to retrieve the key from a given value
@@ -398,7 +404,18 @@ public class ModifyAppointmentPageController implements Initializable {
             }
         }
         //Lambda used to disable past dates and weekends from being selected
-        datePicker.setDayCellFactory(picker -> new DateCell() {
+        startDatePicker.setDayCellFactory(picker -> new DateCell() {
+            public void updateItem(LocalDate date, boolean empty) {
+                super.updateItem(date, empty);
+                LocalDate today = LocalDate.now();
+                setDisable(empty || date.compareTo(today) < 0);
+                if(date.getDayOfWeek() == DayOfWeek.SATURDAY || date.getDayOfWeek() == DayOfWeek.SUNDAY)
+                    setDisable(true);
+            }
+        });
+
+        //Lambda used to disable past dates and weekends from being selected
+        endDatePicker.setDayCellFactory(picker -> new DateCell() {
             public void updateItem(LocalDate date, boolean empty) {
                 super.updateItem(date, empty);
                 LocalDate today = LocalDate.now();

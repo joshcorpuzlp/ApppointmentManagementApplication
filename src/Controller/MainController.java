@@ -46,7 +46,8 @@ public class MainController implements Initializable {
     @FXML private DatePicker toDatePicker;
 
     @FXML private TableView<Appointment> appointmentCalendar;
-    @FXML private TableColumn<Appointment, Date> dateColumn;
+    @FXML private TableColumn<Appointment, Date> startDateColumn;
+    @FXML private TableColumn<Appointment, Date> endDateColumn;
     @FXML private TableColumn<Appointment, String> startTimeColumn;
     @FXML private TableColumn<Appointment, String> endTimeColumn;
     @FXML private TableColumn<Appointment, String> locationColumn;
@@ -135,8 +136,8 @@ public class MainController implements Initializable {
 
             //Utilized stream instead of for loop to create filters by date.
             appointmentCalendar.setItems(appointments.stream()
-                    .filter(appointment -> appointment.getDate().equals(fromDate) || appointment.getDate().isAfter(fromDate))
-                    .filter(appointment -> appointment.getDate().equals(toDate) || appointment.getDate().isBefore(toDate))
+                    .filter(appointment -> appointment.getStartDate().equals(fromDate) || appointment.getStartDate().isAfter(fromDate))
+                    .filter(appointment -> appointment.getStartDate().equals(toDate) || appointment.getStartDate().isBefore(toDate))
                     .collect(Collectors.toCollection(FXCollections::observableArrayList)));
 
         }
@@ -149,8 +150,8 @@ public class MainController implements Initializable {
 
             //used streams instead of a for loop. Utilized a lambda to convert appointment to appointment.getDate()
             appointmentCalendar.setItems(appointments.stream()
-                    .filter(appointment -> appointment.getDate().getMonth() == LocalDate.now().getMonth())
-                    .filter(appointment -> appointment.getDate().getYear() == LocalDate.now().getYear())
+                    .filter(appointment -> appointment.getStartDate().getMonth() == LocalDate.now().getMonth())
+                    .filter(appointment -> appointment.getStartDate().getYear() == LocalDate.now().getYear())
                     .collect(Collectors.toCollection(FXCollections::observableArrayList)));
 
 
@@ -175,8 +176,8 @@ public class MainController implements Initializable {
 
             appointmentCalendar.setItems(
                     appointments.stream()
-                            .filter(appointment -> appointment.getDate().equals(firstDay) || appointment.getDate().isAfter(firstDay))
-                            .filter(appointment -> appointment.getDate().equals(lastDay) || appointment.getDate().isBefore(lastDay))
+                            .filter(appointment -> appointment.getStartDate().equals(firstDay) || appointment.getStartDate().isAfter(firstDay))
+                            .filter(appointment -> appointment.getStartDate().equals(lastDay) || appointment.getStartDate().isBefore(lastDay))
                             .collect(Collectors.toCollection(FXCollections::observableArrayList)));
 
 
@@ -196,8 +197,8 @@ public class MainController implements Initializable {
 
         //Utilized stream instead of for loop to create filters by date.
         appointmentCalendar.setItems(appointments.stream()
-                .filter(appointment -> appointment.getDate().equals(fromDate) || appointment.getDate().isAfter(fromDate))
-                .filter(appointment -> appointment.getDate().equals(toDate) || appointment.getDate().isBefore(toDate))
+                .filter(appointment -> appointment.getStartDate().equals(fromDate) || appointment.getStartDate().isAfter(fromDate))
+                .filter(appointment -> appointment.getStartDate().equals(toDate) || appointment.getStartDate().isBefore(toDate))
                 .collect(Collectors.toCollection(FXCollections::observableArrayList)));
     }
 
@@ -242,7 +243,9 @@ public class MainController implements Initializable {
         appointmentTypeColumn.setCellValueFactory(new PropertyValueFactory<>("type"));
         contactIdColumn.setCellValueFactory(new PropertyValueFactory<>("contactName"));
         customerIdColumn.setCellValueFactory(new PropertyValueFactory<>("customerName"));
-        dateColumn.setCellValueFactory(new PropertyValueFactory<>("date"));
+        startDateColumn.setCellValueFactory(new PropertyValueFactory<>("startDate"));
+        endDateColumn.setCellValueFactory(new PropertyValueFactory<>("endDate"));
+
         startTimeColumn.setCellValueFactory(new PropertyValueFactory<>("formattedStartTime"));
         endTimeColumn.setCellValueFactory(new PropertyValueFactory<>("formattedEndTime"));
 
@@ -295,14 +298,27 @@ public class MainController implements Initializable {
                 userAppointments.add(AppointmentManager.getAllAppointments().get(i));
             }
         }
+
+        //flag variable used to determine whether the program will be calling the ProgramAlerts.noPendingAppointmentAlert()
+        boolean noUpcomingAppointments = false;
+
         //created a for loop that checks userAppointments startTimes to check if it is within 15 minutes of the currentTime, if there is, it calls ProgramAlerts.pendingAppointmentAlert()
         for (Appointment userAppointment : userAppointments) {
 
             if ((LocalDateTime.now().isBefore(userAppointment.getStartTime()) &&
                     LocalDateTime.now().isAfter(userAppointment.getStartTime().minus(15, ChronoUnit.MINUTES)))) {
                 ProgramAlerts.pendingAppointmentAlert();
+                noUpcomingAppointments = false;
+                break;
+            }
+            else {
+                noUpcomingAppointments = true;
             }
 
+        }
+
+        if (noUpcomingAppointments) {
+            ProgramAlerts.noPendingAppointmentAlert();
         }
 
     }
