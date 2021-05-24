@@ -143,3 +143,94 @@ The user: admin has logged in at 12:45 PM 05/21/2021
 A log in attempt with the username input of: admin occurred at: 12:47 PM 05/21/2021
 The user: admin has logged in at 12:47 PM 05/21/2021
 The user: admin has logged in at 09:03 PM 05/21/2021
+The user: admin has logged in at 10:23 PM 05/21/2021
+The user: admin has logged in at 11:16 PM 05/21/2021
+The user: admin has logged in at 11:19 PM 05/21/2021
+The user: admin has logged in at 11:21 PM 05/21/2021
+A log in attempt with the username input of: adsfasdfasdfsdf occurred at: 11:25 PM 05/21/2021
+A log in attempt with the username input of: admin occurred at: 11:25 PM 05/21/2021
+The user: admin has logged in at 11:25 PM 05/21/2021
+A log in attempt with the username input of: admin occurred at: 12:49 PM 05/23/2021
+The user: admin has logged in at 12:49 PM 05/23/2021
+The user: admin has logged in at 12:54 PM 05/23/2021
+A log in attempt with the username input of: admin occurred at: 12:55 PM 05/23/2021
+The user: admin has logged in at 12:55 PM 05/23/2021
+The user: admin has logged in at 12:55 PM 05/23/2021
+The user: admin has logged in at 12:55 PM 05/23/2021
+The user: admin has logged in at 12:58 PM 05/23/2021
+The user: admin has logged in at 12:58 PM 05/23/2021
+The user: admin has logged in at 01:00 PM 05/24/2021
+The user: admin has logged in at 01:02 PM 05/24/2021
+The user: admin has logged in at 01:05 PM 05/24/2021
+The user: admin has logged in at 01:09 PM 05/24/2021
+The user: admin has logged in at 01:10 PM 05/24/2021
+The user: admin has logged in at 01:10 PM 05/23/2021
+The user: admin has logged in at 01:12 PM 05/23/2021
+The user: admin has logged in at 01:14 PM 05/23/2021
+The user: admin has logged in at 01:17 PM 05/23/2021
+The user: admin has logged in at 01:18 PM 05/23/2021
+The user: admin has logged in at 01:41 PM 05/23/2021
+The user: admin has logged in at 01:42 PM 05/23/2021
+The user: admin has logged in at 01:45 PM 05/23/2021
+The user: admin has logged in at 01:49 PM 05/23/2021
+The user: admin has logged in at 01:51 PM 05/23/2021
+The user: admin has logged in at 01:53 PM 05/23/2021
+The user: admin has logged in at 01:57 PM 05/23/2021
+The user: admin has logged in at 02:02 PM 05/23/2021
+The user: admin has logged in at 02:11 PM 05/23/2021
+The user: admin has logged in at 02:14 PM 05/23/2021
+The user: admin has logged in at 02:16 PM 05/23/2021
+A log in attempt with the username input of: admin occurred at: 02:27 PM 05/23/2021
+A log in attempt with the username input of: admin occurred at: 02:27 PM 05/23/2021
+A log in attempt with the username input of: admin occurred at: 02:27 PM 05/23/2021
+The user: admin has logged in at 02:27 PM 05/23/2021
+The user: admin has logged in at 02:32 PM 05/23/2021
+The user: admin has logged in at 02:34 PM 05/23/2021
+The user: admin has logged in at 02:42 PM 05/23/2021
+The user: admin has logged in at 02:43 PM 05/23/2021
+The user: admin has logged in at 02:50 PM 05/23/2021
+The user: admin has logged in at 02:57 PM 05/23/2021
+The user: admin has logged in at 03:00 PM 05/23/2021
+The user: admin has logged in at 03:07 PM 05/23/2021
+The user: admin has logged in at 03:10 PM 05/23/2021
+The user: admin has logged in at 03:11 PM 05/23/2021
+The user: admin has logged in at 03:45 PM 05/23/2021
+The user: admin has logged in at 03:59 PM 05/23/2021
+The user: admin has logged in at 04:00 PM 05/23/2021
+The user: admin has logged in at 04:05 PM 05/23/2021
+The user: admin has logged in at 04:06 PM 05/23/2021
+The user: admin has logged in at 04:07 PM 05/23/2021
+The user: admin has logged in at 04:08 PM 05/23/2021
+The user: admin has logged in at 04:11 PM 05/23/2021
+The user: admin has logged in at 04:12 PM 05/23/2021
+The user: admin has logged in at 04:12 PM 05/23/2021
+The user: admin has logged in at 04:13 PM 05/23/2021
+The user: admin has logged in at 04:13 PM 05/23/2021
+The user: admin has logged in at 04:15 PM 05/23/2021
+The user: admin has logged in at 04:17 PM 05/23/2021
+The user: admin has logged in at 04:19 PM 05/23/2021
+The user: admin has logged in at 04:20 PM 05/23/2021
+The user: admin has logged in at 04:21 PM 05/23/2021
+The user: admin has logged in at 04:22 PM 05/23/2021
+The user: admin has logged in at 04:22 PM 05/23/2021
+The user: admin has logged in at 04:23 PM 05/23/2021
+The user: admin has logged in at 04:23 PM 05/23/2021
+The user: admin has logged in at 04:40 PM 05/23/2021
+The user: admin has logged in at 04:44 PM 05/23/2021
+The user: admin has logged in at 04:44 PM 05/23/2021
+The user: admin has logged in at 04:46 PM 05/23/2021
+The user: admin has logged in at 04:48 PM 05/23/2021
+The user: admin has logged in at 04:49 PM 05/23/2021
+The user: admin has logged in at 04:57 PM 05/23/2021
+A log in attempt with the username input of: admin occurred at: 04:59 PM 05/23/2021
+The user: admin has logged in at 04:59 PM 05/23/2021
+The user: admin has logged in at 03:54 PM 05/24/2021
+The user: admin has logged in at 04:00 PM 05/24/2021
+The user: admin has logged in at 04:01 PM 05/24/2021
+The user: test has logged in at 04:02 PM 05/24/2021
+The user: test has logged in at 04:03 PM 05/24/2021
+The user: test has logged in at 04:21 PM 05/24/2021
+The user: test has logged in at 04:22 PM 05/24/2021
+The user: test has logged in at 04:23 PM 05/24/2021
+The user: admin has logged in at 04:32 PM 05/24/2021
+The user: admin has logged in at 04:18 PM 05/24/2021

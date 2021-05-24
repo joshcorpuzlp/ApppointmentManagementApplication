@@ -4,6 +4,7 @@ import Dao.CustomerDao;
 import Dao.DivisionDao;
 import Model.AppointmentManager;
 import Model.Customer;
+import Model.Division;
 import Utility.MainMenuWindow;
 import Utility.ProgramAlerts;
 import javafx.event.ActionEvent;
@@ -31,6 +32,7 @@ public class AddCustomerPageController implements Initializable {
     @FXML private TextField phoneField;
     //configures the ComboBox selection for user input
     @FXML private ComboBox<String> divisionComboBox;
+    @FXML private ComboBox<String> countryComboBox;
 
     //configures the TableView to contain the ObservableList of CustomerObjects
     @FXML private TableView customerTableView;
@@ -120,8 +122,17 @@ public class AddCustomerPageController implements Initializable {
         }
 
         try {
+            if (countryComboBox.getSelectionModel().isEmpty()) {
+                throw new myExceptions("No country selected.\n");
+            }
+        }
+        catch (myExceptions ex) {
+            errorMessage.append(ex.getMessage());
+            isInputInvalid = true;
+        }
+
+        try {
             if (divisionComboBox.getSelectionModel().isEmpty()) {
-                System.out.println("1");
                 throw new myExceptions("No division selected.\n");
             }
         }
@@ -197,10 +208,32 @@ public class AddCustomerPageController implements Initializable {
         divisionDao.loadDbObjects();
         customerDao.loadDbObjects();
 
-        //loads the ObservableList of Division objects within the AppointmentManager to the ComboBox options
-        for (int i = 0; i < AppointmentManager.getAllDivisions().size(); ++i) {
-            divisionComboBox.getItems().add(AppointmentManager.getDivision(i));
-        }
+        //disables division at window initiation
+        divisionComboBox.setDisable(true);
+
+        //List of countries, hard-coded for simplicity
+        countryComboBox.getItems().add("U.S");
+        countryComboBox.getItems().add("UK");
+        countryComboBox.getItems().add("Canada");
+
+        //disables the division ComboBox if there isnt a country selected.
+        countryComboBox.getSelectionModel().selectedItemProperty().addListener((abs, oldSelection, newSelection) -> {
+            if (newSelection != null) {
+                divisionComboBox.setDisable(false);
+                divisionComboBox.getItems().clear();
+                //loads the ObservableList of Division objects within the AppointmentManager to the ComboBox options
+                for (Division division : AppointmentManager.getAllDivisions()) {
+                    if (division.getCountry().equals(countryComboBox.getSelectionModel().getSelectedItem())) {
+                        divisionComboBox.getItems().add(division.getDivision());
+                    }
+                }
+            }
+            else {
+                divisionComboBox.setDisable(true);
+            }
+        });
+
+
 
         //initialize each column of the TableView
         customerNameColumn.setCellValueFactory(new PropertyValueFactory<Customer, String>("customerName"));

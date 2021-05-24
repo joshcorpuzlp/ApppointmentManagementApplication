@@ -5,6 +5,7 @@ import Dao.CustomerDao;
 import Dao.DivisionDao;
 import Model.AppointmentManager;
 import Model.Customer;
+import Model.Division;
 import Utility.MainMenuWindow;
 import Utility.ProgramAlerts;
 import javafx.event.ActionEvent;
@@ -19,6 +20,7 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.net.URL;
+import java.rmi.activation.ActivationGroup_Stub;
 import java.sql.SQLException;
 import java.util.ResourceBundle;
 
@@ -35,8 +37,10 @@ public class UpdateCustomerPageController implements Initializable {
     @FXML private TextField addressField;
     @FXML private TextField postalField;
     @FXML private TextField phoneField;
+
     //configures the ComboBox selection for user input
     @FXML private ComboBox<String> divisionComboBox;
+    @FXML private ComboBox<String> countryComboBox;
 
     //configures the TableView to contain the ObservableList of CustomerObjects
     @FXML private TableView customerTableView;
@@ -53,6 +57,7 @@ public class UpdateCustomerPageController implements Initializable {
     private boolean confirmChanges = false;
     private boolean isInputInvalid = false;
     private boolean customerAppointmentExists = false;
+    private String countryName = "";
 
 
     /**
@@ -151,6 +156,14 @@ public class UpdateCustomerPageController implements Initializable {
         postalField.setText(selectedCustomer.getCustomerPostalCode());
         phoneField.setText(selectedCustomer.getPhoneNumber());
         divisionComboBox.getSelectionModel().select(selectedCustomer.getCustomerDivision());
+
+        //updates the Country comboBox when customer is changed.
+        for (Division division : AppointmentManager.getAllDivisions()) {
+            if (division.getDivisionId() == selectedCustomer.getCustomerDivisionId()) {
+                countryName = division.getCountry();
+            }
+        }
+        countryComboBox.getSelectionModel().select(countryName);
     }
 
     /**
@@ -276,12 +289,30 @@ public class UpdateCustomerPageController implements Initializable {
         appointmentDao.loadDbObjects();
 
 
+        divisionComboBox.setDisable(true);
+
+        //List of countries, hard-coded for simplicity
+        countryComboBox.getItems().add("U.S");
+        countryComboBox.getItems().add("UK");
+        countryComboBox.getItems().add("Canada");
+
+        countryComboBox.getSelectionModel().selectedItemProperty().addListener((abs, oldSelection, newSelection) -> {
+            if (newSelection != null) {
+                divisionComboBox.setDisable(false);
+                divisionComboBox.getItems().clear();
+                //loads the ObservableList of Division objects within the AppointmentManager to the ComboBox options
+                for (Division division : AppointmentManager.getAllDivisions()) {
+                    if (division.getCountry().equals(countryComboBox.getSelectionModel().getSelectedItem())) {
+                        divisionComboBox.getItems().add(division.getDivision());
+                    }
+                }
+            }
+            else {
+                divisionComboBox.setDisable(true);
+            }
+        });
 
 
-        //loads the ObservableList of Division objects within the AppointmentManager to the ComboxOptions
-        for (int i = 0; i < AppointmentManager.getAllDivisions().size(); ++i) {
-            divisionComboBox.getItems().add(AppointmentManager.getDivision(i));
-        }
 
         //initialize each column of the TableView
         customerNameColumn.setCellValueFactory(new PropertyValueFactory<Customer, String>("customerName"));
@@ -309,6 +340,9 @@ public class UpdateCustomerPageController implements Initializable {
         postalField.setText(selectedCustomer.getCustomerPostalCode());
         phoneField.setText(selectedCustomer.getPhoneNumber());
         divisionComboBox.getSelectionModel().select(selectedCustomer.getCustomerDivision());
+        countryComboBox.getSelectionModel().select(countryName);
+
+
     }
 }
 

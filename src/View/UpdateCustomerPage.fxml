@@ -14,7 +14,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="521.25" prefWidth="750.0" style="-fx-background-color: #d8e3e7;" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml" fx:controller="Controller.UpdateCustomerPageController">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="521.25" prefWidth="750.0" style="-fx-background-color: #d8e3e7;" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.UpdateCustomerPageController">
     <top>
         <ToolBar nodeOrientation="LEFT_TO_RIGHT" prefHeight="40.0" prefWidth="750.0" style="-fx-background-color: #132c33;" BorderPane.alignment="CENTER">
             <items>
@@ -46,10 +46,10 @@
                 <TextField fx:id="addressField" layoutX="121.0" layoutY="51.0" />
                 <Label layoutX="282.0" layoutY="23.0" text="Postal Code" />
                 <TextField fx:id="postalField" layoutX="382.0" layoutY="19.0" />
-                <Label layoutX="282.0" layoutY="55.0" text="Division" />
+                <Label layoutX="282.0" layoutY="89.0" text="Division" />
                 <Label layoutX="21.0" layoutY="89.0" text="Phone Number" />
                 <TextField fx:id="phoneField" layoutX="121.0" layoutY="85.0" />
-                <ComboBox fx:id="divisionComboBox" layoutX="382.0" layoutY="51.0" prefWidth="150.0" />
+                <ComboBox fx:id="divisionComboBox" layoutX="382.0" layoutY="85.0" prefWidth="150.0" />
                 <TableView fx:id="customerTableView" layoutX="14.0" layoutY="120.0" onMouseClicked="#selectCustomerToChange" prefHeight="350.0" prefWidth="720.0">
                     <columns>
                         <TableColumn fx:id="customerNameColumn" prefWidth="136.0" text="Customer Name" />
@@ -59,6 +59,8 @@
                         <TableColumn fx:id="customerPhoneColumn" prefWidth="191.0" text="Phone Number" />
                     </columns>
                 </TableView>
+            <Label layoutX="282.0" layoutY="55.0" text="Country" />
+            <ComboBox fx:id="countryComboBox" layoutX="382.0" layoutY="51.0" prefWidth="150.0" />
             </children>
         </AnchorPane>
     </center>

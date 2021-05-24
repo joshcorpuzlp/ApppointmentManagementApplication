@@ -19,7 +19,10 @@ public class DivisionDao implements Dao<Division> {
      */
     @Override
     public void loadDbObjects() {
-        String query = "SELECT * FROM first_level_divisions;";
+        String query = "SELECT f.Division_ID, f.Division, f.COUNTRY_ID, c.Country\n" +
+                "FROM first_level_divisions f\n" +
+                "left outer join countries c\n" +
+                "on f.Country_ID = c.Country_ID;";
 
         try {
             ResultSet rs = DbConnection.getStatement().executeQuery(query);
@@ -27,8 +30,9 @@ public class DivisionDao implements Dao<Division> {
                 int divisionId = rs.getInt("Division_ID");
                 String division = rs.getString("Division");
                 int countryId = rs.getInt("Country_ID");
+                String country = rs.getString("Country");
 
-                tempDivision = new Division(divisionId, division, countryId);
+                tempDivision = new Division(divisionId, division, countryId, country);
                 tempDivisionHolder.add(tempDivision);
 
                 //Hashmap created for a keyValue Pair of DivisionID and Division
