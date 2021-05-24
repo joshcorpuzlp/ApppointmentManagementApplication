@@ -162,7 +162,7 @@ public class ModifyAppointmentPageController implements Initializable {
     }
 
     /**
-     * Method validates the start and end time inputs for the selected contact.
+     * Method validates the start and end time inputs for the selected contact or customer
      * if time is invalid, it will set the flag variable to true, used in the saveButtonPressed as a validation method.
      */
     public void timeValidation() {
@@ -185,7 +185,34 @@ public class ModifyAppointmentPageController implements Initializable {
                             (endTimeInput.isAfter(LocalDateTime.of(contactAppointment.getStartDate(), contactAppointment.getStartTime().toLocalTime())) &&
                                     endTimeInput.isBefore(LocalDateTime.of(contactAppointment.getEndDate(), contactAppointment.getEndTime().toLocalTime())))
             ) {
-                isTimeInvalid = ProgramAlerts.overlappingTimes();
+                isTimeInvalid = ProgramAlerts.overlappingTimes("contact");
+                //need to return to exit the for loop when conditional statement goes through
+                return;
+
+            }
+            //necessary to set the isTimeInvalid to false next time that the saveButtonPressed is called..
+            else {
+                isTimeInvalid = false;
+            }
+        }
+
+        ObservableList<Appointment> customerAppointments = FXCollections.observableArrayList();
+
+        for (int i = 0; i < AppointmentManager.getAllAppointments().size(); ++i) {
+            if (customerComboBox.getSelectionModel().getSelectedItem()
+                    .matches(AppointmentManager.getAllAppointments().get(i).getCustomerName())) {
+                customerAppointments.add(AppointmentManager.getAllAppointments().get(i));
+            }
+        }
+
+        for (Appointment customerAppointment : customerAppointments) {
+            if (
+                    (startTimeInput.isAfter(LocalDateTime.of(customerAppointment.getStartDate(), customerAppointment.getStartTime().toLocalTime())) &&
+                            startTimeInput.isBefore(LocalDateTime.of(customerAppointment.getEndDate(), customerAppointment.getEndTime().toLocalTime()))) ||
+                            (endTimeInput.isAfter(LocalDateTime.of(customerAppointment.getStartDate(), customerAppointment.getStartTime().toLocalTime())) &&
+                                    endTimeInput.isBefore(LocalDateTime.of(customerAppointment.getEndDate(), customerAppointment.getEndTime().toLocalTime())))
+            ) {
+                isTimeInvalid = ProgramAlerts.overlappingTimes("customer");
                 //need to return to exit the for loop when conditional statement goes through
                 return;
 
@@ -301,7 +328,7 @@ public class ModifyAppointmentPageController implements Initializable {
 
 
     /**
-     * Checks to make sure the start and end times the user selected are within business hours (9:00-17:00 EST)
+     * Checks to make sure the start and end times the user selected are within business hours (8:00-22:00 EST)
      */
     public void insideBusinessHours() {
         ZonedDateTime startTime = LocalDateTime.of(startDatePicker.getValue(), startTimeComboBox.getSelectionModel().getSelectedItem()).atZone(ZoneId.systemDefault());
@@ -314,8 +341,8 @@ public class ModifyAppointmentPageController implements Initializable {
 
 
         //Compare by using LocalTime objects
-        LocalTime openingHour = LocalTime.parse("08:59");
-        LocalTime closingHour = LocalTime.parse("17:01");
+        LocalTime openingHour = LocalTime.parse("07:59");
+        LocalTime closingHour = LocalTime.parse("22:01");
 
         Boolean startTimeAllowed = estStart.toLocalTime().isAfter(openingHour);
         Boolean endTimeAllowed = estEnd.toLocalTime().isBefore(closingHour);

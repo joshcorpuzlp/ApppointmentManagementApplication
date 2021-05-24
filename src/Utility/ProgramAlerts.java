@@ -1,5 +1,6 @@
 package Utility;
 
+import Model.Appointment;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.stage.Modality;
@@ -11,13 +12,14 @@ public class ProgramAlerts {
     /**
      * Method that is used in conjunction to the event that the logged in user has a pending appointment within 15 minutes
      */
-    public static void pendingAppointmentAlert() {
+    public static void pendingAppointmentAlert(Appointment pendingAppointment) {
 
         Alert alert = new Alert(Alert.AlertType.WARNING);
         alert.initModality(Modality.NONE);
         alert.setTitle("Pending Appointment");
         alert.setHeaderText("15 minute warning!");
-        alert.setContentText("You have an appointment within the next 15 minutes!");
+        alert.setContentText("You have an appointment within the next 15 minutes with Appointment id #: " + pendingAppointment.getAppointmentId() +
+                ", " + "at " + pendingAppointment.getStartDate() + ", " + pendingAppointment.getFormattedStartTime());
         alert.showAndWait();
 
     }
@@ -39,7 +41,6 @@ public class ProgramAlerts {
     /**
      * Method that shows an alert used in conjunction with the event that the a user was not selected when needed in the ReportsPageController
      */
-    //TODO change this to contact, as well as the reports page that this is used with.
     public static void selectUserAlert(String userOrContact) {
         Alert alert = new Alert(Alert.AlertType.WARNING);
         alert.initModality(Modality.NONE);
@@ -112,14 +113,15 @@ public class ProgramAlerts {
 
     /**
      * Alert that is used to alert the user that there was an error with overlapping times.
+     * @param customerOrContact Utilizes a String object as a parameter to change the message of the alert
      * @return Boolean value can be utilized for flag variable use.
      */
-    public static boolean overlappingTimes() {
+    public static boolean overlappingTimes(String customerOrContact) {
 
         Alert alert = new Alert(Alert.AlertType.ERROR);
         alert.initModality(Modality.NONE);
         alert.setTitle("ERROR!");
-        alert.setHeaderText("The selected times have already been scheduled for the selected contact.");
+        alert.setHeaderText("The selected times have already been scheduled for the selected " +  customerOrContact + ".");
         alert.setContentText("Please select different start and end times.");
         Optional<ButtonType> result = alert.showAndWait();
 
