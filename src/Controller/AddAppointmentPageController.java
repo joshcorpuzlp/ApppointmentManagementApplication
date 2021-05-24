@@ -162,7 +162,8 @@ public class AddAppointmentPageController implements Initializable {
 
             ) {
 
-                isTimeInvalid = ProgramAlerts.overlappingTimes("contact");
+                isTimeInvalid = true;
+                ProgramAlerts.overlappingTimes("contact");
                 //need to return to exit the for loop when conditional statement goes through
                 return;
 
@@ -195,7 +196,8 @@ public class AddAppointmentPageController implements Initializable {
 
 
             ) {
-                isTimeInvalid = ProgramAlerts.overlappingTimes("customer");
+                isTimeInvalid = true;
+                ProgramAlerts.overlappingTimes("customer");
                 //need to return to exit the for loop when conditional statement goes through
                 return;
             }

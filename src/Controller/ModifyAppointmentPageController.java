@@ -184,8 +184,11 @@ public class ModifyAppointmentPageController implements Initializable {
                             startTimeInput.isBefore(LocalDateTime.of(contactAppointment.getEndDate(), contactAppointment.getEndTime().toLocalTime()))) ||
                             (endTimeInput.isAfter(LocalDateTime.of(contactAppointment.getStartDate(), contactAppointment.getStartTime().toLocalTime())) &&
                                     endTimeInput.isBefore(LocalDateTime.of(contactAppointment.getEndDate(), contactAppointment.getEndTime().toLocalTime())))
+
+
             ) {
-                isTimeInvalid = ProgramAlerts.overlappingTimes("contact");
+                isTimeInvalid = true;
+                ProgramAlerts.overlappingTimes("contact");
                 //need to return to exit the for loop when conditional statement goes through
                 return;
 
@@ -195,6 +198,7 @@ public class ModifyAppointmentPageController implements Initializable {
                 isTimeInvalid = false;
             }
         }
+
 
         ObservableList<Appointment> customerAppointments = FXCollections.observableArrayList();
 
@@ -212,7 +216,8 @@ public class ModifyAppointmentPageController implements Initializable {
                             (endTimeInput.isAfter(LocalDateTime.of(customerAppointment.getStartDate(), customerAppointment.getStartTime().toLocalTime())) &&
                                     endTimeInput.isBefore(LocalDateTime.of(customerAppointment.getEndDate(), customerAppointment.getEndTime().toLocalTime())))
             ) {
-                isTimeInvalid = ProgramAlerts.overlappingTimes("customer");
+                isTimeInvalid = true;
+                ProgramAlerts.overlappingTimes("customer");
                 //need to return to exit the for loop when conditional statement goes through
                 return;
 

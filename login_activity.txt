@@ -234,3 +234,15 @@ The user: test has logged in at 04:22 PM 05/24/2021
 The user: test has logged in at 04:23 PM 05/24/2021
 The user: admin has logged in at 04:32 PM 05/24/2021
 The user: admin has logged in at 04:18 PM 05/24/2021
+A log in attempt with the username input of: admin occurred at: 04:27 PM 05/24/2021
+The user: admin has logged in at 04:27 PM 05/24/2021
+The user: admin has logged in at 04:32 PM 05/24/2021
+A log in attempt with the username input of: admin occurred at: 04:35 PM 05/24/2021
+The user: admin has logged in at 04:35 PM 05/24/2021
+A log in attempt with the username input of: admin occurred at: 04:38 PM 05/24/2021
+The user: admin has logged in at 04:38 PM 05/24/2021
+The user: admin has logged in at 04:40 PM 05/24/2021
+The user: admin has logged in at 04:41 PM 05/24/2021
+The user: admin has logged in at 04:43 PM 05/24/2021
+The user: admin has logged in at 04:45 PM 05/24/2021
+The user: admin has logged in at 04:46 PM 05/24/2021

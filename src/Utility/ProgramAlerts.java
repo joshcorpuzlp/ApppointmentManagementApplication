@@ -116,17 +116,14 @@ public class ProgramAlerts {
      * @param customerOrContact Utilizes a String object as a parameter to change the message of the alert
      * @return Boolean value can be utilized for flag variable use.
      */
-    public static boolean overlappingTimes(String customerOrContact) {
+    public static void overlappingTimes(String customerOrContact) {
 
         Alert alert = new Alert(Alert.AlertType.ERROR);
         alert.initModality(Modality.NONE);
         alert.setTitle("ERROR!");
         alert.setHeaderText("The selected times have already been scheduled for the selected " +  customerOrContact + ".");
         alert.setContentText("Please select different start and end times.");
-        Optional<ButtonType> result = alert.showAndWait();
-
-
-        return true;
+        alert.showAndWait();
     }
 
     /**
