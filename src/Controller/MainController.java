@@ -79,6 +79,7 @@ public class MainController implements Initializable {
 
 
 
+
     public void addCustomerButtonPressed(ActionEvent actionEvent) throws IOException {
         Parent root = FXMLLoader.load(getClass().getResource("../View/AddCustomerPage.fxml"));
         Scene MainPageScene = new Scene(root);
@@ -318,7 +319,7 @@ public class MainController implements Initializable {
 
             if ((LocalDateTime.now().isBefore(userAppointment.getStartTime()) &&
                     LocalDateTime.now().isAfter(userAppointment.getStartTime().minus(15, ChronoUnit.MINUTES)))) {
-                ProgramAlerts.pendingAppointmentAlert();
+                ProgramAlerts.pendingAppointmentAlert(userAppointment);
                 noUpcomingAppointments = false;
                 break;
             }
@@ -328,6 +329,7 @@ public class MainController implements Initializable {
 
         }
 
+        //if noUpcomingAppointments is set to true, the program will call the noPendingAppointmentsAlert
         if (noUpcomingAppointments) {
             ProgramAlerts.noPendingAppointmentAlert();
         }
