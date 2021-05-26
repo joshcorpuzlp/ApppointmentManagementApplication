@@ -156,6 +156,8 @@ public class AddAppointmentPageController implements Initializable {
                             startTimeInput.isBefore(LocalDateTime.of(contactAppointment.getEndDate(), contactAppointment.getEndTime().toLocalTime()))) ||
                             (endTimeInput.isAfter(LocalDateTime.of(contactAppointment.getStartDate(), contactAppointment.getStartTime().toLocalTime())) &&
                                     endTimeInput.isBefore(LocalDateTime.of(contactAppointment.getEndDate(), contactAppointment.getEndTime().toLocalTime()))) ||
+
+                            //checks if start time and and end time are both the same as the contactAppointment
                             (startTimeInput.isEqual(LocalDateTime.of(contactAppointment.getStartDate(), contactAppointment.getStartTime().toLocalTime())) &&
                                     endTimeInput.isEqual(LocalDateTime.of(contactAppointment.getEndDate(), contactAppointment.getEndTime().toLocalTime()))) ||
 
@@ -195,6 +197,10 @@ public class AddAppointmentPageController implements Initializable {
                             startTimeInput.isBefore(LocalDateTime.of(customerAppointment.getEndDate(), customerAppointment.getEndTime().toLocalTime()))) ||
                             (endTimeInput.isAfter(LocalDateTime.of(customerAppointment.getStartDate(), customerAppointment.getStartTime().toLocalTime())) &&
                                     endTimeInput.isBefore(LocalDateTime.of(customerAppointment.getEndDate(), customerAppointment.getEndTime().toLocalTime()))) ||
+
+                            //checks if start time and and end time are both the same as the customerAppointment
+                            (startTimeInput.isEqual(LocalDateTime.of(customerAppointment.getStartDate(), customerAppointment.getStartTime().toLocalTime())) &&
+                                    endTimeInput.isEqual(LocalDateTime.of(customerAppointment.getEndDate(), customerAppointment.getEndTime().toLocalTime()))) ||
 
                             //checks if start and end times over lap over another's start and endtimes
                             (startTimeInput.isBefore(LocalDateTime.of(customerAppointment.getStartDate(), customerAppointment.getStartTime().toLocalTime())) &&
