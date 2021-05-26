@@ -83,8 +83,6 @@ public class ModifyAppointmentPageController implements Initializable {
         //if isTimeInvalid == true, then clear startTime and endTimes and exit the saveButtonPressed method.
         //statement is skipped if isTimeInvalid == false
         if (isTimeInvalid) {
-            startTimeComboBox.getSelectionModel().clearSelection();
-            endTimeComboBox.getSelectionModel().clearSelection();
             return;
         }
 
@@ -183,7 +181,11 @@ public class ModifyAppointmentPageController implements Initializable {
                     (startTimeInput.isAfter(LocalDateTime.of(contactAppointment.getStartDate(), contactAppointment.getStartTime().toLocalTime())) &&
                             startTimeInput.isBefore(LocalDateTime.of(contactAppointment.getEndDate(), contactAppointment.getEndTime().toLocalTime()))) ||
                             (endTimeInput.isAfter(LocalDateTime.of(contactAppointment.getStartDate(), contactAppointment.getStartTime().toLocalTime())) &&
-                                    endTimeInput.isBefore(LocalDateTime.of(contactAppointment.getEndDate(), contactAppointment.getEndTime().toLocalTime())))
+                                    endTimeInput.isBefore(LocalDateTime.of(contactAppointment.getEndDate(), contactAppointment.getEndTime().toLocalTime())))  ||
+
+                            //checks if start and end times over lap over another's start and endtimes
+                            (startTimeInput.isBefore(LocalDateTime.of(contactAppointment.getStartDate(), contactAppointment.getStartTime().toLocalTime())) &&
+                                    endTimeInput.isAfter(LocalDateTime.of(contactAppointment.getEndDate(), contactAppointment.getEndTime().toLocalTime())))
 
 
             ) {
@@ -214,7 +216,11 @@ public class ModifyAppointmentPageController implements Initializable {
                     (startTimeInput.isAfter(LocalDateTime.of(customerAppointment.getStartDate(), customerAppointment.getStartTime().toLocalTime())) &&
                             startTimeInput.isBefore(LocalDateTime.of(customerAppointment.getEndDate(), customerAppointment.getEndTime().toLocalTime()))) ||
                             (endTimeInput.isAfter(LocalDateTime.of(customerAppointment.getStartDate(), customerAppointment.getStartTime().toLocalTime())) &&
-                                    endTimeInput.isBefore(LocalDateTime.of(customerAppointment.getEndDate(), customerAppointment.getEndTime().toLocalTime())))
+                                    endTimeInput.isBefore(LocalDateTime.of(customerAppointment.getEndDate(), customerAppointment.getEndTime().toLocalTime()))) ||
+
+                            //checks if start and end times over lap over another's start and endtimes
+                            (startTimeInput.isBefore(LocalDateTime.of(customerAppointment.getStartDate(), customerAppointment.getStartTime().toLocalTime())) &&
+                                    endTimeInput.isAfter(LocalDateTime.of(customerAppointment.getEndDate(), customerAppointment.getEndTime().toLocalTime())))
             ) {
                 isTimeInvalid = true;
                 ProgramAlerts.overlappingTimes("customer");
