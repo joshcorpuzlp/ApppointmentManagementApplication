@@ -83,6 +83,8 @@ public class ModifyAppointmentPageController implements Initializable {
         //if isTimeInvalid == true, then clear startTime and endTimes and exit the saveButtonPressed method.
         //statement is skipped if isTimeInvalid == false
         if (isTimeInvalid) {
+            startTimeComboBox.getSelectionModel().clearSelection();
+            endTimeComboBox.getSelectionModel().clearSelection();
             return;
         }
 
